@@ -9,8 +9,8 @@ on:
       - master
 
 jobs:
-  build:
-    name: Build
+  build-and-deploy-ecg-api:
+    if: contains(github.event_path, 'packages/ecg-api')
     runs-on: ubuntu-latest
 
     steps:
@@ -23,18 +23,23 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          cd packages/ecg-api
+          npm install
 
       - name: Run tests
-        run: npm test
+        run: |
+          cd packages/ecg-api
+          npm test
 
       - name: Build artifacts
-        run: npm run build
+        run: |
+          cd packages/ecg-api
+          npm run build
 
-  release:
-    name: Release
+  release-ecg-api:
     runs-on: ubuntu-latest
-    needs: build
+    needs: build-and-deploy-ecg-api
 
     steps:
       - name: Checkout
@@ -46,17 +51,20 @@ jobs:
           node-version: '20'  # Use the version of Node.js you need
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          cd packages/ecg-api
+          npm install
 
       - name: Run release
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: npx semantic-release
+        run: |
+          cd packages/ecg-api 
+          npx semantic-release
 
-  deploy:
-    name: Deploy
+  deploy-ecg-api:
     runs-on: ubuntu-latest
-    needs: release
+    needs: release-ecg-api
 
     steps:
       - name: Checkout code
@@ -68,10 +76,13 @@ jobs:
           node-version: '20'
 
       - name: Install Serverless Framework
-        run: npm install -g serverless
+        run: |
+          cd packages/ecg-api  
+          npm install -g serverless
 
       - name: Deploy with Serverless
         run: |
+          cd packages/ecg-api 
           serverless deploy --stage production
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

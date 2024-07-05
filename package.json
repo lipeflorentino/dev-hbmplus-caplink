@@ -8,8 +8,7 @@
     "dynamoose": "^4.0.1"
   },
   "scripts": {
-    "prepare": "husky install",
-    "test": "jest"
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
