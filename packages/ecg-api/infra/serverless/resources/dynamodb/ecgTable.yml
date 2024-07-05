@@ -1,0 +1,20 @@
+Resources:
+    EcgTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        TableName: 'ECGTable'
+        AttributeDefinitions:
+          - AttributeName: 'id'
+            AttributeType: 'S'
+          - AttributeName: 'milivolts'
+            AttributeType: 'N'
+        KeySchema:
+          - AttributeName: 'id'
+            KeyType: 'HASH'
+          - AttributeName: 'milivolts'
+            KeyType: 'RANGE'
+        #StreamSpecification:
+        #  StreamViewType: 'NEW_IMAGE'
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5

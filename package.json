@@ -1,0 +1,31 @@
+{
+  "name": "dev-hbmplus-caplink",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "dynamoose": "^4.0.1"
+  },
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^10.0.7",
+    "@semantic-release/npm": "^12.0.1",
+    "eslint-plugin-prettier": "^5.1.3",
+    "husky": "^7.0.0",
+    "lerna": "^8.1.5",
+    "lint-staged": "^15.2.7",
+    "prettier": "3.3.2",
+    "semantic-release": "^24.0.0"
+  },
+  "lint-staged": {
+    "./**/*.{js,ts}": [
+      "eslint --fix",
+      "git add"
+    ]
+  }
+}

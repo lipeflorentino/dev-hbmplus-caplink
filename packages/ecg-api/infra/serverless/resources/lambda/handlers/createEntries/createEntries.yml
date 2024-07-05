@@ -1,0 +1,6 @@
+createECGEntries:
+    handler: infra/serverless/resources/lambda/handlers/createEntries/handler.main
+    events:
+      - http:
+          path: ecg
+          method: post
