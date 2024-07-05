@@ -18,4 +18,5 @@ custom:
     platform: 'node'
     concurrency: 10
 
-functions: $()
+functions:
+  - ${file(./lambda/handlers/createEntries/createEntries.yml)}
