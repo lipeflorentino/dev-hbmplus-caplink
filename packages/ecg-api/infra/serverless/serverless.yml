@@ -8,6 +8,9 @@ provider:
   name: aws
   runtime: nodejs20.x
   region: us-east-1
+  stage: production
+  memorySize: 512 # optional, in MB, default is 1024
+  timeout: 10 # optional, in seconds, default is 6
 
 custom:
   esbuild:
@@ -19,4 +22,8 @@ custom:
     concurrency: 10
 
 functions:
-  - ${file(./lambda/handlers/createEntries/createEntries.yml)}
+  createECGEntries: ${file(./lambda/handlers/createEntries/createEntries.yml)}
+
+resources:
+  Resources:
+    ECGTable: ${file(./resources/dynamodb/ecgTable.yml)}
