@@ -13,13 +13,18 @@ Properties:
       KeyType: 'HASH'
     - AttributeName: 'milivolts'
       KeyType: 'RANGE'
+  ProvisionedThroughput: 
+        ReadCapacityUnits: "5"
+        WriteCapacityUnits: "5"
   GlobalSecondaryIndexes:
     - IndexName: 'DeviceIdIndex'
       KeySchema: 
-        - AttributeName: 'devideId'
-          AttributeType: 'S'
+        - AttributeName: 'deviceId'
+          KeyType: "HASH"
+      Projection:
+        ProjectionType: 'ALL'
   #StreamSpecification:
   #  StreamViewType: 'NEW_IMAGE'
-  ProvisionedThroughput:
-        ReadCapacityUnits: 5
-        WriteCapacityUnits: 5
+      ProvisionedThroughput:
+            ReadCapacityUnits: 5
+            WriteCapacityUnits: 5

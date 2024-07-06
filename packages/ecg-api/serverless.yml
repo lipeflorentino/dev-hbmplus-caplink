@@ -1,8 +1,8 @@
 app: ecg-api
 service: ecg-api
 
-plugins:
-  - serverless-esbuild
+# plugins:
+#   - serverless-esbuild
 
 provider:
   name: aws
@@ -22,8 +22,8 @@ custom:
     concurrency: 10
 
 functions:
-  createECGEntries: ${file(./lambda/handlers/createEntries/createEntries.yml)}
+  createECGEntries: ${file(./infra/serverless/resources/lambda/handlers/createEntries/createEntries.yml)}
 
 resources:
   Resources:
-    ECGTable: ${file(./resources/dynamodb/ecgTable.yml)}
+    ECGTable: ${file(./infra/serverless/resources/dynamodb/ecgTable.yml)}

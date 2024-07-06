@@ -1,1 +1,9 @@
-{}
+{
+    "body": {
+        "ecgData": {
+            "id": "1",
+            "milivolts": 1000,
+            "interval": 10
+        }
+    }
+}
