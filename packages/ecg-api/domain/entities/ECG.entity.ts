@@ -1,5 +1,3 @@
-import { ECGDATA } from '../../infra/controllers/createEntries/createEntries.controller';
-
 export class ECG {
     id: string;
     milivolts: number;
@@ -7,12 +5,12 @@ export class ECG {
     isRegular: boolean;
     marker: "on" | "off" | null;
 
-    constructor(ecgData: ECGDATA) {
-        this.id = ecgData.id;
-        this.milivolts = ecgData.milivolts;
+    constructor(id: string, milivolts: number, interval: number) {
+        this.id = id;
+        this.milivolts = milivolts;
         this.isRegular = false;
         this.marker = null;
-        this.interval = ecgData.interval;
+        this.interval = interval;
     }
 
     detectIrregularities() {

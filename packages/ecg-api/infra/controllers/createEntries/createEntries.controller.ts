@@ -1,7 +1,9 @@
+import { CreateEntriesInputDTO } from "../../../application/dto/createEntriesInput.dto";
+import { CreateEntriesOutputDTO } from "../../../application/dto/createEntriesOutput.dto";
 import { CreateEntriesUseCase } from "../../../application/useCase/createEntries/createEntries.useCase";
 import { ECGRepository } from "../../../domain/repositories/ECGRepository.interface";
 
-export type ECGDATA = {
+export type eventInput = {
     id: string,
     milivolts: number,
     interval: number,
@@ -9,6 +11,7 @@ export type ECGDATA = {
 
 export type ControllerResponse = {
     status: number,
+    data: CreateEntriesOutputDTO,
     message: string;
 }
 
@@ -19,10 +22,14 @@ export class CreateEntriesController {
         this.createEntriesUseCase = new CreateEntriesUseCase(this.ecgRepository);
     }
 
-    async handleCreateEntries(ecgData: ECGDATA): Promise<ControllerResponse> {
-        await this.createEntriesUseCase.execute(ecgData);
+    async handleCreateEntries(input: eventInput): Promise<ControllerResponse> {
+        const ecg = await this.createEntriesUseCase.execute(
+            new CreateEntriesInputDTO(input.id, input.milivolts, input.interval)
+        );
+
         return {
             status: 201,
+            data: ecg,
             message: 'created succesfully!',
         }
     }
