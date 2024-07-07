@@ -62,8 +62,7 @@
                     ],
                     "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
                   }
-                ],
-                "name": "ecg-api-production-createECGEntries"
+                ]
               }
             },
             "resources": {
@@ -127,10 +126,7 @@
           "config": {
             "type": "file"
           },
-          "options": {
-            "function": "createECGEntries",
-            "stage": "production"
-          },
+          "options": {},
           "stage": "production",
           "dashboard": null
         },
@@ -192,8 +188,7 @@
                     ],
                     "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
                   }
-                ],
-                "name": "ecg-api-production-createECGEntries"
+                ]
               }
             },
             "resources": {
@@ -257,10 +252,7 @@
           "config": {
             "type": "self"
           },
-          "options": {
-            "function": "createECGEntries",
-            "stage": "production"
-          },
+          "options": {},
           "stage": "production",
           "dashboard": null
         },
@@ -323,8 +315,7 @@
               ],
               "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
             }
-          ],
-          "name": "ecg-api-production-createECGEntries"
+          ]
         }
       },
       "resources": {
@@ -386,13 +377,13 @@
     },
     "serviceRawFile": "app: ecg-api\r\nservice: ecg-api\r\n\r\nplugins:\r\n  - serverless-iam-roles-per-function\r\n\r\n\r\nprovider:\r\n  name: aws\r\n  runtime: nodejs20.x\r\n  region: us-east-1\r\n  stage: production\r\n  memorySize: 512 # optional, in MB, default is 1024\r\n  timeout: 10 # optional, in seconds, default is 6\r\n\r\ncustom:\r\n  esbuild:\r\n    bundle: true\r\n    minify: false\r\n    sourcemap: true\r\n    target: 'node20'\r\n    platform: 'node'\r\n    concurrency: 10\r\n\r\nfunctions:\r\n  createECGEntries: ${file(./infra/serverless/resources/lambda/handlers/createEntries/createEntries.yml)}\r\n\r\nresources:\r\n  Resources:\r\n    ECGTable: ${file(./infra/serverless/resources/dynamodb/ecgTable.yml)}",
     "command": [
-      "logs"
+      "config"
     ],
-    "options": {
-      "function": "createECGEntries",
-      "stage": "production"
+    "options": {},
+    "error": {
+      "message": "Serverless command \"config\" not found. Run \"serverless help\" for a list of all available commands.",
+      "code": "UNRECOGNIZED_CLI_COMMAND"
     },
-    "error": null,
     "params": {},
     "machineId": "4f355b78885dd795f4bfd964be242a0c",
     "accessKeyV2": "<REDACTED>",

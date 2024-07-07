@@ -1,8 +1,8 @@
 app: ecg-api
 service: ecg-api
 
-plugins:
-  - serverless-iam-roles-per-function
+#plugins:
+#  - serverless-iam-roles-per-function
 
 
 provider:
