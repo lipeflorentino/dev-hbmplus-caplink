@@ -1,7 +1,7 @@
 import { ControllerResponse, CreateEntriesController } from "../../../../../controllers/createEntries/createEntries.controller";
 import { MockDBRepository as ECGRepository } from "../../../../../repositories/mockdb/mockdb.repository";
 
-// serverless invoke local -f createECGEntries -s production
+// serverless invoke local -f createECGEntries -s production -p lambda/handlers/createEntries/mock.json
 export const main = async (event: any): Promise<ControllerResponse> => {
     console.log('entry', { event });
     const eventBody = JSON.parse(event.body.ecgData);
