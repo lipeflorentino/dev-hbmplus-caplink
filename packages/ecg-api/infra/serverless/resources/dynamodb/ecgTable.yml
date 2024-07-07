@@ -1,27 +1,30 @@
-Resources:
-  EcgTable:
-    Type: 'AWS::DynamoDB::Table'
-    Properties:
-      TableName: 'ECGTable'
-      AttributeDefinitions:
-        - AttributeName: 'id'
-          AttributeType: 'S'
-        - AttributeName: 'milivolts'
-          AttributeType: 'N'
+Type: 'AWS::DynamoDB::Table'
+Properties:
+  TableName: 'ECGTable'
+  AttributeDefinitions:
+    - AttributeName: 'id'
+      AttributeType: 'S'
+    - AttributeName: 'milivolts'
+      AttributeType: 'N'
+    - AttributeName: 'deviceId'
+      AttributeType: 'S'
+  KeySchema:
+    - AttributeName: 'id'
+      KeyType: 'HASH'
+    - AttributeName: 'milivolts'
+      KeyType: 'RANGE'
+  ProvisionedThroughput: 
+        ReadCapacityUnits: "5"
+        WriteCapacityUnits: "5"
+  GlobalSecondaryIndexes:
+    - IndexName: 'DeviceIdIndex'
+      KeySchema: 
         - AttributeName: 'deviceId'
-          AttributeType: 'S'
-      KeySchema:
-        - AttributeName: 'id'
-          KeyType: 'HASH'
-        - AttributeName: 'milivolts'
-          KeyType: 'RANGE'
-      GlobalSecondaryIndexes:
-        - IndexName: 'DeviceIdIndex'
-          KeySchema: 
-            - AttributeName: 'devideId'
-              AttributeType: 'S'
-      #StreamSpecification:
-      #  StreamViewType: 'NEW_IMAGE'
+          KeyType: "HASH"
+      Projection:
+        ProjectionType: 'ALL'
+  #StreamSpecification:
+  #  StreamViewType: 'NEW_IMAGE'
       ProvisionedThroughput:
-        ReadCapacityUnits: 5
-        WriteCapacityUnits: 5
+            ReadCapacityUnits: 5
+            WriteCapacityUnits: 5

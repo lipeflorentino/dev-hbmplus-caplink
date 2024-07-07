@@ -47,7 +47,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd packages/ecg-api
           npm install
 
       - name: Run tests
@@ -75,7 +74,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd packages/ecg-api
           npm install
 
       - name: Run release
@@ -106,7 +104,7 @@ jobs:
       - name: Deploy with Serverless
         run: |
           cd packages/ecg-api 
-          serverless deploy --stage production
+          serverless deploy --stage production --verbose
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
