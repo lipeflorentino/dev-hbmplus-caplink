@@ -54,11 +54,6 @@ jobs:
           cd packages/ecg-api
           npm test
 
-      - name: Build artifacts
-        run: |
-          cd packages/ecg-api
-          npm run build
-
   release-ecg-api:
     runs-on: ubuntu-latest
     needs: build-and-deploy-ecg-api
