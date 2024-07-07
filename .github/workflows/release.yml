@@ -47,7 +47,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd packages/ecg-api
           npm install
 
       - name: Run tests
@@ -75,7 +74,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd packages/ecg-api
           npm install
 
       - name: Run release
