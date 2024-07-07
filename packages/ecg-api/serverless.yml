@@ -1,8 +1,9 @@
 app: ecg-api
 service: ecg-api
 
-# plugins:
-#   - serverless-esbuild
+plugins:
+  - serverless-iam-roles-per-function
+
 
 provider:
   name: aws
