@@ -97,7 +97,9 @@ jobs:
           npm install -g serverless
 
       - name: Configure Serverless with access key
-        run: serverless config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          cd packages/ecg-api  
+          serverless config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Deploy with Serverless
         run: |
