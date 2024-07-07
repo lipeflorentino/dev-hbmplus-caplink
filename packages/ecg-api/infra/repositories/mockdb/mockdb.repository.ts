@@ -8,7 +8,7 @@ export class MockDBRepository implements ECGRepository {
 
     async getHistory(deviceId: string): Promise<ECG[]> {
         console.log('listando resultados do device', { deviceId })
-        const ecg_1 = new ECG({ id: '1', milivolts: 100, interval: 1 });
+        const ecg_1 = new ECG('1', 100, 1);
         return [ecg_1];
     }
 } 
