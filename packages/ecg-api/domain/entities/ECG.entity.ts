@@ -7,14 +7,16 @@ export class ECG {
     interval: number;
     isRegular: boolean;
     marker?: string;
+    createdAt?: string;
 
-    constructor(deviceId: string, milivolts: number, interval: number, marker?: string) {
+    constructor(deviceId: string, milivolts: number, interval: number, marker?: string, createdAt?: string) {
         this.id = (new UUID).v4();
         this.deviceId = deviceId;
         this.milivolts = milivolts;
         this.isRegular = false;
         this.marker = marker;
         this.interval = interval;
+        this.createdAt = createdAt;
     }
 
     detectIrregularities() {

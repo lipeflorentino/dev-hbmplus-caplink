@@ -77,6 +77,12 @@
         "LogGroupName": "/aws/lambda/ecg-api-production-createECGEntries"
       }
     },
+    "ListECGEntriesLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/ecg-api-production-listECGEntries"
+      }
+    },
     "IamRoleLambdaExecution": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -162,7 +168,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/ecg-api/production/1720296796017-2024-07-06T20:13:16.017Z/ecg-api.zip"
+          "S3Key": "serverless/ecg-api/production/1720457248944-2024-07-08T16:47:28.944Z/ecg-api.zip"
         },
         "Handler": "infra/serverless/resources/lambda/handlers/createEntries/handler.main",
         "Runtime": "nodejs20.x",
@@ -171,28 +177,72 @@
         "Timeout": 10,
         "Environment": {
           "Variables": {
+            "TABLE_NAME": "ECGTable",
             "NODE_OPTIONS": "--enable-source-maps"
           }
         },
         "Role": {
           "Fn::GetAtt": [
-            "IamRoleLambdaExecution",
+            "CreateECGEntriesIamRoleLambdaExecution",
             "Arn"
           ]
         }
       },
       "DependsOn": [
+        "CreateECGEntriesIamRoleLambdaExecution",
         "CreateECGEntriesLogGroup"
       ]
     },
-    "CreateECGEntriesLambdaVersionZobYmuX320oA5XynOE0foAuA6HuyJrkg5sKreEmg": {
+    "ListECGEntriesLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/ecg-api/production/1720457248944-2024-07-08T16:47:28.944Z/ecg-api.zip"
+        },
+        "Handler": "infra/serverless/resources/lambda/handlers/listEntries/handler.main",
+        "Runtime": "nodejs20.x",
+        "FunctionName": "ecg-api-production-listECGEntries",
+        "MemorySize": 512,
+        "Timeout": 10,
+        "Environment": {
+          "Variables": {
+            "TABLE_NAME": "ECGTable",
+            "NODE_OPTIONS": "--enable-source-maps"
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "ListECGEntriesIamRoleLambdaExecution",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "ListECGEntriesIamRoleLambdaExecution",
+        "ListECGEntriesLogGroup"
+      ]
+    },
+    "CreateECGEntriesLambdaVersion31MSdcgukspFrOHj4YKxoK9lICgS0bCsKi5Qqipg": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CreateECGEntriesLambdaFunction"
         },
-        "CodeSha256": "ERKFxOMyTHsKlC3vL0e+/03/nJ5/yf31yujQUXATdSA="
+        "CodeSha256": "V2h7L9DIueIzSAbYC8q0QrI7MlhpuA+Jjh55Mgv+hb4="
+      }
+    },
+    "ListECGEntriesLambdaVersionOXQz3YyjuY0UVZ3guYYMT7vlvsueEWMdUNovyg9IYAw": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "ListECGEntriesLambdaFunction"
+        },
+        "CodeSha256": "V2h7L9DIueIzSAbYC8q0QrI7MlhpuA+Jjh55Mgv+hb4="
       }
     },
     "ApiGatewayRestApi": {
@@ -217,6 +267,51 @@
           ]
         },
         "PathPart": "ecg",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayMethodEcgOptions": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "MethodResponses": [
+          {
+            "StatusCode": "200",
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Origin": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true
+            },
+            "ResponseModels": {}
+          }
+        ],
+        "RequestParameters": {},
+        "Integration": {
+          "Type": "MOCK",
+          "RequestTemplates": {
+            "application/json": "{statusCode:200}"
+          },
+          "ContentHandling": "CONVERT_TO_TEXT",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200",
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,POST'"
+              },
+              "ResponseTemplates": {
+                "application/json": ""
+              }
+            }
+          ]
+        },
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceEcg"
+        },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
@@ -268,7 +363,53 @@
         "CreateECGEntriesLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1720296794493": {
+    "ApiGatewayMethodEcgGet": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "GET",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceEcg"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "ListECGEntriesLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": []
+      },
+      "DependsOn": [
+        "ListECGEntriesLambdaPermissionApiGateway"
+      ]
+    },
+    "ApiGatewayDeployment1720457247225": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -277,7 +418,9 @@
         "StageName": "production"
       },
       "DependsOn": [
-        "ApiGatewayMethodEcgPost"
+        "ApiGatewayMethodEcgOptions",
+        "ApiGatewayMethodEcgPost",
+        "ApiGatewayMethodEcgGet"
       ]
     },
     "CreateECGEntriesLambdaPermissionApiGateway": {
@@ -315,6 +458,171 @@
             ]
           ]
         }
+      }
+    },
+    "ListECGEntriesLambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ListECGEntriesLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "/*/*"
+            ]
+          ]
+        }
+      }
+    },
+    "CreateECGEntriesIamRoleLambdaExecution": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "lambda.amazonaws.com"
+                ]
+              },
+              "Action": [
+                "sts:AssumeRole"
+              ]
+            }
+          ]
+        },
+        "Policies": [
+          {
+            "PolicyName": {
+              "Fn::Join": [
+                "-",
+                [
+                  "ecg-api",
+                  "production",
+                  "lambda"
+                ]
+              ]
+            },
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "logs:CreateLogStream",
+                    "logs:CreateLogGroup",
+                    "logs:PutLogEvents"
+                  ],
+                  "Resource": [
+                    {
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/ecg-api-production-createECGEntries:*:*"
+                    }
+                  ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:PutItem"
+                  ],
+                  "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
+                }
+              ]
+            }
+          }
+        ],
+        "Path": "/",
+        "RoleName": "createEntries-lambda-role",
+        "ManagedPolicyArns": []
+      }
+    },
+    "ListECGEntriesIamRoleLambdaExecution": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "lambda.amazonaws.com"
+                ]
+              },
+              "Action": [
+                "sts:AssumeRole"
+              ]
+            }
+          ]
+        },
+        "Policies": [
+          {
+            "PolicyName": {
+              "Fn::Join": [
+                "-",
+                [
+                  "ecg-api",
+                  "production",
+                  "lambda"
+                ]
+              ]
+            },
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "logs:CreateLogStream",
+                    "logs:CreateLogGroup",
+                    "logs:PutLogEvents"
+                  ],
+                  "Resource": [
+                    {
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/ecg-api-production-listECGEntries:*:*"
+                    }
+                  ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:Query",
+                    "dynamodb:Scan",
+                    "dynamodb:GetItem"
+                  ],
+                  "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
+                }
+              ]
+            }
+          }
+        ],
+        "Path": "/",
+        "RoleName": "listEntries-lambda-role",
+        "ManagedPolicyArns": []
       }
     },
     "ECGTable": {
@@ -382,10 +690,19 @@
     "CreateECGEntriesLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreateECGEntriesLambdaVersionZobYmuX320oA5XynOE0foAuA6HuyJrkg5sKreEmg"
+        "Ref": "CreateECGEntriesLambdaVersion31MSdcgukspFrOHj4YKxoK9lICgS0bCsKi5Qqipg"
       },
       "Export": {
         "Name": "sls-ecg-api-production-CreateECGEntriesLambdaFunctionQualifiedArn"
+      }
+    },
+    "ListECGEntriesLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "ListECGEntriesLambdaVersionOXQz3YyjuY0UVZ3guYYMT7vlvsueEWMdUNovyg9IYAw"
+      },
+      "Export": {
+        "Name": "sls-ecg-api-production-ListECGEntriesLambdaFunctionQualifiedArn"
       }
     },
     "ServiceEndpoint": {

@@ -60,7 +60,32 @@
                     "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
                   }
                 ],
-                "name": "ecg-api-production-createECGEntries",
+                "name": "ecg-api-production-createECGEntries"
+              },
+              "listECGEntries": {
+                "handler": "infra/serverless/resources/lambda/handlers/listEntries/handler.main",
+                "events": [
+                  {
+                    "http": {
+                      "path": "ecg",
+                      "method": "get",
+                      "cors": true
+                    }
+                  }
+                ],
+                "iamRoleStatementsName": "listEntries-lambda-role",
+                "iamRoleStatements": [
+                  {
+                    "Effect": "Allow",
+                    "Action": [
+                      "dynamodb:Query",
+                      "dynamodb:Scan",
+                      "dynamodb:GetItem"
+                    ],
+                    "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
+                  }
+                ],
+                "name": "ecg-api-production-listECGEntries",
                 "environment": {
                   "NODE_OPTIONS": "--enable-source-maps"
                 }
@@ -128,9 +153,9 @@
             "type": "file"
           },
           "options": {
-            "function": "createECGEntries",
+            "function": "listECGEntries",
             "stage": "production",
-            "path": "infra\\serverless\\resources\\lambda\\handlers\\createEntries\\mock.json"
+            "path": "infra\\serverless\\resources\\lambda\\handlers\\listEntries\\mock.json"
           },
           "stage": "production",
           "dashboard": null
@@ -191,7 +216,32 @@
                     "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
                   }
                 ],
-                "name": "ecg-api-production-createECGEntries",
+                "name": "ecg-api-production-createECGEntries"
+              },
+              "listECGEntries": {
+                "handler": "infra/serverless/resources/lambda/handlers/listEntries/handler.main",
+                "events": [
+                  {
+                    "http": {
+                      "path": "ecg",
+                      "method": "get",
+                      "cors": true
+                    }
+                  }
+                ],
+                "iamRoleStatementsName": "listEntries-lambda-role",
+                "iamRoleStatements": [
+                  {
+                    "Effect": "Allow",
+                    "Action": [
+                      "dynamodb:Query",
+                      "dynamodb:Scan",
+                      "dynamodb:GetItem"
+                    ],
+                    "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
+                  }
+                ],
+                "name": "ecg-api-production-listECGEntries",
                 "environment": {
                   "NODE_OPTIONS": "--enable-source-maps"
                 }
@@ -259,9 +309,9 @@
             "type": "self"
           },
           "options": {
-            "function": "createECGEntries",
+            "function": "listECGEntries",
             "stage": "production",
-            "path": "infra\\serverless\\resources\\lambda\\handlers\\createEntries\\mock.json"
+            "path": "infra\\serverless\\resources\\lambda\\handlers\\listEntries\\mock.json"
           },
           "stage": "production",
           "dashboard": null
@@ -323,7 +373,32 @@
               "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
             }
           ],
-          "name": "ecg-api-production-createECGEntries",
+          "name": "ecg-api-production-createECGEntries"
+        },
+        "listECGEntries": {
+          "handler": "infra/serverless/resources/lambda/handlers/listEntries/handler.main",
+          "events": [
+            {
+              "http": {
+                "path": "ecg",
+                "method": "get",
+                "cors": true
+              }
+            }
+          ],
+          "iamRoleStatementsName": "listEntries-lambda-role",
+          "iamRoleStatements": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:Query",
+                "dynamodb:Scan",
+                "dynamodb:GetItem"
+              ],
+              "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
+            }
+          ],
+          "name": "ecg-api-production-listECGEntries",
           "environment": {
             "NODE_OPTIONS": "--enable-source-maps"
           }
@@ -386,15 +461,15 @@
         }
       }
     },
-    "serviceRawFile": "app: ecg-api\r\nservice: ecg-api\r\n\r\nplugins:\r\n  - serverless-iam-roles-per-function\r\n\r\n\r\nprovider:\r\n  name: aws\r\n  runtime: nodejs20.x\r\n  region: us-east-1\r\n  stage: production\r\n  memorySize: 512 # optional, in MB, default is 1024\r\n  timeout: 10 # optional, in seconds, default is 6\r\n  environment:\r\n    TABLE_NAME: 'ECGTable'\r\n\r\ncustom:\r\n  esbuild:\r\n    bundle: true\r\n    minify: false\r\n    sourcemap: true\r\n    target: 'node20'\r\n    platform: 'node'\r\n    concurrency: 10\r\n\r\nfunctions:\r\n  createECGEntries: ${file(./infra/serverless/resources/lambda/handlers/createEntries/createEntries.yml)}\r\n\r\nresources:\r\n  Resources:\r\n    ECGTable: ${file(./infra/serverless/resources/dynamodb/ecgTable.yml)}",
+    "serviceRawFile": "app: ecg-api\r\nservice: ecg-api\r\n\r\nplugins:\r\n  - serverless-iam-roles-per-function\r\n\r\n\r\nprovider:\r\n  name: aws\r\n  runtime: nodejs20.x\r\n  region: us-east-1\r\n  stage: production\r\n  memorySize: 512 # optional, in MB, default is 1024\r\n  timeout: 10 # optional, in seconds, default is 6\r\n  environment:\r\n    TABLE_NAME: 'ECGTable'\r\n\r\ncustom:\r\n  esbuild:\r\n    bundle: true\r\n    minify: false\r\n    sourcemap: true\r\n    target: 'node20'\r\n    platform: 'node'\r\n    concurrency: 10\r\n\r\nfunctions:\r\n  createECGEntries: ${file(./infra/serverless/resources/lambda/handlers/createEntries/createEntries.yml)}\r\n  listECGEntries: ${file(./infra/serverless/resources/lambda/handlers/listEntries/listEntries.yml)}\r\n\r\nresources:\r\n  Resources:\r\n    ECGTable: ${file(./infra/serverless/resources/dynamodb/ecgTable.yml)}",
     "command": [
       "invoke",
       "local"
     ],
     "options": {
-      "function": "createECGEntries",
+      "function": "listECGEntries",
       "stage": "production",
-      "path": "infra\\serverless\\resources\\lambda\\handlers\\createEntries\\mock.json"
+      "path": "infra\\serverless\\resources\\lambda\\handlers\\listEntries\\mock.json"
     },
     "error": null,
     "params": {},
@@ -422,14 +497,20 @@
     "serviceProviderAwsCfStackName": "ecg-api-production",
     "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:851725203148:stack/ecg-api-production/3322e1c0-3bb8-11ef-a99e-127ce02d7b79",
     "serviceProviderAwsCfStackCreated": "2024-07-06T16:52:59.054Z",
-    "serviceProviderAwsCfStackUpdated": "2024-07-07T16:29:50.676Z",
+    "serviceProviderAwsCfStackUpdated": "2024-07-08T16:47:37.095Z",
     "serviceProviderAwsCfStackStatus": "UPDATE_COMPLETE",
     "serviceProviderAwsCfStackOutputs": [
       {
         "OutputKey": "CreateECGEntriesLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:us-east-1:851725203148:function:ecg-api-production-createECGEntries:4",
+        "OutputValue": "arn:aws:lambda:us-east-1:851725203148:function:ecg-api-production-createECGEntries:6",
         "Description": "Current Lambda function version",
         "ExportName": "sls-ecg-api-production-CreateECGEntriesLambdaFunctionQualifiedArn"
+      },
+      {
+        "OutputKey": "ListECGEntriesLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-1:851725203148:function:ecg-api-production-listECGEntries:1",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-ecg-api-production-ListECGEntriesLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "ServiceEndpoint",

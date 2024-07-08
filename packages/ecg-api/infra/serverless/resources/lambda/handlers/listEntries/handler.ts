@@ -5,9 +5,11 @@ import { DynamooseDBRepository as ECGRepository } from "../../../../../repositor
 // serverless invoke local -f listECGEntries -s production -p infra\serverless\resources\lambda\handlers\listEntries\mock.json
 export const main = async (event: any): Promise<ListEntriesResponse> => {
     console.log('entry', { event });
-    const eventBody = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
-    console.log(eventBody);
+    const eventParameters = typeof event.queryStringParameters === 'string'
+        ? JSON.parse(event.queryStringParameters)
+        : event.queryStringParameters;
+    console.log({ eventParameters });
     const controller = new ListEntriesController(new ECGRepository());
 
-    return controller.handleListEntries(eventBody.ecgData);
+    return controller.handleListEntries(eventParameters);
 }

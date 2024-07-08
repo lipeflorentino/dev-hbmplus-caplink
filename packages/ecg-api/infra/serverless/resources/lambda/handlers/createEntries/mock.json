@@ -2,7 +2,7 @@
     "body": {
         "ecgData": {
             "deviceId": "5",
-            "milivolts": 4000,
+            "milivolts": 4500,
             "interval": 10
         }
     }

@@ -1,4 +1,3 @@
-import { formatDate } from "date-fns";
 import * as dynamoose from "dynamoose";
 
 const schema = new dynamoose.Schema(
@@ -10,8 +9,12 @@ const schema = new dynamoose.Schema(
         },
         deviceId: {
             type: String,
-            required: true,
+            index: {
+                name: "DeviceIdIndex",
+                type: "global",
+            }
         },
+        interval: Number,
         milivolts: Number,
         isRegular: Boolean,
         marker: {

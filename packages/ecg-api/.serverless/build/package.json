@@ -30,5 +30,6 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }
+  },
+  "dependencies": {}
 }

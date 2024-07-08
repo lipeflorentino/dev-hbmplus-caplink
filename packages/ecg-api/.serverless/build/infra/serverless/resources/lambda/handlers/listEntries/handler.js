@@ -5442,19 +5442,54 @@ var require_dist3 = __commonJS({
   }
 });
 
-// infra/serverless/resources/lambda/handlers/createEntries/handler.ts
+// infra/serverless/resources/lambda/handlers/listEntries/handler.ts
 var handler_exports = {};
 __export(handler_exports, {
   main: () => main
 });
 module.exports = __toCommonJS(handler_exports);
 
-// application/dto/createEntries/createEntriesInput.dto.ts
-var CreateEntriesInputDTO = class {
-  constructor(deviceId, milivolts, interval) {
+// application/dto/listEntries/listEntriesInput.dto.ts
+var ListEntriesInputDTO = class {
+  constructor(deviceId, interval) {
     this.deviceId = deviceId;
-    this.milivolts = milivolts;
-    this.interval = interval;
+    this.interval = interval || "30";
+  }
+};
+
+// application/dto/listEntries/listEntriesOutput.dto.ts
+var ListEntriesOutputDTO = class {
+  constructor(ecgList) {
+    this.ecgList = ecgList;
+  }
+};
+
+// application/useCase/listEntries/listEntries.useCase.ts
+var ListEntriesUseCase = class {
+  constructor(ecgRepository) {
+    this.ecgRepository = ecgRepository;
+  }
+  async execute(input) {
+    console.log(this.ecgRepository, input);
+    return new ListEntriesOutputDTO(
+      await this.ecgRepository.listEntries(input.deviceId, input.interval)
+    );
+  }
+};
+
+// infra/controllers/listEntries/listEntries.controller.ts
+var ListEntriesController = class {
+  constructor(ecgRepository) {
+    this.ecgRepository = ecgRepository;
+    this.listEntriesUseCase = new ListEntriesUseCase(this.ecgRepository);
+  }
+  async handleListEntries(input) {
+    const { ecgList } = await this.listEntriesUseCase.execute(new ListEntriesInputDTO(input.deviceId, input.interval));
+    return {
+      status: 200,
+      data: ecgList,
+      message: "retrieved succesfully!"
+    };
   }
 };
 
@@ -5514,13 +5549,14 @@ var UUID = class {
 
 // domain/entities/ECG.entity.ts
 var ECG = class {
-  constructor(deviceId, milivolts, interval, marker) {
+  constructor(deviceId, milivolts, interval, marker, createdAt) {
     this.id = new UUID().v4();
     this.deviceId = deviceId;
     this.milivolts = milivolts;
     this.isRegular = false;
     this.marker = marker;
     this.interval = interval;
+    this.createdAt = createdAt;
   }
   detectIrregularities() {
     console.log("Analysing ECG measure...");
@@ -5546,51 +5582,6 @@ var ECG = class {
   }
 };
 
-// application/dto/createEntries/createEntriesOutput.dto.ts
-var CreateEntriesOutputDTO = class {
-  constructor(id, deviceId, milivolts, interval, isRegular) {
-    this.id = id;
-    this.deviceId = deviceId;
-    this.milivolts = milivolts;
-    this.interval = interval;
-    this.isRegular = isRegular;
-  }
-};
-
-// application/useCase/createEntries/createEntries.useCase.ts
-var CreateEntriesUseCase = class {
-  constructor(ecgRepository) {
-    this.ecgRepository = ecgRepository;
-  }
-  async execute(input) {
-    console.log("UseCase input", { input });
-    const ecg = new ECG(input.deviceId, input.milivolts, input.milivolts);
-    ecg.detectIrregularities();
-    if (!ecg.isRegular) await ecg.verifyMarker();
-    this.ecgRepository.save(ecg);
-    return new CreateEntriesOutputDTO(ecg.id, ecg.deviceId, ecg.milivolts, ecg.interval, ecg.isRegular);
-  }
-};
-
-// infra/controllers/createEntries/createEntries.controller.ts
-var CreateEntriesController = class {
-  constructor(ecgRepository) {
-    this.ecgRepository = ecgRepository;
-    this.createEntriesUseCase = new CreateEntriesUseCase(this.ecgRepository);
-  }
-  async handleCreateEntries(input) {
-    console.log("Controller input", { input });
-    const ecg = await this.createEntriesUseCase.execute(
-      new CreateEntriesInputDTO(input.deviceId, input.milivolts, input.interval)
-    );
-    return {
-      status: 201,
-      data: ecg,
-      message: "created succesfully!"
-    };
-  }
-};
-
 // infra/database/dynamoose/model/ECG.model.ts
 var dynamoose = __toESM(require_dist3());
 var schema = new dynamoose.Schema(
@@ -5607,6 +5598,7 @@ var schema = new dynamoose.Schema(
         type: "global"
       }
     },
+    interval: Number,
     milivolts: Number,
     isRegular: Boolean,
     marker: {
@@ -5663,27 +5655,30 @@ var DynamooseDBRepository = class {
     const endDate = /* @__PURE__ */ new Date();
     const startDate = /* @__PURE__ */ new Date();
     startDate.setDate(endDate.getDate() - Number(interval));
-    const formattedStartDate = startDate.toISOString().split("T")[0] + " 00:00:00";
-    const formattedEndDate = endDate.toISOString().split("T")[0] + " 23:59:59";
-    const search = await ECGModel.query("deviceId").eq(deviceId).where("createdAt").between(formattedStartDate, formattedEndDate).using("deviceIdIndex").exec();
+    const formattedStartDate = startDate.toISOString() + " 00:00:00";
+    const formattedEndDate = endDate.toISOString() + " 23:59:59";
+    console.log({ formattedStartDate, formattedEndDate, deviceId });
+    const search = await ECGModel.query("deviceId").eq(deviceId).where("createdAt").between(formattedStartDate, formattedEndDate).using("DeviceIdIndex").exec();
+    console.log({ search });
     return search.toJSON().map((ecgData) => {
       return new ECG(
         ecgData.deviceId,
         ecgData.milivolts,
         ecgData.interval,
-        ecgData.marker
+        ecgData.marker,
+        ecgData.createdAt
       );
     });
   }
 };
 
-// infra/serverless/resources/lambda/handlers/createEntries/handler.ts
+// infra/serverless/resources/lambda/handlers/listEntries/handler.ts
 var main = async (event) => {
   console.log("entry", { event });
-  const eventBody = typeof event.body === "string" ? JSON.parse(event.body) : event.body;
-  console.log(eventBody);
-  const controller = new CreateEntriesController(new DynamooseDBRepository());
-  return controller.handleCreateEntries(eventBody.ecgData);
+  const eventParameters = typeof event.queryStringParameters === "string" ? JSON.parse(event.queryStringParameters) : event.queryStringParameters;
+  console.log({ eventParameters });
+  const controller = new ListEntriesController(new DynamooseDBRepository());
+  return controller.handleListEntries(eventParameters);
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
