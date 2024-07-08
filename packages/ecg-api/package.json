@@ -15,7 +15,8 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "serverless": "^4.1.11"
+    "serverless": "^4.1.11",
+    "serverless-iam-roles-per-function": "^3.2.0"
   },
   "jest": {
     "moduleFileExtensions": [

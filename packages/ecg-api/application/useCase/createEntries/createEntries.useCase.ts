@@ -7,9 +7,11 @@ export class CreateEntriesUseCase {
     constructor(private readonly ecgRepository: ECGRepository) {}
 
     async execute(input: CreateEntriesInputDTO): Promise<CreateEntriesOutputDTO> {
+        console.log('UseCase input', { input });
         const ecg = new ECG(input.id, input.milivolts, input.milivolts);
         // verificar se ecg é ou não irregular
         ecg.detectIrregularities();
+        if (!ecg.isRegular) await ecg.verifyMarker();
         // salvar a entrada
         this.ecgRepository.save(ecg);
 

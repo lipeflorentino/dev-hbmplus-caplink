@@ -1,11 +1,12 @@
 import { ControllerResponse, CreateEntriesController } from "../../../../../controllers/createEntries/createEntries.controller";
-import { MockDBRepository as ECGRepository } from "../../../../../repositories/mockdb/mockdb.repository";
+import { DynamooseDBRepository as ECGRepository } from "../../../../../repositories/dynamodb/dynamodb.repository";
 
-// serverless invoke local -f createECGEntries -s production -p lambda/handlers/createEntries/mock.json
+// serverless invoke local -f createECGEntries -s production -p infra\serverless\resources\lambda\handlers\createEntries\mock.json
 export const main = async (event: any): Promise<ControllerResponse> => {
     console.log('entry', { event });
-    const eventBody = JSON.parse(event.body.ecgData);
+    const eventBody = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
+    console.log(eventBody);
     const controller = new CreateEntriesController(new ECGRepository());
 
-    return controller.handleCreateEntries(eventBody);
+    return controller.handleCreateEntries(eventBody.ecgData);
 }

@@ -23,6 +23,7 @@ export class CreateEntriesController {
     }
 
     async handleCreateEntries(input: eventInput): Promise<ControllerResponse> {
+        console.log('Controller input', { input });
         const ecg = await this.createEntriesUseCase.execute(
             new CreateEntriesInputDTO(input.id, input.milivolts, input.interval)
         );

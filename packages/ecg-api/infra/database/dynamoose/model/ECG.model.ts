@@ -6,11 +6,12 @@ const schema = new dynamoose.Schema(
             type: String,
             hashKey: true,
         },
-        milivolts: String,
+        milivolts: Number,
         isRegular: Boolean,
         marker: {
             type: String,
-            validate: (value) => value === "on" || value === "off" || value === null
+            enum: ['on', 'off'],
+            required: false,
         }
     },
     {
@@ -19,7 +20,7 @@ const schema = new dynamoose.Schema(
     }
 );
 
-export const ECGModel = dynamoose.model('ecg_table', schema, {
+export const ECGModel = dynamoose.model(process.env.TABLE_NAME || '', schema, {
     create: true,
     throughput: {
         read: 5,

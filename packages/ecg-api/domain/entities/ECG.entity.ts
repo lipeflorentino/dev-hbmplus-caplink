@@ -3,13 +3,13 @@ export class ECG {
     milivolts: number;
     interval: number;
     isRegular: boolean;
-    marker: "on" | "off" | null;
+    marker?: string;
 
-    constructor(id: string, milivolts: number, interval: number) {
+    constructor(id: string, milivolts: number, interval: number, marker?: string) {
         this.id = id;
         this.milivolts = milivolts;
         this.isRegular = false;
-        this.marker = null;
+        this.marker = marker;
         this.interval = interval;
     }
 
@@ -33,11 +33,15 @@ export class ECG {
         }
     }
 
+    async verifyMarker(): Promise<void> {
+        console.log('No marker needed!');
+    }
+
     setIsRegular(value: boolean) {
         this.isRegular = value;
     }
 
-    setMarker(value: "on" | "off" | null) {
+    setMarker(value: string) {
         this.marker = value;
     }
 }
