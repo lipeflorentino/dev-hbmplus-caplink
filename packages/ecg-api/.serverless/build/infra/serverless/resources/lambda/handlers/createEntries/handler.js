@@ -5449,19 +5449,74 @@ __export(handler_exports, {
 });
 module.exports = __toCommonJS(handler_exports);
 
-// application/dto/createEntriesInput.dto.ts
+// application/dto/createEntries/createEntriesInput.dto.ts
 var CreateEntriesInputDTO = class {
-  constructor(id, milivolts, interval) {
-    this.id = id;
+  constructor(deviceId, milivolts, interval) {
+    this.deviceId = deviceId;
     this.milivolts = milivolts;
     this.interval = interval;
   }
 };
 
+// ../../node_modules/uuid/dist/esm-node/stringify.js
+var byteToHex = [];
+for (let i = 0; i < 256; ++i) {
+  byteToHex.push((i + 256).toString(16).slice(1));
+}
+function unsafeStringify(arr, offset = 0) {
+  return (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
+}
+
+// ../../node_modules/uuid/dist/esm-node/rng.js
+var import_node_crypto = __toESM(require("node:crypto"));
+var rnds8Pool = new Uint8Array(256);
+var poolPtr = rnds8Pool.length;
+function rng() {
+  if (poolPtr > rnds8Pool.length - 16) {
+    import_node_crypto.default.randomFillSync(rnds8Pool);
+    poolPtr = 0;
+  }
+  return rnds8Pool.slice(poolPtr, poolPtr += 16);
+}
+
+// ../../node_modules/uuid/dist/esm-node/native.js
+var import_node_crypto2 = __toESM(require("node:crypto"));
+var native_default = {
+  randomUUID: import_node_crypto2.default.randomUUID
+};
+
+// ../../node_modules/uuid/dist/esm-node/v4.js
+function v4(options, buf, offset) {
+  if (native_default.randomUUID && !buf && !options) {
+    return native_default.randomUUID();
+  }
+  options = options || {};
+  const rnds = options.random || (options.rng || rng)();
+  rnds[6] = rnds[6] & 15 | 64;
+  rnds[8] = rnds[8] & 63 | 128;
+  if (buf) {
+    offset = offset || 0;
+    for (let i = 0; i < 16; ++i) {
+      buf[offset + i] = rnds[i];
+    }
+    return buf;
+  }
+  return unsafeStringify(rnds);
+}
+var v4_default = v4;
+
+// infra/adapter/uuid.adapter.ts
+var UUID = class {
+  v4() {
+    return v4_default();
+  }
+};
+
 // domain/entities/ECG.entity.ts
 var ECG = class {
-  constructor(id, milivolts, interval, marker) {
-    this.id = id;
+  constructor(deviceId, milivolts, interval, marker) {
+    this.id = new UUID().v4();
+    this.deviceId = deviceId;
     this.milivolts = milivolts;
     this.isRegular = false;
     this.marker = marker;
@@ -5491,10 +5546,11 @@ var ECG = class {
   }
 };
 
-// application/dto/createEntriesOutput.dto.ts
+// application/dto/createEntries/createEntriesOutput.dto.ts
 var CreateEntriesOutputDTO = class {
-  constructor(id, milivolts, interval, isRegular) {
+  constructor(id, deviceId, milivolts, interval, isRegular) {
     this.id = id;
+    this.deviceId = deviceId;
     this.milivolts = milivolts;
     this.interval = interval;
     this.isRegular = isRegular;
@@ -5508,11 +5564,11 @@ var CreateEntriesUseCase = class {
   }
   async execute(input) {
     console.log("UseCase input", { input });
-    const ecg = new ECG(input.id, input.milivolts, input.milivolts);
+    const ecg = new ECG(input.deviceId, input.milivolts, input.milivolts);
     ecg.detectIrregularities();
     if (!ecg.isRegular) await ecg.verifyMarker();
     this.ecgRepository.save(ecg);
-    return new CreateEntriesOutputDTO(ecg.id, ecg.milivolts, ecg.interval, ecg.isRegular);
+    return new CreateEntriesOutputDTO(ecg.id, ecg.deviceId, ecg.milivolts, ecg.interval, ecg.isRegular);
   }
 };
 
@@ -5525,7 +5581,7 @@ var CreateEntriesController = class {
   async handleCreateEntries(input) {
     console.log("Controller input", { input });
     const ecg = await this.createEntriesUseCase.execute(
-      new CreateEntriesInputDTO(input.id, input.milivolts, input.interval)
+      new CreateEntriesInputDTO(input.deviceId, input.milivolts, input.interval)
     );
     return {
       status: 201,
@@ -5541,7 +5597,12 @@ var schema = new dynamoose.Schema(
   {
     id: {
       type: String,
-      hashKey: true
+      hashKey: true,
+      required: true
+    },
+    deviceId: {
+      type: String,
+      required: true
     },
     milivolts: Number,
     isRegular: Boolean,
@@ -5552,7 +5613,28 @@ var schema = new dynamoose.Schema(
     }
   },
   {
-    timestamps: true,
+    timestamps: {
+      "createdAt": {
+        "createdAt": {
+          "type": {
+            "value": Date,
+            "settings": {
+              "storage": "iso"
+            }
+          }
+        }
+      },
+      "updatedAt": {
+        "updatedAt": {
+          "type": {
+            "value": Date,
+            "settings": {
+              "storage": "iso"
+            }
+          }
+        }
+      }
+    },
     saveUnknown: false
   }
 );
@@ -5573,8 +5655,8 @@ var DynamooseDBRepository = class {
     const response = await newECG.save();
     console.log(response);
   }
-  async getHistory(deviceId) {
-    console.log("listando resultados do device", { deviceId });
+  async listEntries(deviceId, interval) {
+    console.log("listando resultados do device", { deviceId, interval });
     const ecg_1 = new ECG("1", 100, 1);
     return [ecg_1];
   }

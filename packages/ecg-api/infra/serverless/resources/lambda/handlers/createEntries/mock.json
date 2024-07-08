@@ -1,8 +1,8 @@
 {
     "body": {
         "ecgData": {
-            "id": "1",
-            "milivolts": 1000,
+            "deviceId": "5",
+            "milivolts": 4000,
             "interval": 10
         }
     }

@@ -55,14 +55,7 @@
                   {
                     "Effect": "Allow",
                     "Action": [
-                      "dynamodb:DescribeTable",
-                      "dynamodb:Query",
-                      "dynamodb:Scan",
-                      "dynamodb:GetItem",
-                      "dynamodb:PutItem",
-                      "dynamodb:UpdateItem",
-                      "dynamodb:DeleteItem",
-                      "dynamodb:CreateTable"
+                      "dynamodb:PutItem"
                     ],
                     "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
                   }
@@ -193,14 +186,7 @@
                   {
                     "Effect": "Allow",
                     "Action": [
-                      "dynamodb:DescribeTable",
-                      "dynamodb:Query",
-                      "dynamodb:Scan",
-                      "dynamodb:GetItem",
-                      "dynamodb:PutItem",
-                      "dynamodb:UpdateItem",
-                      "dynamodb:DeleteItem",
-                      "dynamodb:CreateTable"
+                      "dynamodb:PutItem"
                     ],
                     "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
                   }
@@ -332,14 +318,7 @@
             {
               "Effect": "Allow",
               "Action": [
-                "dynamodb:DescribeTable",
-                "dynamodb:Query",
-                "dynamodb:Scan",
-                "dynamodb:GetItem",
-                "dynamodb:PutItem",
-                "dynamodb:UpdateItem",
-                "dynamodb:DeleteItem",
-                "dynamodb:CreateTable"
+                "dynamodb:PutItem"
               ],
               "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
             }

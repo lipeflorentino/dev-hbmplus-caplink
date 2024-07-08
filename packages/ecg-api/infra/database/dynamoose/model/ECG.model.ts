@@ -1,3 +1,4 @@
+import { formatDate } from "date-fns";
 import * as dynamoose from "dynamoose";
 
 const schema = new dynamoose.Schema(
@@ -5,6 +6,11 @@ const schema = new dynamoose.Schema(
         id: {
             type: String,
             hashKey: true,
+            required: true,
+        },
+        deviceId: {
+            type: String,
+            required: true,
         },
         milivolts: Number,
         isRegular: Boolean,
@@ -15,7 +21,28 @@ const schema = new dynamoose.Schema(
         }
     },
     {
-        timestamps: true,
+        timestamps: {
+            "createdAt": {
+                "createdAt": {
+                    "type": {
+                        "value": Date,
+                        "settings": {
+                            "storage": "iso"
+                        }
+                    }
+                }
+            },
+            "updatedAt": {
+                "updatedAt": {
+                    "type": {
+                        "value": Date,
+                        "settings": {
+                            "storage": "iso"
+                        }
+                    }
+                }
+            }
+        },
         saveUnknown: false,
     }
 );

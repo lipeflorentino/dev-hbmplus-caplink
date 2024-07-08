@@ -15,6 +15,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/uuid": "^10.0.0",
     "serverless": "^4.1.11",
     "serverless-iam-roles-per-function": "^3.2.0"
   },
@@ -34,5 +35,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "dependencies": {
+    "date-fns": "^3.6.0"
   }
 }

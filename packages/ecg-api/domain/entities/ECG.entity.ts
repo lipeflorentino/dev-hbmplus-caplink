@@ -1,12 +1,16 @@
+import { UUID } from "../../infra/adapter/uuid.adapter";
+
 export class ECG {
     id: string;
+    deviceId: string;
     milivolts: number;
     interval: number;
     isRegular: boolean;
     marker?: string;
 
-    constructor(id: string, milivolts: number, interval: number, marker?: string) {
-        this.id = id;
+    constructor(deviceId: string, milivolts: number, interval: number, marker?: string) {
+        this.id = (new UUID).v4();
+        this.deviceId = deviceId;
         this.milivolts = milivolts;
         this.isRegular = false;
         this.marker = marker;

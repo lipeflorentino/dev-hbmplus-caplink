@@ -11,8 +11,9 @@ export class DynamooseDBRepository implements ECGRepository {
         console.log(response);
     }
 
-    async getHistory(deviceId: string): Promise<ECG[]> {
-        console.log('listando resultados do device', { deviceId })
+    async listEntries(deviceId: string, interval: string): Promise<ECG[]> {
+        console.log('listando resultados do device', { deviceId, interval });
+
         const ecg_1 = new ECG('1', 100, 1);
         return [ecg_1];
     }

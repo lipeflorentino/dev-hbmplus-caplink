@@ -8,12 +8,5 @@ iamRoleStatementsName: createEntries-lambda-role
 iamRoleStatements:
   - Effect: Allow
     Action:
-      - dynamodb:DescribeTable
-      - dynamodb:Query
-      - dynamodb:Scan
-      - dynamodb:GetItem
       - dynamodb:PutItem
-      - dynamodb:UpdateItem
-      - dynamodb:DeleteItem
-      - dynamodb:CreateTable
     Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/ECGTable"

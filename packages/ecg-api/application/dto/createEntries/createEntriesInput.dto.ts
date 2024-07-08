@@ -1,10 +1,10 @@
 export class CreateEntriesInputDTO {
-    id: string;
+    deviceId: string;
     milivolts: number;
     interval: number;
 
-    constructor(id: string, milivolts: number, interval: number) {
-        this.id = id;
+    constructor(deviceId: string, milivolts: number, interval: number) {
+        this.deviceId = deviceId;
         this.milivolts = milivolts;
         this.interval = interval;
     }
