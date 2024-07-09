@@ -5611,9 +5611,14 @@ var CreateEntriesController = class {
       new CreateEntriesInputDTO(input.deviceId, input.milivolts, input.interval)
     );
     return {
-      status: 201,
-      data: ecg,
-      message: "created succesfully!"
+      statusCode: 201,
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        data: ecg,
+        message: "created succesfully!"
+      })
     };
   }
 };
@@ -5730,11 +5735,24 @@ var DynamooseDBRepository = class {
 
 // infra/serverless/resources/lambda/handlers/createEntries/handler.ts
 var main = async (event) => {
-  console.log("entry", { event });
-  const eventBody = typeof event.body === "string" ? JSON.parse(event.body) : event.body;
-  console.log(eventBody);
-  const controller = new CreateEntriesController(new DynamooseDBRepository());
-  return controller.handleCreateEntries(eventBody.ecgData);
+  try {
+    console.log("entry", { event });
+    const eventBody = typeof event.body === "string" ? JSON.parse(event.body) : event.body;
+    console.log(eventBody);
+    const controller = new CreateEntriesController(new DynamooseDBRepository());
+    return controller.handleCreateEntries(eventBody.ecgData);
+  } catch (error) {
+    return {
+      statusCode: 500,
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: "Erro ao tentar criar",
+        error
+      })
+    };
+  }
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

@@ -5489,9 +5489,14 @@ var ListIrregularitiesController = class {
       new ListIrregularitiesInputDTO(input.deviceId)
     );
     return {
-      status: 200,
-      data: ecgIrregularitiesList,
-      message: "retrieved succesfully!"
+      statusCode: 200,
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        data: ecgIrregularitiesList,
+        message: "retrieved succesfully!"
+      })
     };
   }
 };
@@ -5698,11 +5703,24 @@ var DynamooseDBRepository = class {
 
 // infra/serverless/resources/lambda/handlers/listIrregularities/handler.ts
 var main = async (event) => {
-  console.log("entry", { event });
-  const eventParameters = typeof event.queryStringParameters === "string" ? JSON.parse(event.queryStringParameters) : event.queryStringParameters;
-  console.log({ eventParameters });
-  const controller = new ListIrregularitiesController(new DynamooseDBRepository());
-  return controller.handleListIrregularities(eventParameters);
+  try {
+    console.log("entry", { event });
+    const eventParameters = typeof event.queryStringParameters === "string" ? JSON.parse(event.queryStringParameters) : event.queryStringParameters;
+    console.log({ eventParameters });
+    const controller = new ListIrregularitiesController(new DynamooseDBRepository());
+    return controller.handleListIrregularities(eventParameters);
+  } catch (error) {
+    return {
+      statusCode: 500,
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: "Erro ao obter dados",
+        error
+      })
+    };
+  }
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

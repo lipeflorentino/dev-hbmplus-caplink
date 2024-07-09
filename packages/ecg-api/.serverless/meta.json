@@ -202,7 +202,7 @@
                         "S3Bucket": {
                           "Ref": "ServerlessDeploymentBucket"
                         },
-                        "S3Key": "serverless/ecg-api/production/1720486772051-2024-07-09T00:59:32.051Z/ecg-api.zip"
+                        "S3Key": "serverless/ecg-api/production/1720487884006-2024-07-09T01:18:04.006Z/ecg-api.zip"
                       },
                       "Handler": "infra/serverless/resources/lambda/handlers/createEntries/handler.main",
                       "Runtime": "nodejs20.x",
@@ -234,7 +234,7 @@
                         "S3Bucket": {
                           "Ref": "ServerlessDeploymentBucket"
                         },
-                        "S3Key": "serverless/ecg-api/production/1720486772051-2024-07-09T00:59:32.051Z/ecg-api.zip"
+                        "S3Key": "serverless/ecg-api/production/1720487884006-2024-07-09T01:18:04.006Z/ecg-api.zip"
                       },
                       "Handler": "infra/serverless/resources/lambda/handlers/listEntries/handler.main",
                       "Runtime": "nodejs20.x",
@@ -266,7 +266,7 @@
                         "S3Bucket": {
                           "Ref": "ServerlessDeploymentBucket"
                         },
-                        "S3Key": "serverless/ecg-api/production/1720486772051-2024-07-09T00:59:32.051Z/ecg-api.zip"
+                        "S3Key": "serverless/ecg-api/production/1720487884006-2024-07-09T01:18:04.006Z/ecg-api.zip"
                       },
                       "Handler": "infra/serverless/resources/lambda/handlers/listIrregularities/handler.main",
                       "Runtime": "nodejs20.x",
@@ -291,34 +291,34 @@
                       "ListECGIrregularitiesLogGroup"
                     ]
                   },
-                  "CreateECGEntriesLambdaVersionuFrEWx2dQQz1izG8zhfFWcq6VCXtwSLSgqJpbRieQM": {
+                  "CreateECGEntriesLambdaVersionLQF8fBkOPPOUqetnNzAja6G2fmjoMWOGJ2VRztMaWs": {
                     "Type": "AWS::Lambda::Version",
                     "DeletionPolicy": "Retain",
                     "Properties": {
                       "FunctionName": {
                         "Ref": "CreateECGEntriesLambdaFunction"
                       },
-                      "CodeSha256": "FJJiAHs8sNN5Z6lWW6o0fEfxRMDrwJs8AaApdaEjWAk="
+                      "CodeSha256": "Pmuqk0PgtsNK5RzqEEMX3HAd6qBu7Ftu3au6XzOS0A0="
                     }
                   },
-                  "ListECGEntriesLambdaVersionkWF8u9nyG5sUIE4HwuKQAkkooWrnyDGCLrfV1lQU": {
+                  "ListECGEntriesLambdaVersion4Ji7UrzeJNPXSZYJZCAYyc1LZEdvCrUB5vDhO3sCZw": {
                     "Type": "AWS::Lambda::Version",
                     "DeletionPolicy": "Retain",
                     "Properties": {
                       "FunctionName": {
                         "Ref": "ListECGEntriesLambdaFunction"
                       },
-                      "CodeSha256": "FJJiAHs8sNN5Z6lWW6o0fEfxRMDrwJs8AaApdaEjWAk="
+                      "CodeSha256": "Pmuqk0PgtsNK5RzqEEMX3HAd6qBu7Ftu3au6XzOS0A0="
                     }
                   },
-                  "ListECGIrregularitiesLambdaVersionc0pXL8ctfPO14xwhfuJjfmrbK10B07hUHkOarqqk4": {
+                  "ListECGIrregularitiesLambdaVersionFdVYfR4parYlEMNyQpQnqldlkloji59NGbtOmhO6SgU": {
                     "Type": "AWS::Lambda::Version",
                     "DeletionPolicy": "Retain",
                     "Properties": {
                       "FunctionName": {
                         "Ref": "ListECGIrregularitiesLambdaFunction"
                       },
-                      "CodeSha256": "FJJiAHs8sNN5Z6lWW6o0fEfxRMDrwJs8AaApdaEjWAk="
+                      "CodeSha256": "Pmuqk0PgtsNK5RzqEEMX3HAd6qBu7Ftu3au6XzOS0A0="
                     }
                   },
                   "ApiGatewayRestApi": {
@@ -588,7 +588,7 @@
                       "ListECGIrregularitiesLambdaPermissionApiGateway"
                     ]
                   },
-                  "ApiGatewayDeployment1720486770655": {
+                  "ApiGatewayDeployment1720487882081": {
                     "Type": "AWS::ApiGateway::Deployment",
                     "Properties": {
                       "RestApiId": {
@@ -985,7 +985,7 @@
                   "CreateECGEntriesLambdaFunctionQualifiedArn": {
                     "Description": "Current Lambda function version",
                     "Value": {
-                      "Ref": "CreateECGEntriesLambdaVersionuFrEWx2dQQz1izG8zhfFWcq6VCXtwSLSgqJpbRieQM"
+                      "Ref": "CreateECGEntriesLambdaVersionLQF8fBkOPPOUqetnNzAja6G2fmjoMWOGJ2VRztMaWs"
                     },
                     "Export": {
                       "Name": "sls-ecg-api-production-CreateECGEntriesLambdaFunctionQualifiedArn"
@@ -994,7 +994,7 @@
                   "ListECGEntriesLambdaFunctionQualifiedArn": {
                     "Description": "Current Lambda function version",
                     "Value": {
-                      "Ref": "ListECGEntriesLambdaVersionkWF8u9nyG5sUIE4HwuKQAkkooWrnyDGCLrfV1lQU"
+                      "Ref": "ListECGEntriesLambdaVersion4Ji7UrzeJNPXSZYJZCAYyc1LZEdvCrUB5vDhO3sCZw"
                     },
                     "Export": {
                       "Name": "sls-ecg-api-production-ListECGEntriesLambdaFunctionQualifiedArn"
@@ -1003,7 +1003,7 @@
                   "ListECGIrregularitiesLambdaFunctionQualifiedArn": {
                     "Description": "Current Lambda function version",
                     "Value": {
-                      "Ref": "ListECGIrregularitiesLambdaVersionc0pXL8ctfPO14xwhfuJjfmrbK10B07hUHkOarqqk4"
+                      "Ref": "ListECGIrregularitiesLambdaVersionFdVYfR4parYlEMNyQpQnqldlkloji59NGbtOmhO6SgU"
                     },
                     "Export": {
                       "Name": "sls-ecg-api-production-ListECGIrregularitiesLambdaFunctionQualifiedArn"
@@ -1185,7 +1185,7 @@
                 "timeout": 10,
                 "runtime": "nodejs20.x",
                 "vpc": {},
-                "versionLogicalId": "CreateECGEntriesLambdaVersionuFrEWx2dQQz1izG8zhfFWcq6VCXtwSLSgqJpbRieQM"
+                "versionLogicalId": "CreateECGEntriesLambdaVersionLQF8fBkOPPOUqetnNzAja6G2fmjoMWOGJ2VRztMaWs"
               },
               "listECGEntries": {
                 "handler": "infra/serverless/resources/lambda/handlers/listEntries/handler.main",
@@ -1239,7 +1239,7 @@
                 "timeout": 10,
                 "runtime": "nodejs20.x",
                 "vpc": {},
-                "versionLogicalId": "ListECGEntriesLambdaVersionkWF8u9nyG5sUIE4HwuKQAkkooWrnyDGCLrfV1lQU"
+                "versionLogicalId": "ListECGEntriesLambdaVersion4Ji7UrzeJNPXSZYJZCAYyc1LZEdvCrUB5vDhO3sCZw"
               },
               "listECGIrregularities": {
                 "handler": "infra/serverless/resources/lambda/handlers/listIrregularities/handler.main",
@@ -1293,7 +1293,7 @@
                 "timeout": 10,
                 "runtime": "nodejs20.x",
                 "vpc": {},
-                "versionLogicalId": "ListECGIrregularitiesLambdaVersionc0pXL8ctfPO14xwhfuJjfmrbK10B07hUHkOarqqk4"
+                "versionLogicalId": "ListECGIrregularitiesLambdaVersionFdVYfR4parYlEMNyQpQnqldlkloji59NGbtOmhO6SgU"
               }
             },
             "resources": {
@@ -1562,7 +1562,7 @@
                         "S3Bucket": {
                           "Ref": "ServerlessDeploymentBucket"
                         },
-                        "S3Key": "serverless/ecg-api/production/1720486772051-2024-07-09T00:59:32.051Z/ecg-api.zip"
+                        "S3Key": "serverless/ecg-api/production/1720487884006-2024-07-09T01:18:04.006Z/ecg-api.zip"
                       },
                       "Handler": "infra/serverless/resources/lambda/handlers/createEntries/handler.main",
                       "Runtime": "nodejs20.x",
@@ -1594,7 +1594,7 @@
                         "S3Bucket": {
                           "Ref": "ServerlessDeploymentBucket"
                         },
-                        "S3Key": "serverless/ecg-api/production/1720486772051-2024-07-09T00:59:32.051Z/ecg-api.zip"
+                        "S3Key": "serverless/ecg-api/production/1720487884006-2024-07-09T01:18:04.006Z/ecg-api.zip"
                       },
                       "Handler": "infra/serverless/resources/lambda/handlers/listEntries/handler.main",
                       "Runtime": "nodejs20.x",
@@ -1626,7 +1626,7 @@
                         "S3Bucket": {
                           "Ref": "ServerlessDeploymentBucket"
                         },
-                        "S3Key": "serverless/ecg-api/production/1720486772051-2024-07-09T00:59:32.051Z/ecg-api.zip"
+                        "S3Key": "serverless/ecg-api/production/1720487884006-2024-07-09T01:18:04.006Z/ecg-api.zip"
                       },
                       "Handler": "infra/serverless/resources/lambda/handlers/listIrregularities/handler.main",
                       "Runtime": "nodejs20.x",
@@ -1651,34 +1651,34 @@
                       "ListECGIrregularitiesLogGroup"
                     ]
                   },
-                  "CreateECGEntriesLambdaVersionuFrEWx2dQQz1izG8zhfFWcq6VCXtwSLSgqJpbRieQM": {
+                  "CreateECGEntriesLambdaVersionLQF8fBkOPPOUqetnNzAja6G2fmjoMWOGJ2VRztMaWs": {
                     "Type": "AWS::Lambda::Version",
                     "DeletionPolicy": "Retain",
                     "Properties": {
                       "FunctionName": {
                         "Ref": "CreateECGEntriesLambdaFunction"
                       },
-                      "CodeSha256": "FJJiAHs8sNN5Z6lWW6o0fEfxRMDrwJs8AaApdaEjWAk="
+                      "CodeSha256": "Pmuqk0PgtsNK5RzqEEMX3HAd6qBu7Ftu3au6XzOS0A0="
                     }
                   },
-                  "ListECGEntriesLambdaVersionkWF8u9nyG5sUIE4HwuKQAkkooWrnyDGCLrfV1lQU": {
+                  "ListECGEntriesLambdaVersion4Ji7UrzeJNPXSZYJZCAYyc1LZEdvCrUB5vDhO3sCZw": {
                     "Type": "AWS::Lambda::Version",
                     "DeletionPolicy": "Retain",
                     "Properties": {
                       "FunctionName": {
                         "Ref": "ListECGEntriesLambdaFunction"
                       },
-                      "CodeSha256": "FJJiAHs8sNN5Z6lWW6o0fEfxRMDrwJs8AaApdaEjWAk="
+                      "CodeSha256": "Pmuqk0PgtsNK5RzqEEMX3HAd6qBu7Ftu3au6XzOS0A0="
                     }
                   },
-                  "ListECGIrregularitiesLambdaVersionc0pXL8ctfPO14xwhfuJjfmrbK10B07hUHkOarqqk4": {
+                  "ListECGIrregularitiesLambdaVersionFdVYfR4parYlEMNyQpQnqldlkloji59NGbtOmhO6SgU": {
                     "Type": "AWS::Lambda::Version",
                     "DeletionPolicy": "Retain",
                     "Properties": {
                       "FunctionName": {
                         "Ref": "ListECGIrregularitiesLambdaFunction"
                       },
-                      "CodeSha256": "FJJiAHs8sNN5Z6lWW6o0fEfxRMDrwJs8AaApdaEjWAk="
+                      "CodeSha256": "Pmuqk0PgtsNK5RzqEEMX3HAd6qBu7Ftu3au6XzOS0A0="
                     }
                   },
                   "ApiGatewayRestApi": {
@@ -1948,7 +1948,7 @@
                       "ListECGIrregularitiesLambdaPermissionApiGateway"
                     ]
                   },
-                  "ApiGatewayDeployment1720486770655": {
+                  "ApiGatewayDeployment1720487882081": {
                     "Type": "AWS::ApiGateway::Deployment",
                     "Properties": {
                       "RestApiId": {
@@ -2345,7 +2345,7 @@
                   "CreateECGEntriesLambdaFunctionQualifiedArn": {
                     "Description": "Current Lambda function version",
                     "Value": {
-                      "Ref": "CreateECGEntriesLambdaVersionuFrEWx2dQQz1izG8zhfFWcq6VCXtwSLSgqJpbRieQM"
+                      "Ref": "CreateECGEntriesLambdaVersionLQF8fBkOPPOUqetnNzAja6G2fmjoMWOGJ2VRztMaWs"
                     },
                     "Export": {
                       "Name": "sls-ecg-api-production-CreateECGEntriesLambdaFunctionQualifiedArn"
@@ -2354,7 +2354,7 @@
                   "ListECGEntriesLambdaFunctionQualifiedArn": {
                     "Description": "Current Lambda function version",
                     "Value": {
-                      "Ref": "ListECGEntriesLambdaVersionkWF8u9nyG5sUIE4HwuKQAkkooWrnyDGCLrfV1lQU"
+                      "Ref": "ListECGEntriesLambdaVersion4Ji7UrzeJNPXSZYJZCAYyc1LZEdvCrUB5vDhO3sCZw"
                     },
                     "Export": {
                       "Name": "sls-ecg-api-production-ListECGEntriesLambdaFunctionQualifiedArn"
@@ -2363,7 +2363,7 @@
                   "ListECGIrregularitiesLambdaFunctionQualifiedArn": {
                     "Description": "Current Lambda function version",
                     "Value": {
-                      "Ref": "ListECGIrregularitiesLambdaVersionc0pXL8ctfPO14xwhfuJjfmrbK10B07hUHkOarqqk4"
+                      "Ref": "ListECGIrregularitiesLambdaVersionFdVYfR4parYlEMNyQpQnqldlkloji59NGbtOmhO6SgU"
                     },
                     "Export": {
                       "Name": "sls-ecg-api-production-ListECGIrregularitiesLambdaFunctionQualifiedArn"
@@ -2545,7 +2545,7 @@
                 "timeout": 10,
                 "runtime": "nodejs20.x",
                 "vpc": {},
-                "versionLogicalId": "CreateECGEntriesLambdaVersionuFrEWx2dQQz1izG8zhfFWcq6VCXtwSLSgqJpbRieQM"
+                "versionLogicalId": "CreateECGEntriesLambdaVersionLQF8fBkOPPOUqetnNzAja6G2fmjoMWOGJ2VRztMaWs"
               },
               "listECGEntries": {
                 "handler": "infra/serverless/resources/lambda/handlers/listEntries/handler.main",
@@ -2599,7 +2599,7 @@
                 "timeout": 10,
                 "runtime": "nodejs20.x",
                 "vpc": {},
-                "versionLogicalId": "ListECGEntriesLambdaVersionkWF8u9nyG5sUIE4HwuKQAkkooWrnyDGCLrfV1lQU"
+                "versionLogicalId": "ListECGEntriesLambdaVersion4Ji7UrzeJNPXSZYJZCAYyc1LZEdvCrUB5vDhO3sCZw"
               },
               "listECGIrregularities": {
                 "handler": "infra/serverless/resources/lambda/handlers/listIrregularities/handler.main",
@@ -2653,7 +2653,7 @@
                 "timeout": 10,
                 "runtime": "nodejs20.x",
                 "vpc": {},
-                "versionLogicalId": "ListECGIrregularitiesLambdaVersionc0pXL8ctfPO14xwhfuJjfmrbK10B07hUHkOarqqk4"
+                "versionLogicalId": "ListECGIrregularitiesLambdaVersionFdVYfR4parYlEMNyQpQnqldlkloji59NGbtOmhO6SgU"
               }
             },
             "resources": {
@@ -2923,7 +2923,7 @@
                   "S3Bucket": {
                     "Ref": "ServerlessDeploymentBucket"
                   },
-                  "S3Key": "serverless/ecg-api/production/1720486772051-2024-07-09T00:59:32.051Z/ecg-api.zip"
+                  "S3Key": "serverless/ecg-api/production/1720487884006-2024-07-09T01:18:04.006Z/ecg-api.zip"
                 },
                 "Handler": "infra/serverless/resources/lambda/handlers/createEntries/handler.main",
                 "Runtime": "nodejs20.x",
@@ -2955,7 +2955,7 @@
                   "S3Bucket": {
                     "Ref": "ServerlessDeploymentBucket"
                   },
-                  "S3Key": "serverless/ecg-api/production/1720486772051-2024-07-09T00:59:32.051Z/ecg-api.zip"
+                  "S3Key": "serverless/ecg-api/production/1720487884006-2024-07-09T01:18:04.006Z/ecg-api.zip"
                 },
                 "Handler": "infra/serverless/resources/lambda/handlers/listEntries/handler.main",
                 "Runtime": "nodejs20.x",
@@ -2987,7 +2987,7 @@
                   "S3Bucket": {
                     "Ref": "ServerlessDeploymentBucket"
                   },
-                  "S3Key": "serverless/ecg-api/production/1720486772051-2024-07-09T00:59:32.051Z/ecg-api.zip"
+                  "S3Key": "serverless/ecg-api/production/1720487884006-2024-07-09T01:18:04.006Z/ecg-api.zip"
                 },
                 "Handler": "infra/serverless/resources/lambda/handlers/listIrregularities/handler.main",
                 "Runtime": "nodejs20.x",
@@ -3012,34 +3012,34 @@
                 "ListECGIrregularitiesLogGroup"
               ]
             },
-            "CreateECGEntriesLambdaVersionuFrEWx2dQQz1izG8zhfFWcq6VCXtwSLSgqJpbRieQM": {
+            "CreateECGEntriesLambdaVersionLQF8fBkOPPOUqetnNzAja6G2fmjoMWOGJ2VRztMaWs": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "CreateECGEntriesLambdaFunction"
                 },
-                "CodeSha256": "FJJiAHs8sNN5Z6lWW6o0fEfxRMDrwJs8AaApdaEjWAk="
+                "CodeSha256": "Pmuqk0PgtsNK5RzqEEMX3HAd6qBu7Ftu3au6XzOS0A0="
               }
             },
-            "ListECGEntriesLambdaVersionkWF8u9nyG5sUIE4HwuKQAkkooWrnyDGCLrfV1lQU": {
+            "ListECGEntriesLambdaVersion4Ji7UrzeJNPXSZYJZCAYyc1LZEdvCrUB5vDhO3sCZw": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "ListECGEntriesLambdaFunction"
                 },
-                "CodeSha256": "FJJiAHs8sNN5Z6lWW6o0fEfxRMDrwJs8AaApdaEjWAk="
+                "CodeSha256": "Pmuqk0PgtsNK5RzqEEMX3HAd6qBu7Ftu3au6XzOS0A0="
               }
             },
-            "ListECGIrregularitiesLambdaVersionc0pXL8ctfPO14xwhfuJjfmrbK10B07hUHkOarqqk4": {
+            "ListECGIrregularitiesLambdaVersionFdVYfR4parYlEMNyQpQnqldlkloji59NGbtOmhO6SgU": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "ListECGIrregularitiesLambdaFunction"
                 },
-                "CodeSha256": "FJJiAHs8sNN5Z6lWW6o0fEfxRMDrwJs8AaApdaEjWAk="
+                "CodeSha256": "Pmuqk0PgtsNK5RzqEEMX3HAd6qBu7Ftu3au6XzOS0A0="
               }
             },
             "ApiGatewayRestApi": {
@@ -3309,7 +3309,7 @@
                 "ListECGIrregularitiesLambdaPermissionApiGateway"
               ]
             },
-            "ApiGatewayDeployment1720486770655": {
+            "ApiGatewayDeployment1720487882081": {
               "Type": "AWS::ApiGateway::Deployment",
               "Properties": {
                 "RestApiId": {
@@ -3706,7 +3706,7 @@
             "CreateECGEntriesLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "CreateECGEntriesLambdaVersionuFrEWx2dQQz1izG8zhfFWcq6VCXtwSLSgqJpbRieQM"
+                "Ref": "CreateECGEntriesLambdaVersionLQF8fBkOPPOUqetnNzAja6G2fmjoMWOGJ2VRztMaWs"
               },
               "Export": {
                 "Name": "sls-ecg-api-production-CreateECGEntriesLambdaFunctionQualifiedArn"
@@ -3715,7 +3715,7 @@
             "ListECGEntriesLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "ListECGEntriesLambdaVersionkWF8u9nyG5sUIE4HwuKQAkkooWrnyDGCLrfV1lQU"
+                "Ref": "ListECGEntriesLambdaVersion4Ji7UrzeJNPXSZYJZCAYyc1LZEdvCrUB5vDhO3sCZw"
               },
               "Export": {
                 "Name": "sls-ecg-api-production-ListECGEntriesLambdaFunctionQualifiedArn"
@@ -3724,7 +3724,7 @@
             "ListECGIrregularitiesLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "ListECGIrregularitiesLambdaVersionc0pXL8ctfPO14xwhfuJjfmrbK10B07hUHkOarqqk4"
+                "Ref": "ListECGIrregularitiesLambdaVersionFdVYfR4parYlEMNyQpQnqldlkloji59NGbtOmhO6SgU"
               },
               "Export": {
                 "Name": "sls-ecg-api-production-ListECGIrregularitiesLambdaFunctionQualifiedArn"
@@ -3906,7 +3906,7 @@
           "timeout": 10,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "CreateECGEntriesLambdaVersionuFrEWx2dQQz1izG8zhfFWcq6VCXtwSLSgqJpbRieQM"
+          "versionLogicalId": "CreateECGEntriesLambdaVersionLQF8fBkOPPOUqetnNzAja6G2fmjoMWOGJ2VRztMaWs"
         },
         "listECGEntries": {
           "handler": "infra/serverless/resources/lambda/handlers/listEntries/handler.main",
@@ -3960,7 +3960,7 @@
           "timeout": 10,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "ListECGEntriesLambdaVersionkWF8u9nyG5sUIE4HwuKQAkkooWrnyDGCLrfV1lQU"
+          "versionLogicalId": "ListECGEntriesLambdaVersion4Ji7UrzeJNPXSZYJZCAYyc1LZEdvCrUB5vDhO3sCZw"
         },
         "listECGIrregularities": {
           "handler": "infra/serverless/resources/lambda/handlers/listIrregularities/handler.main",
@@ -4014,7 +4014,7 @@
           "timeout": 10,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "ListECGIrregularitiesLambdaVersionc0pXL8ctfPO14xwhfuJjfmrbK10B07hUHkOarqqk4"
+          "versionLogicalId": "ListECGIrregularitiesLambdaVersionFdVYfR4parYlEMNyQpQnqldlkloji59NGbtOmhO6SgU"
         }
       },
       "resources": {
@@ -4108,24 +4108,24 @@
     "serviceProviderAwsCfStackName": "ecg-api-production",
     "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:851725203148:stack/ecg-api-production/3322e1c0-3bb8-11ef-a99e-127ce02d7b79",
     "serviceProviderAwsCfStackCreated": "2024-07-06T16:52:59.054Z",
-    "serviceProviderAwsCfStackUpdated": "2024-07-09T00:59:38.380Z",
+    "serviceProviderAwsCfStackUpdated": "2024-07-09T01:18:10.205Z",
     "serviceProviderAwsCfStackStatus": "UPDATE_COMPLETE",
     "serviceProviderAwsCfStackOutputs": [
       {
         "OutputKey": "CreateECGEntriesLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:us-east-1:851725203148:function:ecg-api-production-createECGEntries:11",
+        "OutputValue": "arn:aws:lambda:us-east-1:851725203148:function:ecg-api-production-createECGEntries:12",
         "Description": "Current Lambda function version",
         "ExportName": "sls-ecg-api-production-CreateECGEntriesLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "ListECGEntriesLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:us-east-1:851725203148:function:ecg-api-production-listECGEntries:6",
+        "OutputValue": "arn:aws:lambda:us-east-1:851725203148:function:ecg-api-production-listECGEntries:7",
         "Description": "Current Lambda function version",
         "ExportName": "sls-ecg-api-production-ListECGEntriesLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "ListECGIrregularitiesLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:us-east-1:851725203148:function:ecg-api-production-listECGIrregularities:4",
+        "OutputValue": "arn:aws:lambda:us-east-1:851725203148:function:ecg-api-production-listECGIrregularities:5",
         "Description": "Current Lambda function version",
         "ExportName": "sls-ecg-api-production-ListECGIrregularitiesLambdaFunctionQualifiedArn"
       },

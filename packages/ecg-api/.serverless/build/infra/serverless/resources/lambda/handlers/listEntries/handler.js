@@ -5486,9 +5486,14 @@ var ListEntriesController = class {
   async handleListEntries(input) {
     const { ecgList } = await this.listEntriesUseCase.execute(new ListEntriesInputDTO(input.deviceId, input.interval));
     return {
-      status: 200,
-      data: ecgList,
-      message: "retrieved succesfully!"
+      statusCode: 200,
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        data: ecgList,
+        message: "retrieved succesfully!"
+      })
     };
   }
 };
@@ -5695,11 +5700,24 @@ var DynamooseDBRepository = class {
 
 // infra/serverless/resources/lambda/handlers/listEntries/handler.ts
 var main = async (event) => {
-  console.log("entry", { event });
-  const eventParameters = typeof event.queryStringParameters === "string" ? JSON.parse(event.queryStringParameters) : event.queryStringParameters;
-  console.log({ eventParameters });
-  const controller = new ListEntriesController(new DynamooseDBRepository());
-  return controller.handleListEntries(eventParameters);
+  try {
+    console.log("entry", { event });
+    const eventParameters = typeof event.queryStringParameters === "string" ? JSON.parse(event.queryStringParameters) : event.queryStringParameters;
+    console.log({ eventParameters });
+    const controller = new ListEntriesController(new DynamooseDBRepository());
+    return controller.handleListEntries(eventParameters);
+  } catch (error) {
+    return {
+      statusCode: 500,
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: "Erro ao obter dados",
+        error
+      })
+    };
+  }
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

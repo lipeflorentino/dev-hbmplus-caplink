@@ -191,7 +191,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/ecg-api/production/1720486772051-2024-07-09T00:59:32.051Z/ecg-api.zip"
+                "S3Key": "serverless/ecg-api/production/1720487884006-2024-07-09T01:18:04.006Z/ecg-api.zip"
               },
               "Handler": "infra/serverless/resources/lambda/handlers/createEntries/handler.main",
               "Runtime": "nodejs20.x",
@@ -223,7 +223,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/ecg-api/production/1720486772051-2024-07-09T00:59:32.051Z/ecg-api.zip"
+                "S3Key": "serverless/ecg-api/production/1720487884006-2024-07-09T01:18:04.006Z/ecg-api.zip"
               },
               "Handler": "infra/serverless/resources/lambda/handlers/listEntries/handler.main",
               "Runtime": "nodejs20.x",
@@ -255,7 +255,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/ecg-api/production/1720486772051-2024-07-09T00:59:32.051Z/ecg-api.zip"
+                "S3Key": "serverless/ecg-api/production/1720487884006-2024-07-09T01:18:04.006Z/ecg-api.zip"
               },
               "Handler": "infra/serverless/resources/lambda/handlers/listIrregularities/handler.main",
               "Runtime": "nodejs20.x",
@@ -280,34 +280,34 @@
               "ListECGIrregularitiesLogGroup"
             ]
           },
-          "CreateECGEntriesLambdaVersionuFrEWx2dQQz1izG8zhfFWcq6VCXtwSLSgqJpbRieQM": {
+          "CreateECGEntriesLambdaVersionLQF8fBkOPPOUqetnNzAja6G2fmjoMWOGJ2VRztMaWs": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "CreateECGEntriesLambdaFunction"
               },
-              "CodeSha256": "FJJiAHs8sNN5Z6lWW6o0fEfxRMDrwJs8AaApdaEjWAk="
+              "CodeSha256": "Pmuqk0PgtsNK5RzqEEMX3HAd6qBu7Ftu3au6XzOS0A0="
             }
           },
-          "ListECGEntriesLambdaVersionkWF8u9nyG5sUIE4HwuKQAkkooWrnyDGCLrfV1lQU": {
+          "ListECGEntriesLambdaVersion4Ji7UrzeJNPXSZYJZCAYyc1LZEdvCrUB5vDhO3sCZw": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ListECGEntriesLambdaFunction"
               },
-              "CodeSha256": "FJJiAHs8sNN5Z6lWW6o0fEfxRMDrwJs8AaApdaEjWAk="
+              "CodeSha256": "Pmuqk0PgtsNK5RzqEEMX3HAd6qBu7Ftu3au6XzOS0A0="
             }
           },
-          "ListECGIrregularitiesLambdaVersionc0pXL8ctfPO14xwhfuJjfmrbK10B07hUHkOarqqk4": {
+          "ListECGIrregularitiesLambdaVersionFdVYfR4parYlEMNyQpQnqldlkloji59NGbtOmhO6SgU": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ListECGIrregularitiesLambdaFunction"
               },
-              "CodeSha256": "FJJiAHs8sNN5Z6lWW6o0fEfxRMDrwJs8AaApdaEjWAk="
+              "CodeSha256": "Pmuqk0PgtsNK5RzqEEMX3HAd6qBu7Ftu3au6XzOS0A0="
             }
           },
           "ApiGatewayRestApi": {
@@ -577,7 +577,7 @@
               "ListECGIrregularitiesLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1720486770655": {
+          "ApiGatewayDeployment1720487882081": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -974,7 +974,7 @@
           "CreateECGEntriesLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "CreateECGEntriesLambdaVersionuFrEWx2dQQz1izG8zhfFWcq6VCXtwSLSgqJpbRieQM"
+              "Ref": "CreateECGEntriesLambdaVersionLQF8fBkOPPOUqetnNzAja6G2fmjoMWOGJ2VRztMaWs"
             },
             "Export": {
               "Name": "sls-ecg-api-production-CreateECGEntriesLambdaFunctionQualifiedArn"
@@ -983,7 +983,7 @@
           "ListECGEntriesLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ListECGEntriesLambdaVersionkWF8u9nyG5sUIE4HwuKQAkkooWrnyDGCLrfV1lQU"
+              "Ref": "ListECGEntriesLambdaVersion4Ji7UrzeJNPXSZYJZCAYyc1LZEdvCrUB5vDhO3sCZw"
             },
             "Export": {
               "Name": "sls-ecg-api-production-ListECGEntriesLambdaFunctionQualifiedArn"
@@ -992,7 +992,7 @@
           "ListECGIrregularitiesLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ListECGIrregularitiesLambdaVersionc0pXL8ctfPO14xwhfuJjfmrbK10B07hUHkOarqqk4"
+              "Ref": "ListECGIrregularitiesLambdaVersionFdVYfR4parYlEMNyQpQnqldlkloji59NGbtOmhO6SgU"
             },
             "Export": {
               "Name": "sls-ecg-api-production-ListECGIrregularitiesLambdaFunctionQualifiedArn"
@@ -1168,7 +1168,7 @@
         "timeout": 10,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "CreateECGEntriesLambdaVersionuFrEWx2dQQz1izG8zhfFWcq6VCXtwSLSgqJpbRieQM"
+        "versionLogicalId": "CreateECGEntriesLambdaVersionLQF8fBkOPPOUqetnNzAja6G2fmjoMWOGJ2VRztMaWs"
       },
       "listECGEntries": {
         "handler": "infra/serverless/resources/lambda/handlers/listEntries/handler.main",
@@ -1213,7 +1213,7 @@
         "timeout": 10,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "ListECGEntriesLambdaVersionkWF8u9nyG5sUIE4HwuKQAkkooWrnyDGCLrfV1lQU"
+        "versionLogicalId": "ListECGEntriesLambdaVersion4Ji7UrzeJNPXSZYJZCAYyc1LZEdvCrUB5vDhO3sCZw"
       },
       "listECGIrregularities": {
         "handler": "infra/serverless/resources/lambda/handlers/listIrregularities/handler.main",
@@ -1258,7 +1258,7 @@
         "timeout": 10,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "ListECGIrregularitiesLambdaVersionc0pXL8ctfPO14xwhfuJjfmrbK10B07hUHkOarqqk4"
+        "versionLogicalId": "ListECGIrregularitiesLambdaVersionFdVYfR4parYlEMNyQpQnqldlkloji59NGbtOmhO6SgU"
       }
     },
     "resources": {
@@ -1345,7 +1345,7 @@
     "layers": {}
   },
   "package": {
-    "artifactDirectoryName": "serverless/ecg-api/production/1720486772051-2024-07-09T00:59:32.051Z",
+    "artifactDirectoryName": "serverless/ecg-api/production/1720487884006-2024-07-09T01:18:04.006Z",
     "artifact": "ecg-api.zip"
   }
 }
