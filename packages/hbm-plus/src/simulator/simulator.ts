@@ -1,26 +1,38 @@
 import axios from 'axios';
 
-function generateEcgData() {
-    // Simular dados de ECG
-    return {
-        milivolts: Math.random() * 2,
-        deviceId: 'device-123',
-        isRegular: Math.random() > 0.8 ? false : true,
-    };
-}
+function calculateY(x: number) {
+    const y = -0.06366
+        + 0.12613 * Math.cos(Math.PI * x / 500)
+        + 0.12258 * Math.cos(Math.PI * x / 250)
+        + 0.01593 * Math.sin(Math.PI * x / 500)
+        + 0.03147 * Math.sin(Math.PI * x / 250);
 
-function sendEcgData() {
-    const data = generateEcgData();
+    // Gerar um fator aleatório entre 0.8 (20% abaixo) e 1.2 (20% acima)
+    const randomFactor = 0.8 + Math.random() * 0.4;
 
-    axios.post('https://a88r9td2x5.execute-api.us-east-1.amazonaws.com/production/ecg', { data })
-        .then(response => {
-            console.log('Data sent successfully:', response.data);
-        })
-        .catch(error => {
-            console.error('Error sending data:', error);
-        });
-}
+    // Multiplicar y pelo fator aleatório
+    const modifiedY = y * randomFactor;
 
-export function startSimulator(x: number) {
-    setInterval(sendEcgData, x * 1000); // Enviar dados a cada segundo
+    return modifiedY;
+};
+
+export function startSimulator(interval: number) {
+    setInterval(
+        () => {
+            const data = {
+                deviceId: 'device-123',
+                milivolts: calculateY(interval),
+                interval,
+            };
+
+            console.log(data);
+
+            axios.post('https://a88r9td2x5.execute-api.us-east-1.amazonaws.com/production/ecg', { ecgData: data })
+                .then(response => {
+                    console.log('Data sent successfully:', response.data);
+                })
+                .catch(error => {
+                    console.error('Error sending data:', error);
+                });
+        }, interval * 1000); // Enviar dados a cada segundo
 }

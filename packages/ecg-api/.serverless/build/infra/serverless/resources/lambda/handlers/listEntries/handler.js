@@ -5565,17 +5565,16 @@ var ECG = class {
     this.createdAt = createdAt;
   }
   detectIrregularities() {
-    console.log("Analysing ECG measure...");
     const x = this.interval;
     const y = -0.06366 + 0.12613 * Math.cos(Math.PI * x / 500) + 0.12258 * Math.cos(Math.PI * x / 250) + 0.01593 * Math.sin(Math.PI * x / 500) + 0.03147 * Math.sin(Math.PI * x / 250);
+    console.log("Analysing ECG measure...", { y, x });
     const lowerBound = y * 0.8;
     const upperBound = y * 1.2;
-    if (this.milivolts >= lowerBound && this.milivolts <= upperBound) {
-      console.log("This measure is irregular.");
-      this.setIsRegular(false);
-    } else {
-      this.setIsRegular(true);
-    }
+    console.log("Calculating...", { lowerBound, upperBound, milivolts: this.milivolts, y });
+    this.setIsRegular(!(this.milivolts >= upperBound) && !(this.milivolts <= lowerBound));
+    console.log(
+      `This measure is ${this.isRegular ? "regular" : "irregular"}`
+    );
   }
   setIsRegular(value) {
     this.isRegular = value;
@@ -5604,8 +5603,12 @@ var schema = new dynamoose.Schema(
         type: "global"
       }
     },
+    milivolts: {
+      type: Number,
+      rangeKey: true,
+      required: true
+    },
     interval: Number,
-    milivolts: Number,
     isRegular: Boolean,
     bippedAt: String,
     unBippedAt: String
@@ -5650,11 +5653,16 @@ var DynamooseDBRepository = class {
     console.log("ECG_MODEL", { ecg });
     const newECG = new ECGModel(ecg);
     console.log("dynamoose model created!", { newECG });
-    const response = await newECG.save();
-    console.log(response);
+    await newECG.save();
   }
-  async put(ecg) {
-    await ECGModel.put(ecg);
+  async update(keys, params) {
+    console.log("updating...", { keys, params });
+    await ECGModel.update({
+      id: keys.id,
+      // o valor correto do ID
+      milivolts: keys.milivolts
+      // o valor correto de milivolts
+    }, params);
   }
   async listEntries(deviceId, interval) {
     console.log("listando resultados do device", { deviceId, interval });
@@ -5694,7 +5702,7 @@ var DynamooseDBRepository = class {
     });
   }
   async instabilityCheck(deviceId) {
-    return ECGModel.query("deviceId").eq(deviceId).sort("descending").limit(60).using("deviceIdIndex").exec();
+    return ECGModel.query("deviceId").eq(deviceId).sort("descending").limit(60).using("DeviceIdIndex").exec();
   }
 };
 

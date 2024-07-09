@@ -14,8 +14,12 @@ const schema = new dynamoose.Schema(
                 type: "global",
             }
         },
+        milivolts: {
+            type: Number,
+            rangeKey: true,
+            required: true,
+        },
         interval: Number,
-        milivolts: Number,
         isRegular: Boolean,
         bippedAt: String,
         unBippedAt: String,

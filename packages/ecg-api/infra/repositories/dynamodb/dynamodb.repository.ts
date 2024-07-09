@@ -9,12 +9,15 @@ export class DynamooseDBRepository implements ECGRepository {
         console.log('ECG_MODEL', { ecg });
         const newECG = new ECGModel(ecg);
         console.log('dynamoose model created!', { newECG });
-        const response = await newECG.save();
-        console.log(response);
+        await newECG.save();
     }
 
-    async put(ecg: Partial<ECG>): Promise<void> {
-        await ECGModel.put(ecg);
+    async update(keys: { id: string, milivolts: number }, params: Partial<ECG>): Promise<void> {
+        console.log('updating...', { keys, params });
+        await ECGModel.update({
+            id: keys.id, // o valor correto do ID
+            milivolts: keys.milivolts // o valor correto de milivolts
+        }, params);
     }
 
     async listEntries(deviceId: string, interval: string): Promise<ECG[]> {
@@ -78,7 +81,7 @@ export class DynamooseDBRepository implements ECGRepository {
             .eq(deviceId)
             .sort('descending') // Ordenar por data de criação decrescente
             .limit(60) // Limitar a 60 medições
-            .using('deviceIdIndex')
+            .using('DeviceIdIndex')
             .exec();
     }
 } 

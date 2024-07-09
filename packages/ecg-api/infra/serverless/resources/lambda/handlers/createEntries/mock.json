@@ -1,9 +1,9 @@
 {
     "body": {
         "ecgData": {
-            "deviceId": "5",
-            "milivolts": 4500,
-            "interval": 10
+            "deviceId": "device-123",
+            "milivolts": 0.21,
+            "interval": 5
         }
     }
 }

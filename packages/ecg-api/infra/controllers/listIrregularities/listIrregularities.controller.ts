@@ -1,7 +1,7 @@
 import { ListIrregularitiesInputDTO } from "../../../application/dto/listIrregularities/listIrregularitiesInput.dto";
 import { ListIrregularitiesUseCase } from "../../../application/useCase/listIrregularities/listIrregularities.useCase";
 import { ECGRepository } from "../../../domain/repositories/ECGRepository.interface";
-import { HandlerResponse } from "../../../domain/valueObjects/response";
+import { HandlerResponse } from "../../../domain/valueObjects/types";
 
 type EventInput = {
     deviceId: string,

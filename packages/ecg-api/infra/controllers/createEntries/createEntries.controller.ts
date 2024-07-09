@@ -1,19 +1,14 @@
 import { CreateEntriesInputDTO } from "../../../application/dto/createEntries/createEntriesInput.dto";
 import { CreateEntriesUseCase } from "../../../application/useCase/createEntries/createEntries.useCase";
 import { ECGRepository } from "../../../domain/repositories/ECGRepository.interface";
-import { HandlerResponse } from "../../../domain/valueObjects/response";
-
-export type eventInput = {
-    deviceId: string,
-    milivolts: number,
-    interval: number,
-};
+import { eventInput, HandlerResponse } from "../../../domain/valueObjects/types";
+import { AxiosAdapter } from "../../adapter/axios.adapter";
 
 export class CreateEntriesController {
     private createEntriesUseCase: CreateEntriesUseCase;
 
-    constructor(private readonly ecgRepository: ECGRepository) {
-        this.createEntriesUseCase = new CreateEntriesUseCase(this.ecgRepository);
+    constructor(private readonly ecgRepository: ECGRepository, private readonly axios: AxiosAdapter) {
+        this.createEntriesUseCase = new CreateEntriesUseCase(this.ecgRepository, this.axios);
     }
 
     async handleCreateEntries(input: eventInput): Promise<HandlerResponse> {
@@ -23,7 +18,7 @@ export class CreateEntriesController {
         );
 
         return {
-            statusCode: 201,
+            statusCode: 200,
             headers: {
                 'Content-Type': 'application/json',
             },

@@ -1,5 +1,5 @@
 
-import { HandlerResponse } from "../../../../../../domain/valueObjects/response";
+import { HandlerResponse } from "../../../../../../domain/valueObjects/types";
 import { ListIrregularitiesController } from "../../../../../controllers/listIrregularities/listIrregularities.controller";
 import { DynamooseDBRepository as ECGRepository } from "../../../../../repositories/dynamodb/dynamodb.repository";
 

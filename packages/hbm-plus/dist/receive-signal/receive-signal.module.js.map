@@ -1,0 +1,1 @@
+{"version":3,"file":"receive-signal.module.js","sourceRoot":"","sources":["../../src/receive-signal/receive-signal.module.ts"],"names":[],"mappings":";;;;;;;;;AAAA,2CAAwC;AACxC,2EAAsE;AAK/D,IAAM,mBAAmB,GAAzB,MAAM,mBAAmB;CAAG,CAAA;AAAtB,kDAAmB;8BAAnB,mBAAmB;IAH/B,IAAA,eAAM,EAAC;QACN,WAAW,EAAE,CAAC,mDAAuB,CAAC;KACvC,CAAC;GACW,mBAAmB,CAAG"}

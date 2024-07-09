@@ -1,4 +1,4 @@
-import { HandlerResponse } from "../../../../../../domain/valueObjects/response";
+import { HandlerResponse } from "../../../../../../domain/valueObjects/types";
 import { CreateEntriesController } from "../../../../../controllers/createEntries/createEntries.controller";
 import { DynamooseDBRepository as ECGRepository } from "../../../../../repositories/dynamodb/dynamodb.repository";
 

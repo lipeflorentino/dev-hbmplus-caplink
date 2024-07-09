@@ -1,2 +1,3 @@
 node_modules/
 packages/ecg-api/.serverless/
+packages/hbm-plus/dist/

@@ -5525,17 +5525,16 @@ var ECG = class {
     this.createdAt = createdAt;
   }
   detectIrregularities() {
-    console.log("Analysing ECG measure...");
     const x = this.interval;
     const y = -0.06366 + 0.12613 * Math.cos(Math.PI * x / 500) + 0.12258 * Math.cos(Math.PI * x / 250) + 0.01593 * Math.sin(Math.PI * x / 500) + 0.03147 * Math.sin(Math.PI * x / 250);
+    console.log("Analysing ECG measure...", { y, x });
     const lowerBound = y * 0.8;
     const upperBound = y * 1.2;
-    if (this.milivolts >= lowerBound && this.milivolts <= upperBound) {
-      console.log("This measure is irregular.");
-      this.setIsRegular(false);
-    } else {
-      this.setIsRegular(true);
-    }
+    console.log("Calculating...", { lowerBound, upperBound, milivolts: this.milivolts, y });
+    this.setIsRegular(!(this.milivolts >= upperBound) && !(this.milivolts <= lowerBound));
+    console.log(
+      `This measure is ${this.isRegular ? "regular" : "irregular"}`
+    );
   }
   setIsRegular(value) {
     this.isRegular = value;
@@ -5561,12 +5560,13 @@ var CreateEntriesOutputDTO = class {
 
 // application/useCase/createEntries/createEntries.useCase.ts
 var CreateEntriesUseCase = class {
-  constructor(ecgRepository) {
+  constructor(ecgRepository, axios) {
     this.ecgRepository = ecgRepository;
+    this.axios = axios;
   }
   async execute(input) {
     console.log("UseCase input", { input });
-    const ecg = new ECG(input.deviceId, input.milivolts, input.milivolts);
+    const ecg = new ECG(input.deviceId, input.milivolts, input.interval);
     ecg.detectIrregularities();
     if (!ecg.isRegular) {
       const results = await this.ecgRepository.instabilityCheck(ecg.deviceId);
@@ -5574,23 +5574,26 @@ var CreateEntriesUseCase = class {
       if (irregularMeasurements.length >= 5) {
         const bipExists = results.some((item) => item.bippedAt && !item.unBippedAt);
         if (!bipExists) {
-          const bipTime = (/* @__PURE__ */ new Date()).toISOString();
-          await this.ecgRepository.put({
+          await this.ecgRepository.update({
             id: results[0].id,
-            // Atualizar o item mais recente
-            bippedAt: bipTime
+            milivolts: results[0].milivolts
+          }, {
+            bippedAt: (/* @__PURE__ */ new Date()).toISOString()
           });
           console.log("BIP!");
+          await this.axios.post("http://localhost:3000/receive-signal", { signal: "bip" });
         }
       } else {
         const bipWithoutUnbip = results.find((item) => item.bippedAt && !item.unBippedAt);
         if (bipWithoutUnbip) {
-          const unBipTime = (/* @__PURE__ */ new Date()).toISOString();
-          await this.ecgRepository.put({
+          await this.ecgRepository.update({
             id: bipWithoutUnbip.id,
-            unBippedAt: unBipTime
+            milivolts: bipWithoutUnbip.milivolts
+          }, {
+            unBippedAt: (/* @__PURE__ */ new Date()).toISOString()
           });
           console.log("BIP BIP!");
+          await this.axios.post("http://localhost:3000/receive-signal", { signal: "bipbip" });
         }
       }
     }
@@ -5601,9 +5604,10 @@ var CreateEntriesUseCase = class {
 
 // infra/controllers/createEntries/createEntries.controller.ts
 var CreateEntriesController = class {
-  constructor(ecgRepository) {
+  constructor(ecgRepository, axios) {
     this.ecgRepository = ecgRepository;
-    this.createEntriesUseCase = new CreateEntriesUseCase(this.ecgRepository);
+    this.axios = axios;
+    this.createEntriesUseCase = new CreateEntriesUseCase(this.ecgRepository, this.axios);
   }
   async handleCreateEntries(input) {
     console.log("Controller input", { input });
@@ -5611,7 +5615,7 @@ var CreateEntriesController = class {
       new CreateEntriesInputDTO(input.deviceId, input.milivolts, input.interval)
     );
     return {
-      statusCode: 201,
+      statusCode: 200,
       headers: {
         "Content-Type": "application/json"
       },
@@ -5639,8 +5643,12 @@ var schema = new dynamoose.Schema(
         type: "global"
       }
     },
+    milivolts: {
+      type: Number,
+      rangeKey: true,
+      required: true
+    },
     interval: Number,
-    milivolts: Number,
     isRegular: Boolean,
     bippedAt: String,
     unBippedAt: String
@@ -5685,11 +5693,16 @@ var DynamooseDBRepository = class {
     console.log("ECG_MODEL", { ecg });
     const newECG = new ECGModel(ecg);
     console.log("dynamoose model created!", { newECG });
-    const response = await newECG.save();
-    console.log(response);
+    await newECG.save();
   }
-  async put(ecg) {
-    await ECGModel.put(ecg);
+  async update(keys, params) {
+    console.log("updating...", { keys, params });
+    await ECGModel.update({
+      id: keys.id,
+      // o valor correto do ID
+      milivolts: keys.milivolts
+      // o valor correto de milivolts
+    }, params);
   }
   async listEntries(deviceId, interval) {
     console.log("listando resultados do device", { deviceId, interval });
@@ -5729,7 +5742,7 @@ var DynamooseDBRepository = class {
     });
   }
   async instabilityCheck(deviceId) {
-    return ECGModel.query("deviceId").eq(deviceId).sort("descending").limit(60).using("deviceIdIndex").exec();
+    return ECGModel.query("deviceId").eq(deviceId).sort("descending").limit(60).using("DeviceIdIndex").exec();
   }
 };
 

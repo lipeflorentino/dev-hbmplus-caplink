@@ -2,57 +2,50 @@ import { ECG } from "../../../domain/entities/ECG.entity";
 import { ECGRepository } from "../../../domain/repositories/ECGRepository.interface";
 import { CreateEntriesInputDTO } from "../../dto/createEntries/createEntriesInput.dto";
 import { CreateEntriesOutputDTO } from "../../dto/createEntries/createEntriesOutput.dto";
+import { AxiosAdapter } from "../../../domain/adapter/axios.interface";
 
 export class CreateEntriesUseCase {
-    constructor(private readonly ecgRepository: ECGRepository) {}
+    constructor(private readonly ecgRepository: ECGRepository, private readonly axios: AxiosAdapter) {}
 
     async execute(input: CreateEntriesInputDTO): Promise<CreateEntriesOutputDTO> {
         console.log('UseCase input', { input });
-        const ecg = new ECG(input.deviceId, input.milivolts, input.milivolts);
-        // verificar se ecg é ou não irregular
+        const ecg = new ECG(input.deviceId, input.milivolts, input.interval);
         ecg.detectIrregularities();
 
         if (!ecg.isRegular) {
-            // verifica os ultimos 60
             const results = await this.ecgRepository.instabilityCheck(ecg.deviceId);
             const irregularMeasurements = results.filter(item => !item.isRegular);
 
-            // Verificar se há pelo menos 5 medições irregulares
             if (irregularMeasurements.length >= 5) {
-                // Verificar se já há um bip salvo
                 const bipExists = results.some(item => item.bippedAt && !item.unBippedAt);
-
                 if (!bipExists) {
-                    // Salvar o bip
-                    const bipTime = new Date().toISOString();
-
-                    await this.ecgRepository.put({
-                        id: results[0].id, // Atualizar o item mais recente
-                        bippedAt: bipTime,
+                    await this.ecgRepository.update({
+                        id: results[0].id,
+                        milivolts: results[0].milivolts,
+                    }, {
+                        bippedAt: new Date().toISOString(),
                     });
 
-                    // ENVIAR BIP PARA O DISPOSITIVO
                     console.log('BIP!');
+                    await this.axios.post('http://localhost:3000/receive-signal', { signal: 'bip' });
                 }
             } else {
-                // Verificar se há um bip sem unbip
                 const bipWithoutUnbip = results.find(item => item.bippedAt && !item.unBippedAt);
 
                 if (bipWithoutUnbip) {
-                    // Salvar o unbip
-                    const unBipTime = new Date().toISOString();
-
-                    await this.ecgRepository.put({
+                    await this.ecgRepository.update({
                         id: bipWithoutUnbip.id,
-                        unBippedAt: unBipTime
+                        milivolts: bipWithoutUnbip.milivolts,
+                    }, {
+                        unBippedAt: new Date().toISOString(),
                     });
 
-                    // ENVIAR UNBIP PARA O DISPOSITIVO
                     console.log('BIP BIP!');
+                    await this.axios.post('http://localhost:3000/receive-signal', { signal: 'bipbip' });
                 }
             }
         }
-        // salvar a entrada
+
         this.ecgRepository.save(ecg);
 
         return new CreateEntriesOutputDTO(ecg.id, ecg.deviceId, ecg.milivolts, ecg.interval, ecg.isRegular);

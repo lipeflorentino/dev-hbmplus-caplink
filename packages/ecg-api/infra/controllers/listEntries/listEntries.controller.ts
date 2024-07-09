@@ -1,7 +1,7 @@
 import { ListEntriesInputDTO } from "../../../application/dto/listEntries/listEntriesInput.dto";
 import { ListEntriesUseCase } from "../../../application/useCase/listEntries/listEntries.useCase";
 import { ECGRepository } from "../../../domain/repositories/ECGRepository.interface";
-import { HandlerResponse } from "../../../domain/valueObjects/response";
+import { HandlerResponse } from "../../../domain/valueObjects/types";
 
 type EventInput = {
     deviceId: string,
