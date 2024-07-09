@@ -5514,13 +5514,14 @@ var UUID = class {
 
 // domain/entities/ECG.entity.ts
 var ECG = class {
-  constructor(deviceId, milivolts, interval, marker) {
+  constructor(deviceId, milivolts, interval, marker, createdAt) {
     this.id = new UUID().v4();
     this.deviceId = deviceId;
     this.milivolts = milivolts;
     this.isRegular = false;
     this.marker = marker;
     this.interval = interval;
+    this.createdAt = createdAt;
   }
   detectIrregularities() {
     console.log("Analysing ECG measure...");
@@ -5607,6 +5608,7 @@ var schema = new dynamoose.Schema(
         type: "global"
       }
     },
+    interval: Number,
     milivolts: Number,
     isRegular: Boolean,
     marker: {
@@ -5660,18 +5662,24 @@ var DynamooseDBRepository = class {
   }
   async listEntries(deviceId, interval) {
     console.log("listando resultados do device", { deviceId, interval });
+    const limit = 30;
     const endDate = /* @__PURE__ */ new Date();
     const startDate = /* @__PURE__ */ new Date();
-    startDate.setDate(endDate.getDate() - Number(interval));
-    const formattedStartDate = startDate.toISOString().split("T")[0] + " 00:00:00";
-    const formattedEndDate = endDate.toISOString().split("T")[0] + " 23:59:59";
-    const search = await ECGModel.query("deviceId").eq(deviceId).where("createdAt").between(formattedStartDate, formattedEndDate).using("deviceIdIndex").exec();
+    startDate.setDate(
+      endDate.getDate() - Number(interval) > limit ? limit : Number(interval)
+    );
+    const formattedStartDate = startDate.toISOString() + " 00:00:00";
+    const formattedEndDate = endDate.toISOString() + " 23:59:59";
+    console.log({ formattedStartDate, formattedEndDate, deviceId });
+    const search = await ECGModel.query("deviceId").eq(deviceId).where("createdAt").between(formattedStartDate, formattedEndDate).using("DeviceIdIndex").exec();
+    console.log({ search });
     return search.toJSON().map((ecgData) => {
       return new ECG(
         ecgData.deviceId,
         ecgData.milivolts,
         ecgData.interval,
-        ecgData.marker
+        ecgData.marker,
+        ecgData.createdAt
       );
     });
   }

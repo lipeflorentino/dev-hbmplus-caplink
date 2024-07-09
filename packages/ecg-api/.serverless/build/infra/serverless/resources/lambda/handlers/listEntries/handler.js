@@ -5652,9 +5652,12 @@ var DynamooseDBRepository = class {
   }
   async listEntries(deviceId, interval) {
     console.log("listando resultados do device", { deviceId, interval });
+    const limit = 30;
     const endDate = /* @__PURE__ */ new Date();
     const startDate = /* @__PURE__ */ new Date();
-    startDate.setDate(endDate.getDate() - Number(interval));
+    startDate.setDate(
+      endDate.getDate() - Number(interval) > limit ? limit : Number(interval)
+    );
     const formattedStartDate = startDate.toISOString() + " 00:00:00";
     const formattedEndDate = endDate.toISOString() + " 23:59:59";
     console.log({ formattedStartDate, formattedEndDate, deviceId });

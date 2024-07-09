@@ -1,3 +1,5 @@
+import { AnyItem } from "dynamoose/dist/Item";
+import { QueryResponse } from "dynamoose/dist/ItemRetriever";
 import { ECG } from "../../../domain/entities/ECG.entity";
 import { ECGRepository } from "../../../domain/repositories/ECGRepository.interface";
 import { ECGModel } from "../../database/dynamoose/model/ECG.model";
@@ -9,6 +11,10 @@ export class DynamooseDBRepository implements ECGRepository {
         console.log('dynamoose model created!', { newECG });
         const response = await newECG.save();
         console.log(response);
+    }
+
+    async put(ecg: Partial<ECG>): Promise<void> {
+        await ECGModel.put(ecg);
     }
 
     async listEntries(deviceId: string, interval: string): Promise<ECG[]> {
@@ -26,23 +32,53 @@ export class DynamooseDBRepository implements ECGRepository {
 
         console.log({ formattedStartDate, formattedEndDate, deviceId });
 
-        const search = await ECGModel.query('deviceId')
+        const results = await ECGModel.query('deviceId')
             .eq(deviceId)
             .where('createdAt')
             .between(formattedStartDate, formattedEndDate)
             .using('DeviceIdIndex')
             .exec();
 
-        console.log({ search });
+        console.log({ results });
 
-        return search.toJSON().map((ecgData) => {
+        return results.toJSON().map((ecgData) => {
             return new ECG(
                 ecgData.deviceId,
                 ecgData.milivolts,
                 ecgData.interval,
-                ecgData.marker,
+                ecgData.bippedAt,
+                ecgData.unBippedAt,
                 ecgData.createdAt,
             );
         });
+    }
+
+    async listIrregulaties(deviceId: string): Promise<ECG[]> {
+        const results = await ECGModel.query('deviceId')
+            .eq(deviceId)
+            .where('isRegular')
+            .eq(false)
+            .using('DeviceIdIndex')
+            .exec();
+
+        return results.toJSON().map((ecgData) => {
+            return new ECG(
+                ecgData.deviceId,
+                ecgData.milivolts,
+                ecgData.interval,
+                ecgData.bippedAt,
+                ecgData.unBippedAt,
+                ecgData.createdAt,
+            );
+        });
+    }
+
+    async instabilityCheck(deviceId: string): Promise<QueryResponse<AnyItem>> {
+        return ECGModel.query('deviceId')
+            .eq(deviceId)
+            .sort('descending') // Ordenar por data de criação decrescente
+            .limit(60) // Limitar a 60 medições
+            .using('deviceIdIndex')
+            .exec();
     }
 } 

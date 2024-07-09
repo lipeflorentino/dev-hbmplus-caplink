@@ -17,11 +17,8 @@ const schema = new dynamoose.Schema(
         interval: Number,
         milivolts: Number,
         isRegular: Boolean,
-        marker: {
-            type: String,
-            enum: ['on', 'off'],
-            required: false,
-        }
+        bippedAt: String,
+        unBippedAt: String,
     },
     {
         timestamps: {

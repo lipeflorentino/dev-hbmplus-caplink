@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
-    "start": "node dist/index.js",
-    "dev": "ts-node ./index.ts",
+    "deploy": "serverless deploy -s prodution",
+    "createEntries": "serverless invoke local -f createECGEntries -s production -p infra/serverless/resources/lambda/handlers/createEntries/mock.json",
+    "listEntries": "serverless invoke local -f listECGEntries -s production -p infra/serverless/resources/lambda/handlers/listEntries/mock.json",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "jest"

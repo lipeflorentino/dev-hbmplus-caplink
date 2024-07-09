@@ -1,0 +1,14 @@
+handler: infra/serverless/resources/lambda/handlers/listIrregularities/handler.main
+events:
+  - http:
+      path: ecg/irregularities
+      method: get
+      cors: true
+iamRoleStatementsName: listIrregularities-lambda-role
+iamRoleStatements:
+  - Effect: Allow
+    Action:
+      - dynamodb:Query
+      - dynamodb:Scan
+      - dynamodb:GetItem
+    Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/ECGTable"

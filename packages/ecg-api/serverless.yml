@@ -27,6 +27,7 @@ custom:
 functions:
   createECGEntries: ${file(./infra/serverless/resources/lambda/handlers/createEntries/createEntries.yml)}
   listECGEntries: ${file(./infra/serverless/resources/lambda/handlers/listEntries/listEntries.yml)}
+  listECGIrregularities: ${file(./infra/serverless/resources/lambda/handlers/listIrregularities/listIrregularities.yml)}
 
 resources:
   Resources:

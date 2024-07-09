@@ -6,15 +6,17 @@ export class ECG {
     milivolts: number;
     interval: number;
     isRegular: boolean;
-    marker?: string;
+    bippedAt?: string;
+    unBippedAt?: string;
     createdAt?: string;
 
-    constructor(deviceId: string, milivolts: number, interval: number, marker?: string, createdAt?: string) {
+    constructor(deviceId: string, milivolts: number, interval: number, bippedAt?: string, unBippedAt?: string, createdAt?: string) {
         this.id = (new UUID).v4();
         this.deviceId = deviceId;
         this.milivolts = milivolts;
         this.isRegular = false;
-        this.marker = marker;
+        this.bippedAt = bippedAt;
+        this.unBippedAt = unBippedAt;
         this.interval = interval;
         this.createdAt = createdAt;
     }
@@ -39,15 +41,15 @@ export class ECG {
         }
     }
 
-    async verifyMarker(): Promise<void> {
-        console.log('No marker needed!');
-    }
-
     setIsRegular(value: boolean) {
         this.isRegular = value;
     }
 
-    setMarker(value: string) {
-        this.marker = value;
+    setBippedAt(value: string) {
+        this.bippedAt = value;
+    }
+
+    setUnBippedAt(value: string) {
+        this.unBippedAt = value;
     }
 }
