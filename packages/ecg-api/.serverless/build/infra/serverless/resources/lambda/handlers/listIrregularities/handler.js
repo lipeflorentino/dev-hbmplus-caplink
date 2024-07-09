@@ -5442,19 +5442,57 @@ var require_dist3 = __commonJS({
   }
 });
 
-// infra/serverless/resources/lambda/handlers/createEntries/handler.ts
+// infra/serverless/resources/lambda/handlers/listIrregularities/handler.ts
 var handler_exports = {};
 __export(handler_exports, {
   main: () => main
 });
 module.exports = __toCommonJS(handler_exports);
 
-// application/dto/createEntries/createEntriesInput.dto.ts
-var CreateEntriesInputDTO = class {
-  constructor(deviceId, milivolts, interval) {
+// application/dto/listIrregularities/listIrregularitiesInput.dto.ts
+var ListIrregularitiesInputDTO = class {
+  constructor(deviceId) {
     this.deviceId = deviceId;
-    this.milivolts = milivolts;
-    this.interval = interval;
+  }
+};
+
+// application/dto/listIrregularities/listIrregularitiesOutput.dto.ts
+var ListIrregularitiesOutputDTO = class {
+  constructor(ecgIrregularitiesList) {
+    this.ecgIrregularitiesList = ecgIrregularitiesList;
+  }
+};
+
+// application/useCase/listIrregularities/listIrregularities.useCase.ts
+var ListIrregularitiesUseCase = class {
+  constructor(ecgRepository) {
+    this.ecgRepository = ecgRepository;
+  }
+  async execute(input) {
+    console.log(this.ecgRepository, input);
+    return new ListIrregularitiesOutputDTO(
+      await this.ecgRepository.listIrregulaties(input.deviceId)
+    );
+  }
+};
+
+// infra/controllers/listIrregularities/listIrregularities.controller.ts
+var ListIrregularitiesController = class {
+  constructor(ecgRepository) {
+    this.ecgRepository = ecgRepository;
+    this.listIrregularitiesUseCase = new ListIrregularitiesUseCase(this.ecgRepository);
+  }
+  async handleListIrregularities(input) {
+    const {
+      ecgIrregularitiesList
+    } = await this.listIrregularitiesUseCase.execute(
+      new ListIrregularitiesInputDTO(input.deviceId)
+    );
+    return {
+      status: 200,
+      data: ecgIrregularitiesList,
+      message: "retrieved succesfully!"
+    };
   }
 };
 
@@ -5545,76 +5583,6 @@ var ECG = class {
   }
   setUnBippedAt(value) {
     this.unBippedAt = value;
-  }
-};
-
-// application/dto/createEntries/createEntriesOutput.dto.ts
-var CreateEntriesOutputDTO = class {
-  constructor(id, deviceId, milivolts, interval, isRegular) {
-    this.id = id;
-    this.deviceId = deviceId;
-    this.milivolts = milivolts;
-    this.interval = interval;
-    this.isRegular = isRegular;
-  }
-};
-
-// application/useCase/createEntries/createEntries.useCase.ts
-var CreateEntriesUseCase = class {
-  constructor(ecgRepository) {
-    this.ecgRepository = ecgRepository;
-  }
-  async execute(input) {
-    console.log("UseCase input", { input });
-    const ecg = new ECG(input.deviceId, input.milivolts, input.milivolts);
-    ecg.detectIrregularities();
-    if (!ecg.isRegular) {
-      const results = await this.ecgRepository.instabilityCheck(ecg.deviceId);
-      const irregularMeasurements = results.filter((item) => !item.isRegular);
-      if (irregularMeasurements.length >= 5) {
-        const bipExists = results.some((item) => item.bippedAt && !item.unBippedAt);
-        if (!bipExists) {
-          const bipTime = (/* @__PURE__ */ new Date()).toISOString();
-          await this.ecgRepository.put({
-            id: results[0].id,
-            // Atualizar o item mais recente
-            bippedAt: bipTime
-          });
-          console.log("BIP!");
-        }
-      } else {
-        const bipWithoutUnbip = results.find((item) => item.bippedAt && !item.unBippedAt);
-        if (bipWithoutUnbip) {
-          const unBipTime = (/* @__PURE__ */ new Date()).toISOString();
-          await this.ecgRepository.put({
-            id: bipWithoutUnbip.id,
-            unBippedAt: unBipTime
-          });
-          console.log("BIP BIP!");
-        }
-      }
-    }
-    this.ecgRepository.save(ecg);
-    return new CreateEntriesOutputDTO(ecg.id, ecg.deviceId, ecg.milivolts, ecg.interval, ecg.isRegular);
-  }
-};
-
-// infra/controllers/createEntries/createEntries.controller.ts
-var CreateEntriesController = class {
-  constructor(ecgRepository) {
-    this.ecgRepository = ecgRepository;
-    this.createEntriesUseCase = new CreateEntriesUseCase(this.ecgRepository);
-  }
-  async handleCreateEntries(input) {
-    console.log("Controller input", { input });
-    const ecg = await this.createEntriesUseCase.execute(
-      new CreateEntriesInputDTO(input.deviceId, input.milivolts, input.interval)
-    );
-    return {
-      status: 201,
-      data: ecg,
-      message: "created succesfully!"
-    };
   }
 };
 
@@ -5728,13 +5696,13 @@ var DynamooseDBRepository = class {
   }
 };
 
-// infra/serverless/resources/lambda/handlers/createEntries/handler.ts
+// infra/serverless/resources/lambda/handlers/listIrregularities/handler.ts
 var main = async (event) => {
   console.log("entry", { event });
-  const eventBody = typeof event.body === "string" ? JSON.parse(event.body) : event.body;
-  console.log(eventBody);
-  const controller = new CreateEntriesController(new DynamooseDBRepository());
-  return controller.handleCreateEntries(eventBody.ecgData);
+  const eventParameters = typeof event.queryStringParameters === "string" ? JSON.parse(event.queryStringParameters) : event.queryStringParameters;
+  console.log({ eventParameters });
+  const controller = new ListIrregularitiesController(new DynamooseDBRepository());
+  return controller.handleListIrregularities(eventParameters);
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

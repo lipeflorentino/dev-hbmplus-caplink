@@ -8,7 +8,10 @@ iamRoleStatementsName: listIrregularities-lambda-role
 iamRoleStatements:
   - Effect: Allow
     Action:
+      - dynamodb:DescribeTable
       - dynamodb:Query
       - dynamodb:Scan
       - dynamodb:GetItem
-    Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/ECGTable"
+      - dynamodb:PutItem
+      - dynamodb:CreateTable
+    Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/ECGTable*"

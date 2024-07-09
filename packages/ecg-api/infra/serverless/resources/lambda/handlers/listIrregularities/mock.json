@@ -1,1 +1,5 @@
-{}
+{
+    "queryStringParameters": {
+        "deviceId": "5"
+    }
+}

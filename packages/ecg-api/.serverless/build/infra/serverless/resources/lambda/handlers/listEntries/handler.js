@@ -5549,12 +5549,13 @@ var UUID = class {
 
 // domain/entities/ECG.entity.ts
 var ECG = class {
-  constructor(deviceId, milivolts, interval, marker, createdAt) {
+  constructor(deviceId, milivolts, interval, bippedAt, unBippedAt, createdAt) {
     this.id = new UUID().v4();
     this.deviceId = deviceId;
     this.milivolts = milivolts;
     this.isRegular = false;
-    this.marker = marker;
+    this.bippedAt = bippedAt;
+    this.unBippedAt = unBippedAt;
     this.interval = interval;
     this.createdAt = createdAt;
   }
@@ -5571,14 +5572,14 @@ var ECG = class {
       this.setIsRegular(true);
     }
   }
-  async verifyMarker() {
-    console.log("No marker needed!");
-  }
   setIsRegular(value) {
     this.isRegular = value;
   }
-  setMarker(value) {
-    this.marker = value;
+  setBippedAt(value) {
+    this.bippedAt = value;
+  }
+  setUnBippedAt(value) {
+    this.unBippedAt = value;
   }
 };
 
@@ -5601,11 +5602,8 @@ var schema = new dynamoose.Schema(
     interval: Number,
     milivolts: Number,
     isRegular: Boolean,
-    marker: {
-      type: String,
-      enum: ["on", "off"],
-      required: false
-    }
+    bippedAt: String,
+    unBippedAt: String
   },
   {
     timestamps: {
@@ -5634,7 +5632,7 @@ var schema = new dynamoose.Schema(
   }
 );
 var ECGModel = dynamoose.model(process.env.TABLE_NAME || "", schema, {
-  create: true,
+  create: false,
   throughput: {
     read: 5,
     write: 5
@@ -5650,6 +5648,9 @@ var DynamooseDBRepository = class {
     const response = await newECG.save();
     console.log(response);
   }
+  async put(ecg) {
+    await ECGModel.put(ecg);
+  }
   async listEntries(deviceId, interval) {
     console.log("listando resultados do device", { deviceId, interval });
     const limit = 30;
@@ -5661,17 +5662,34 @@ var DynamooseDBRepository = class {
     const formattedStartDate = startDate.toISOString() + " 00:00:00";
     const formattedEndDate = endDate.toISOString() + " 23:59:59";
     console.log({ formattedStartDate, formattedEndDate, deviceId });
-    const search = await ECGModel.query("deviceId").eq(deviceId).where("createdAt").between(formattedStartDate, formattedEndDate).using("DeviceIdIndex").exec();
-    console.log({ search });
-    return search.toJSON().map((ecgData) => {
+    const results = await ECGModel.query("deviceId").eq(deviceId).where("createdAt").between(formattedStartDate, formattedEndDate).using("DeviceIdIndex").exec();
+    console.log({ results });
+    return results.toJSON().map((ecgData) => {
       return new ECG(
         ecgData.deviceId,
         ecgData.milivolts,
         ecgData.interval,
-        ecgData.marker,
+        ecgData.bippedAt,
+        ecgData.unBippedAt,
         ecgData.createdAt
       );
     });
+  }
+  async listIrregulaties(deviceId) {
+    const results = await ECGModel.query("deviceId").eq(deviceId).where("isRegular").eq(false).using("DeviceIdIndex").exec();
+    return results.toJSON().map((ecgData) => {
+      return new ECG(
+        ecgData.deviceId,
+        ecgData.milivolts,
+        ecgData.interval,
+        ecgData.bippedAt,
+        ecgData.unBippedAt,
+        ecgData.createdAt
+      );
+    });
+  }
+  async instabilityCheck(deviceId) {
+    return ECGModel.query("deviceId").eq(deviceId).sort("descending").limit(60).using("deviceIdIndex").exec();
   }
 };
 

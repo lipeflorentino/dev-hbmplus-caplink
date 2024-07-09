@@ -111,6 +111,12 @@
                       "LogGroupName": "/aws/lambda/ecg-api-production-listECGEntries"
                     }
                   },
+                  "ListECGIrregularitiesLogGroup": {
+                    "Type": "AWS::Logs::LogGroup",
+                    "Properties": {
+                      "LogGroupName": "/aws/lambda/ecg-api-production-listECGIrregularities"
+                    }
+                  },
                   "IamRoleLambdaExecution": {
                     "Type": "AWS::IAM::Role",
                     "Properties": {
@@ -196,7 +202,7 @@
                         "S3Bucket": {
                           "Ref": "ServerlessDeploymentBucket"
                         },
-                        "S3Key": "serverless/ecg-api/production/1720466007957-2024-07-08T19:13:27.957Z/ecg-api.zip"
+                        "S3Key": "serverless/ecg-api/production/1720486772051-2024-07-09T00:59:32.051Z/ecg-api.zip"
                       },
                       "Handler": "infra/serverless/resources/lambda/handlers/createEntries/handler.main",
                       "Runtime": "nodejs20.x",
@@ -228,7 +234,7 @@
                         "S3Bucket": {
                           "Ref": "ServerlessDeploymentBucket"
                         },
-                        "S3Key": "serverless/ecg-api/production/1720466007957-2024-07-08T19:13:27.957Z/ecg-api.zip"
+                        "S3Key": "serverless/ecg-api/production/1720486772051-2024-07-09T00:59:32.051Z/ecg-api.zip"
                       },
                       "Handler": "infra/serverless/resources/lambda/handlers/listEntries/handler.main",
                       "Runtime": "nodejs20.x",
@@ -253,24 +259,66 @@
                       "ListECGEntriesLogGroup"
                     ]
                   },
-                  "CreateECGEntriesLambdaVersionur8DduvzquVEJxbgF3l4pHsMtYEeQ1cIloGTQQguwOw": {
+                  "ListECGIrregularitiesLambdaFunction": {
+                    "Type": "AWS::Lambda::Function",
+                    "Properties": {
+                      "Code": {
+                        "S3Bucket": {
+                          "Ref": "ServerlessDeploymentBucket"
+                        },
+                        "S3Key": "serverless/ecg-api/production/1720486772051-2024-07-09T00:59:32.051Z/ecg-api.zip"
+                      },
+                      "Handler": "infra/serverless/resources/lambda/handlers/listIrregularities/handler.main",
+                      "Runtime": "nodejs20.x",
+                      "FunctionName": "ecg-api-production-listECGIrregularities",
+                      "MemorySize": 512,
+                      "Timeout": 10,
+                      "Environment": {
+                        "Variables": {
+                          "TABLE_NAME": "ECGTable",
+                          "NODE_OPTIONS": "--enable-source-maps"
+                        }
+                      },
+                      "Role": {
+                        "Fn::GetAtt": [
+                          "ListECGIrregularitiesIamRoleLambdaExecution",
+                          "Arn"
+                        ]
+                      }
+                    },
+                    "DependsOn": [
+                      "ListECGIrregularitiesIamRoleLambdaExecution",
+                      "ListECGIrregularitiesLogGroup"
+                    ]
+                  },
+                  "CreateECGEntriesLambdaVersionuFrEWx2dQQz1izG8zhfFWcq6VCXtwSLSgqJpbRieQM": {
                     "Type": "AWS::Lambda::Version",
                     "DeletionPolicy": "Retain",
                     "Properties": {
                       "FunctionName": {
                         "Ref": "CreateECGEntriesLambdaFunction"
                       },
-                      "CodeSha256": "XJ4iLgWpK20+zl5Cp5994DDN8u62t/w+72qpQR3KBhY="
+                      "CodeSha256": "FJJiAHs8sNN5Z6lWW6o0fEfxRMDrwJs8AaApdaEjWAk="
                     }
                   },
-                  "ListECGEntriesLambdaVersionNDLWBNk8z0deGeeurmHrcPT7MadNATM251sfoCPuN8": {
+                  "ListECGEntriesLambdaVersionkWF8u9nyG5sUIE4HwuKQAkkooWrnyDGCLrfV1lQU": {
                     "Type": "AWS::Lambda::Version",
                     "DeletionPolicy": "Retain",
                     "Properties": {
                       "FunctionName": {
                         "Ref": "ListECGEntriesLambdaFunction"
                       },
-                      "CodeSha256": "XJ4iLgWpK20+zl5Cp5994DDN8u62t/w+72qpQR3KBhY="
+                      "CodeSha256": "FJJiAHs8sNN5Z6lWW6o0fEfxRMDrwJs8AaApdaEjWAk="
+                    }
+                  },
+                  "ListECGIrregularitiesLambdaVersionc0pXL8ctfPO14xwhfuJjfmrbK10B07hUHkOarqqk4": {
+                    "Type": "AWS::Lambda::Version",
+                    "DeletionPolicy": "Retain",
+                    "Properties": {
+                      "FunctionName": {
+                        "Ref": "ListECGIrregularitiesLambdaFunction"
+                      },
+                      "CodeSha256": "FJJiAHs8sNN5Z6lWW6o0fEfxRMDrwJs8AaApdaEjWAk="
                     }
                   },
                   "ApiGatewayRestApi": {
@@ -295,6 +343,18 @@
                         ]
                       },
                       "PathPart": "ecg",
+                      "RestApiId": {
+                        "Ref": "ApiGatewayRestApi"
+                      }
+                    }
+                  },
+                  "ApiGatewayResourceEcgIrregularities": {
+                    "Type": "AWS::ApiGateway::Resource",
+                    "Properties": {
+                      "ParentId": {
+                        "Ref": "ApiGatewayResourceEcg"
+                      },
+                      "PathPart": "irregularities",
                       "RestApiId": {
                         "Ref": "ApiGatewayRestApi"
                       }
@@ -339,6 +399,51 @@
                       },
                       "ResourceId": {
                         "Ref": "ApiGatewayResourceEcg"
+                      },
+                      "RestApiId": {
+                        "Ref": "ApiGatewayRestApi"
+                      }
+                    }
+                  },
+                  "ApiGatewayMethodEcgIrregularitiesOptions": {
+                    "Type": "AWS::ApiGateway::Method",
+                    "Properties": {
+                      "AuthorizationType": "NONE",
+                      "HttpMethod": "OPTIONS",
+                      "MethodResponses": [
+                        {
+                          "StatusCode": "200",
+                          "ResponseParameters": {
+                            "method.response.header.Access-Control-Allow-Origin": true,
+                            "method.response.header.Access-Control-Allow-Headers": true,
+                            "method.response.header.Access-Control-Allow-Methods": true
+                          },
+                          "ResponseModels": {}
+                        }
+                      ],
+                      "RequestParameters": {},
+                      "Integration": {
+                        "Type": "MOCK",
+                        "RequestTemplates": {
+                          "application/json": "{statusCode:200}"
+                        },
+                        "ContentHandling": "CONVERT_TO_TEXT",
+                        "IntegrationResponses": [
+                          {
+                            "StatusCode": "200",
+                            "ResponseParameters": {
+                              "method.response.header.Access-Control-Allow-Origin": "'*'",
+                              "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                              "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'"
+                            },
+                            "ResponseTemplates": {
+                              "application/json": ""
+                            }
+                          }
+                        ]
+                      },
+                      "ResourceId": {
+                        "Ref": "ApiGatewayResourceEcgIrregularities"
                       },
                       "RestApiId": {
                         "Ref": "ApiGatewayRestApi"
@@ -437,7 +542,53 @@
                       "ListECGEntriesLambdaPermissionApiGateway"
                     ]
                   },
-                  "ApiGatewayDeployment1720466006133": {
+                  "ApiGatewayMethodEcgIrregularitiesGet": {
+                    "Type": "AWS::ApiGateway::Method",
+                    "Properties": {
+                      "HttpMethod": "GET",
+                      "RequestParameters": {},
+                      "ResourceId": {
+                        "Ref": "ApiGatewayResourceEcgIrregularities"
+                      },
+                      "RestApiId": {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "ApiKeyRequired": "<REDACTED>",
+                      "AuthorizationType": "NONE",
+                      "Integration": {
+                        "IntegrationHttpMethod": "POST",
+                        "Type": "AWS_PROXY",
+                        "Uri": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":apigateway:",
+                              {
+                                "Ref": "AWS::Region"
+                              },
+                              ":lambda:path/2015-03-31/functions/",
+                              {
+                                "Fn::GetAtt": [
+                                  "ListECGIrregularitiesLambdaFunction",
+                                  "Arn"
+                                ]
+                              },
+                              "/invocations"
+                            ]
+                          ]
+                        }
+                      },
+                      "MethodResponses": []
+                    },
+                    "DependsOn": [
+                      "ListECGIrregularitiesLambdaPermissionApiGateway"
+                    ]
+                  },
+                  "ApiGatewayDeployment1720486770655": {
                     "Type": "AWS::ApiGateway::Deployment",
                     "Properties": {
                       "RestApiId": {
@@ -447,8 +598,10 @@
                     },
                     "DependsOn": [
                       "ApiGatewayMethodEcgOptions",
+                      "ApiGatewayMethodEcgIrregularitiesOptions",
                       "ApiGatewayMethodEcgPost",
-                      "ApiGatewayMethodEcgGet"
+                      "ApiGatewayMethodEcgGet",
+                      "ApiGatewayMethodEcgIrregularitiesGet"
                     ]
                   },
                   "CreateECGEntriesLambdaPermissionApiGateway": {
@@ -494,6 +647,43 @@
                       "FunctionName": {
                         "Fn::GetAtt": [
                           "ListECGEntriesLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "Action": "lambda:InvokeFunction",
+                      "Principal": "apigateway.amazonaws.com",
+                      "SourceArn": {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":execute-api:",
+                            {
+                              "Ref": "AWS::Region"
+                            },
+                            ":",
+                            {
+                              "Ref": "AWS::AccountId"
+                            },
+                            ":",
+                            {
+                              "Ref": "ApiGatewayRestApi"
+                            },
+                            "/*/*"
+                          ]
+                        ]
+                      }
+                    }
+                  },
+                  "ListECGIrregularitiesLambdaPermissionApiGateway": {
+                    "Type": "AWS::Lambda::Permission",
+                    "Properties": {
+                      "FunctionName": {
+                        "Fn::GetAtt": [
+                          "ListECGIrregularitiesLambdaFunction",
                           "Arn"
                         ]
                       },
@@ -575,9 +765,15 @@
                               {
                                 "Effect": "Allow",
                                 "Action": [
-                                  "dynamodb:PutItem"
+                                  "dynamodb:DescribeTable",
+                                  "dynamodb:Query",
+                                  "dynamodb:Scan",
+                                  "dynamodb:GetItem",
+                                  "dynamodb:PutItem",
+                                  "dynamodb:UpdateItem",
+                                  "dynamodb:CreateTable"
                                 ],
-                                "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
+                                "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable*"
                               }
                             ]
                           }
@@ -638,11 +834,14 @@
                               {
                                 "Effect": "Allow",
                                 "Action": [
+                                  "dynamodb:DescribeTable",
                                   "dynamodb:Query",
                                   "dynamodb:Scan",
-                                  "dynamodb:GetItem"
+                                  "dynamodb:GetItem",
+                                  "dynamodb:PutItem",
+                                  "dynamodb:CreateTable"
                                 ],
-                                "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
+                                "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable*"
                               }
                             ]
                           }
@@ -650,6 +849,74 @@
                       ],
                       "Path": "/",
                       "RoleName": "listEntries-lambda-role",
+                      "ManagedPolicyArns": []
+                    }
+                  },
+                  "ListECGIrregularitiesIamRoleLambdaExecution": {
+                    "Type": "AWS::IAM::Role",
+                    "Properties": {
+                      "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17",
+                        "Statement": [
+                          {
+                            "Effect": "Allow",
+                            "Principal": {
+                              "Service": [
+                                "lambda.amazonaws.com"
+                              ]
+                            },
+                            "Action": [
+                              "sts:AssumeRole"
+                            ]
+                          }
+                        ]
+                      },
+                      "Policies": [
+                        {
+                          "PolicyName": {
+                            "Fn::Join": [
+                              "-",
+                              [
+                                "ecg-api",
+                                "production",
+                                "lambda"
+                              ]
+                            ]
+                          },
+                          "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                              {
+                                "Effect": "Allow",
+                                "Action": [
+                                  "logs:CreateLogStream",
+                                  "logs:CreateLogGroup",
+                                  "logs:PutLogEvents"
+                                ],
+                                "Resource": [
+                                  {
+                                    "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/ecg-api-production-listECGIrregularities:*:*"
+                                  }
+                                ]
+                              },
+                              {
+                                "Effect": "Allow",
+                                "Action": [
+                                  "dynamodb:DescribeTable",
+                                  "dynamodb:Query",
+                                  "dynamodb:Scan",
+                                  "dynamodb:GetItem",
+                                  "dynamodb:PutItem",
+                                  "dynamodb:CreateTable"
+                                ],
+                                "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable*"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "Path": "/",
+                      "RoleName": "listIrregularities-lambda-role",
                       "ManagedPolicyArns": []
                     }
                   },
@@ -718,7 +985,7 @@
                   "CreateECGEntriesLambdaFunctionQualifiedArn": {
                     "Description": "Current Lambda function version",
                     "Value": {
-                      "Ref": "CreateECGEntriesLambdaVersionur8DduvzquVEJxbgF3l4pHsMtYEeQ1cIloGTQQguwOw"
+                      "Ref": "CreateECGEntriesLambdaVersionuFrEWx2dQQz1izG8zhfFWcq6VCXtwSLSgqJpbRieQM"
                     },
                     "Export": {
                       "Name": "sls-ecg-api-production-CreateECGEntriesLambdaFunctionQualifiedArn"
@@ -727,10 +994,19 @@
                   "ListECGEntriesLambdaFunctionQualifiedArn": {
                     "Description": "Current Lambda function version",
                     "Value": {
-                      "Ref": "ListECGEntriesLambdaVersionNDLWBNk8z0deGeeurmHrcPT7MadNATM251sfoCPuN8"
+                      "Ref": "ListECGEntriesLambdaVersionkWF8u9nyG5sUIE4HwuKQAkkooWrnyDGCLrfV1lQU"
                     },
                     "Export": {
                       "Name": "sls-ecg-api-production-ListECGEntriesLambdaFunctionQualifiedArn"
+                    }
+                  },
+                  "ListECGIrregularitiesLambdaFunctionQualifiedArn": {
+                    "Description": "Current Lambda function version",
+                    "Value": {
+                      "Ref": "ListECGIrregularitiesLambdaVersionc0pXL8ctfPO14xwhfuJjfmrbK10B07hUHkOarqqk4"
+                    },
+                    "Export": {
+                      "Name": "sls-ecg-api-production-ListECGIrregularitiesLambdaFunctionQualifiedArn"
                     }
                   },
                   "ServiceEndpoint": {
@@ -889,9 +1165,15 @@
                   {
                     "Effect": "Allow",
                     "Action": [
-                      "dynamodb:PutItem"
+                      "dynamodb:DescribeTable",
+                      "dynamodb:Query",
+                      "dynamodb:Scan",
+                      "dynamodb:GetItem",
+                      "dynamodb:PutItem",
+                      "dynamodb:UpdateItem",
+                      "dynamodb:CreateTable"
                     ],
-                    "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
+                    "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable*"
                   }
                 ],
                 "name": "ecg-api-production-createECGEntries",
@@ -903,7 +1185,7 @@
                 "timeout": 10,
                 "runtime": "nodejs20.x",
                 "vpc": {},
-                "versionLogicalId": "CreateECGEntriesLambdaVersionur8DduvzquVEJxbgF3l4pHsMtYEeQ1cIloGTQQguwOw"
+                "versionLogicalId": "CreateECGEntriesLambdaVersionuFrEWx2dQQz1izG8zhfFWcq6VCXtwSLSgqJpbRieQM"
               },
               "listECGEntries": {
                 "handler": "infra/serverless/resources/lambda/handlers/listEntries/handler.main",
@@ -938,11 +1220,14 @@
                   {
                     "Effect": "Allow",
                     "Action": [
+                      "dynamodb:DescribeTable",
                       "dynamodb:Query",
                       "dynamodb:Scan",
-                      "dynamodb:GetItem"
+                      "dynamodb:GetItem",
+                      "dynamodb:PutItem",
+                      "dynamodb:CreateTable"
                     ],
-                    "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
+                    "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable*"
                   }
                 ],
                 "name": "ecg-api-production-listECGEntries",
@@ -954,7 +1239,61 @@
                 "timeout": 10,
                 "runtime": "nodejs20.x",
                 "vpc": {},
-                "versionLogicalId": "ListECGEntriesLambdaVersionNDLWBNk8z0deGeeurmHrcPT7MadNATM251sfoCPuN8"
+                "versionLogicalId": "ListECGEntriesLambdaVersionkWF8u9nyG5sUIE4HwuKQAkkooWrnyDGCLrfV1lQU"
+              },
+              "listECGIrregularities": {
+                "handler": "infra/serverless/resources/lambda/handlers/listIrregularities/handler.main",
+                "events": [
+                  {
+                    "http": {
+                      "path": "ecg/irregularities",
+                      "method": "get",
+                      "cors": {
+                        "origin": "*",
+                        "methods": [
+                          "OPTIONS",
+                          "GET"
+                        ],
+                        "headers": [
+                          "Content-Type",
+                          "X-Amz-Date",
+                          "Authorization",
+                          "X-Api-Key",
+                          "X-Amz-Security-Token",
+                          "X-Amz-User-Agent",
+                          "X-Amzn-Trace-Id"
+                        ],
+                        "allowCredentials": "<REDACTED>"
+                      },
+                      "integration": "AWS_PROXY"
+                    }
+                  }
+                ],
+                "iamRoleStatementsName": "listIrregularities-lambda-role",
+                "iamRoleStatements": [
+                  {
+                    "Effect": "Allow",
+                    "Action": [
+                      "dynamodb:DescribeTable",
+                      "dynamodb:Query",
+                      "dynamodb:Scan",
+                      "dynamodb:GetItem",
+                      "dynamodb:PutItem",
+                      "dynamodb:CreateTable"
+                    ],
+                    "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable*"
+                  }
+                ],
+                "name": "ecg-api-production-listECGIrregularities",
+                "environment": {
+                  "NODE_OPTIONS": "--enable-source-maps"
+                },
+                "package": {},
+                "memory": 512,
+                "timeout": 10,
+                "runtime": "nodejs20.x",
+                "vpc": {},
+                "versionLogicalId": "ListECGIrregularitiesLambdaVersionc0pXL8ctfPO14xwhfuJjfmrbK10B07hUHkOarqqk4"
               }
             },
             "resources": {
@@ -1132,6 +1471,12 @@
                       "LogGroupName": "/aws/lambda/ecg-api-production-listECGEntries"
                     }
                   },
+                  "ListECGIrregularitiesLogGroup": {
+                    "Type": "AWS::Logs::LogGroup",
+                    "Properties": {
+                      "LogGroupName": "/aws/lambda/ecg-api-production-listECGIrregularities"
+                    }
+                  },
                   "IamRoleLambdaExecution": {
                     "Type": "AWS::IAM::Role",
                     "Properties": {
@@ -1217,7 +1562,7 @@
                         "S3Bucket": {
                           "Ref": "ServerlessDeploymentBucket"
                         },
-                        "S3Key": "serverless/ecg-api/production/1720466007957-2024-07-08T19:13:27.957Z/ecg-api.zip"
+                        "S3Key": "serverless/ecg-api/production/1720486772051-2024-07-09T00:59:32.051Z/ecg-api.zip"
                       },
                       "Handler": "infra/serverless/resources/lambda/handlers/createEntries/handler.main",
                       "Runtime": "nodejs20.x",
@@ -1249,7 +1594,7 @@
                         "S3Bucket": {
                           "Ref": "ServerlessDeploymentBucket"
                         },
-                        "S3Key": "serverless/ecg-api/production/1720466007957-2024-07-08T19:13:27.957Z/ecg-api.zip"
+                        "S3Key": "serverless/ecg-api/production/1720486772051-2024-07-09T00:59:32.051Z/ecg-api.zip"
                       },
                       "Handler": "infra/serverless/resources/lambda/handlers/listEntries/handler.main",
                       "Runtime": "nodejs20.x",
@@ -1274,24 +1619,66 @@
                       "ListECGEntriesLogGroup"
                     ]
                   },
-                  "CreateECGEntriesLambdaVersionur8DduvzquVEJxbgF3l4pHsMtYEeQ1cIloGTQQguwOw": {
+                  "ListECGIrregularitiesLambdaFunction": {
+                    "Type": "AWS::Lambda::Function",
+                    "Properties": {
+                      "Code": {
+                        "S3Bucket": {
+                          "Ref": "ServerlessDeploymentBucket"
+                        },
+                        "S3Key": "serverless/ecg-api/production/1720486772051-2024-07-09T00:59:32.051Z/ecg-api.zip"
+                      },
+                      "Handler": "infra/serverless/resources/lambda/handlers/listIrregularities/handler.main",
+                      "Runtime": "nodejs20.x",
+                      "FunctionName": "ecg-api-production-listECGIrregularities",
+                      "MemorySize": 512,
+                      "Timeout": 10,
+                      "Environment": {
+                        "Variables": {
+                          "TABLE_NAME": "ECGTable",
+                          "NODE_OPTIONS": "--enable-source-maps"
+                        }
+                      },
+                      "Role": {
+                        "Fn::GetAtt": [
+                          "ListECGIrregularitiesIamRoleLambdaExecution",
+                          "Arn"
+                        ]
+                      }
+                    },
+                    "DependsOn": [
+                      "ListECGIrregularitiesIamRoleLambdaExecution",
+                      "ListECGIrregularitiesLogGroup"
+                    ]
+                  },
+                  "CreateECGEntriesLambdaVersionuFrEWx2dQQz1izG8zhfFWcq6VCXtwSLSgqJpbRieQM": {
                     "Type": "AWS::Lambda::Version",
                     "DeletionPolicy": "Retain",
                     "Properties": {
                       "FunctionName": {
                         "Ref": "CreateECGEntriesLambdaFunction"
                       },
-                      "CodeSha256": "XJ4iLgWpK20+zl5Cp5994DDN8u62t/w+72qpQR3KBhY="
+                      "CodeSha256": "FJJiAHs8sNN5Z6lWW6o0fEfxRMDrwJs8AaApdaEjWAk="
                     }
                   },
-                  "ListECGEntriesLambdaVersionNDLWBNk8z0deGeeurmHrcPT7MadNATM251sfoCPuN8": {
+                  "ListECGEntriesLambdaVersionkWF8u9nyG5sUIE4HwuKQAkkooWrnyDGCLrfV1lQU": {
                     "Type": "AWS::Lambda::Version",
                     "DeletionPolicy": "Retain",
                     "Properties": {
                       "FunctionName": {
                         "Ref": "ListECGEntriesLambdaFunction"
                       },
-                      "CodeSha256": "XJ4iLgWpK20+zl5Cp5994DDN8u62t/w+72qpQR3KBhY="
+                      "CodeSha256": "FJJiAHs8sNN5Z6lWW6o0fEfxRMDrwJs8AaApdaEjWAk="
+                    }
+                  },
+                  "ListECGIrregularitiesLambdaVersionc0pXL8ctfPO14xwhfuJjfmrbK10B07hUHkOarqqk4": {
+                    "Type": "AWS::Lambda::Version",
+                    "DeletionPolicy": "Retain",
+                    "Properties": {
+                      "FunctionName": {
+                        "Ref": "ListECGIrregularitiesLambdaFunction"
+                      },
+                      "CodeSha256": "FJJiAHs8sNN5Z6lWW6o0fEfxRMDrwJs8AaApdaEjWAk="
                     }
                   },
                   "ApiGatewayRestApi": {
@@ -1316,6 +1703,18 @@
                         ]
                       },
                       "PathPart": "ecg",
+                      "RestApiId": {
+                        "Ref": "ApiGatewayRestApi"
+                      }
+                    }
+                  },
+                  "ApiGatewayResourceEcgIrregularities": {
+                    "Type": "AWS::ApiGateway::Resource",
+                    "Properties": {
+                      "ParentId": {
+                        "Ref": "ApiGatewayResourceEcg"
+                      },
+                      "PathPart": "irregularities",
                       "RestApiId": {
                         "Ref": "ApiGatewayRestApi"
                       }
@@ -1360,6 +1759,51 @@
                       },
                       "ResourceId": {
                         "Ref": "ApiGatewayResourceEcg"
+                      },
+                      "RestApiId": {
+                        "Ref": "ApiGatewayRestApi"
+                      }
+                    }
+                  },
+                  "ApiGatewayMethodEcgIrregularitiesOptions": {
+                    "Type": "AWS::ApiGateway::Method",
+                    "Properties": {
+                      "AuthorizationType": "NONE",
+                      "HttpMethod": "OPTIONS",
+                      "MethodResponses": [
+                        {
+                          "StatusCode": "200",
+                          "ResponseParameters": {
+                            "method.response.header.Access-Control-Allow-Origin": true,
+                            "method.response.header.Access-Control-Allow-Headers": true,
+                            "method.response.header.Access-Control-Allow-Methods": true
+                          },
+                          "ResponseModels": {}
+                        }
+                      ],
+                      "RequestParameters": {},
+                      "Integration": {
+                        "Type": "MOCK",
+                        "RequestTemplates": {
+                          "application/json": "{statusCode:200}"
+                        },
+                        "ContentHandling": "CONVERT_TO_TEXT",
+                        "IntegrationResponses": [
+                          {
+                            "StatusCode": "200",
+                            "ResponseParameters": {
+                              "method.response.header.Access-Control-Allow-Origin": "'*'",
+                              "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                              "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'"
+                            },
+                            "ResponseTemplates": {
+                              "application/json": ""
+                            }
+                          }
+                        ]
+                      },
+                      "ResourceId": {
+                        "Ref": "ApiGatewayResourceEcgIrregularities"
                       },
                       "RestApiId": {
                         "Ref": "ApiGatewayRestApi"
@@ -1458,7 +1902,53 @@
                       "ListECGEntriesLambdaPermissionApiGateway"
                     ]
                   },
-                  "ApiGatewayDeployment1720466006133": {
+                  "ApiGatewayMethodEcgIrregularitiesGet": {
+                    "Type": "AWS::ApiGateway::Method",
+                    "Properties": {
+                      "HttpMethod": "GET",
+                      "RequestParameters": {},
+                      "ResourceId": {
+                        "Ref": "ApiGatewayResourceEcgIrregularities"
+                      },
+                      "RestApiId": {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "ApiKeyRequired": "<REDACTED>",
+                      "AuthorizationType": "NONE",
+                      "Integration": {
+                        "IntegrationHttpMethod": "POST",
+                        "Type": "AWS_PROXY",
+                        "Uri": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":apigateway:",
+                              {
+                                "Ref": "AWS::Region"
+                              },
+                              ":lambda:path/2015-03-31/functions/",
+                              {
+                                "Fn::GetAtt": [
+                                  "ListECGIrregularitiesLambdaFunction",
+                                  "Arn"
+                                ]
+                              },
+                              "/invocations"
+                            ]
+                          ]
+                        }
+                      },
+                      "MethodResponses": []
+                    },
+                    "DependsOn": [
+                      "ListECGIrregularitiesLambdaPermissionApiGateway"
+                    ]
+                  },
+                  "ApiGatewayDeployment1720486770655": {
                     "Type": "AWS::ApiGateway::Deployment",
                     "Properties": {
                       "RestApiId": {
@@ -1468,8 +1958,10 @@
                     },
                     "DependsOn": [
                       "ApiGatewayMethodEcgOptions",
+                      "ApiGatewayMethodEcgIrregularitiesOptions",
                       "ApiGatewayMethodEcgPost",
-                      "ApiGatewayMethodEcgGet"
+                      "ApiGatewayMethodEcgGet",
+                      "ApiGatewayMethodEcgIrregularitiesGet"
                     ]
                   },
                   "CreateECGEntriesLambdaPermissionApiGateway": {
@@ -1515,6 +2007,43 @@
                       "FunctionName": {
                         "Fn::GetAtt": [
                           "ListECGEntriesLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "Action": "lambda:InvokeFunction",
+                      "Principal": "apigateway.amazonaws.com",
+                      "SourceArn": {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":execute-api:",
+                            {
+                              "Ref": "AWS::Region"
+                            },
+                            ":",
+                            {
+                              "Ref": "AWS::AccountId"
+                            },
+                            ":",
+                            {
+                              "Ref": "ApiGatewayRestApi"
+                            },
+                            "/*/*"
+                          ]
+                        ]
+                      }
+                    }
+                  },
+                  "ListECGIrregularitiesLambdaPermissionApiGateway": {
+                    "Type": "AWS::Lambda::Permission",
+                    "Properties": {
+                      "FunctionName": {
+                        "Fn::GetAtt": [
+                          "ListECGIrregularitiesLambdaFunction",
                           "Arn"
                         ]
                       },
@@ -1596,9 +2125,15 @@
                               {
                                 "Effect": "Allow",
                                 "Action": [
-                                  "dynamodb:PutItem"
+                                  "dynamodb:DescribeTable",
+                                  "dynamodb:Query",
+                                  "dynamodb:Scan",
+                                  "dynamodb:GetItem",
+                                  "dynamodb:PutItem",
+                                  "dynamodb:UpdateItem",
+                                  "dynamodb:CreateTable"
                                 ],
-                                "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
+                                "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable*"
                               }
                             ]
                           }
@@ -1659,11 +2194,14 @@
                               {
                                 "Effect": "Allow",
                                 "Action": [
+                                  "dynamodb:DescribeTable",
                                   "dynamodb:Query",
                                   "dynamodb:Scan",
-                                  "dynamodb:GetItem"
+                                  "dynamodb:GetItem",
+                                  "dynamodb:PutItem",
+                                  "dynamodb:CreateTable"
                                 ],
-                                "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
+                                "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable*"
                               }
                             ]
                           }
@@ -1671,6 +2209,74 @@
                       ],
                       "Path": "/",
                       "RoleName": "listEntries-lambda-role",
+                      "ManagedPolicyArns": []
+                    }
+                  },
+                  "ListECGIrregularitiesIamRoleLambdaExecution": {
+                    "Type": "AWS::IAM::Role",
+                    "Properties": {
+                      "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17",
+                        "Statement": [
+                          {
+                            "Effect": "Allow",
+                            "Principal": {
+                              "Service": [
+                                "lambda.amazonaws.com"
+                              ]
+                            },
+                            "Action": [
+                              "sts:AssumeRole"
+                            ]
+                          }
+                        ]
+                      },
+                      "Policies": [
+                        {
+                          "PolicyName": {
+                            "Fn::Join": [
+                              "-",
+                              [
+                                "ecg-api",
+                                "production",
+                                "lambda"
+                              ]
+                            ]
+                          },
+                          "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                              {
+                                "Effect": "Allow",
+                                "Action": [
+                                  "logs:CreateLogStream",
+                                  "logs:CreateLogGroup",
+                                  "logs:PutLogEvents"
+                                ],
+                                "Resource": [
+                                  {
+                                    "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/ecg-api-production-listECGIrregularities:*:*"
+                                  }
+                                ]
+                              },
+                              {
+                                "Effect": "Allow",
+                                "Action": [
+                                  "dynamodb:DescribeTable",
+                                  "dynamodb:Query",
+                                  "dynamodb:Scan",
+                                  "dynamodb:GetItem",
+                                  "dynamodb:PutItem",
+                                  "dynamodb:CreateTable"
+                                ],
+                                "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable*"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "Path": "/",
+                      "RoleName": "listIrregularities-lambda-role",
                       "ManagedPolicyArns": []
                     }
                   },
@@ -1739,7 +2345,7 @@
                   "CreateECGEntriesLambdaFunctionQualifiedArn": {
                     "Description": "Current Lambda function version",
                     "Value": {
-                      "Ref": "CreateECGEntriesLambdaVersionur8DduvzquVEJxbgF3l4pHsMtYEeQ1cIloGTQQguwOw"
+                      "Ref": "CreateECGEntriesLambdaVersionuFrEWx2dQQz1izG8zhfFWcq6VCXtwSLSgqJpbRieQM"
                     },
                     "Export": {
                       "Name": "sls-ecg-api-production-CreateECGEntriesLambdaFunctionQualifiedArn"
@@ -1748,10 +2354,19 @@
                   "ListECGEntriesLambdaFunctionQualifiedArn": {
                     "Description": "Current Lambda function version",
                     "Value": {
-                      "Ref": "ListECGEntriesLambdaVersionNDLWBNk8z0deGeeurmHrcPT7MadNATM251sfoCPuN8"
+                      "Ref": "ListECGEntriesLambdaVersionkWF8u9nyG5sUIE4HwuKQAkkooWrnyDGCLrfV1lQU"
                     },
                     "Export": {
                       "Name": "sls-ecg-api-production-ListECGEntriesLambdaFunctionQualifiedArn"
+                    }
+                  },
+                  "ListECGIrregularitiesLambdaFunctionQualifiedArn": {
+                    "Description": "Current Lambda function version",
+                    "Value": {
+                      "Ref": "ListECGIrregularitiesLambdaVersionc0pXL8ctfPO14xwhfuJjfmrbK10B07hUHkOarqqk4"
+                    },
+                    "Export": {
+                      "Name": "sls-ecg-api-production-ListECGIrregularitiesLambdaFunctionQualifiedArn"
                     }
                   },
                   "ServiceEndpoint": {
@@ -1910,9 +2525,15 @@
                   {
                     "Effect": "Allow",
                     "Action": [
-                      "dynamodb:PutItem"
+                      "dynamodb:DescribeTable",
+                      "dynamodb:Query",
+                      "dynamodb:Scan",
+                      "dynamodb:GetItem",
+                      "dynamodb:PutItem",
+                      "dynamodb:UpdateItem",
+                      "dynamodb:CreateTable"
                     ],
-                    "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
+                    "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable*"
                   }
                 ],
                 "name": "ecg-api-production-createECGEntries",
@@ -1924,7 +2545,7 @@
                 "timeout": 10,
                 "runtime": "nodejs20.x",
                 "vpc": {},
-                "versionLogicalId": "CreateECGEntriesLambdaVersionur8DduvzquVEJxbgF3l4pHsMtYEeQ1cIloGTQQguwOw"
+                "versionLogicalId": "CreateECGEntriesLambdaVersionuFrEWx2dQQz1izG8zhfFWcq6VCXtwSLSgqJpbRieQM"
               },
               "listECGEntries": {
                 "handler": "infra/serverless/resources/lambda/handlers/listEntries/handler.main",
@@ -1959,11 +2580,14 @@
                   {
                     "Effect": "Allow",
                     "Action": [
+                      "dynamodb:DescribeTable",
                       "dynamodb:Query",
                       "dynamodb:Scan",
-                      "dynamodb:GetItem"
+                      "dynamodb:GetItem",
+                      "dynamodb:PutItem",
+                      "dynamodb:CreateTable"
                     ],
-                    "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
+                    "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable*"
                   }
                 ],
                 "name": "ecg-api-production-listECGEntries",
@@ -1975,7 +2599,61 @@
                 "timeout": 10,
                 "runtime": "nodejs20.x",
                 "vpc": {},
-                "versionLogicalId": "ListECGEntriesLambdaVersionNDLWBNk8z0deGeeurmHrcPT7MadNATM251sfoCPuN8"
+                "versionLogicalId": "ListECGEntriesLambdaVersionkWF8u9nyG5sUIE4HwuKQAkkooWrnyDGCLrfV1lQU"
+              },
+              "listECGIrregularities": {
+                "handler": "infra/serverless/resources/lambda/handlers/listIrregularities/handler.main",
+                "events": [
+                  {
+                    "http": {
+                      "path": "ecg/irregularities",
+                      "method": "get",
+                      "cors": {
+                        "origin": "*",
+                        "methods": [
+                          "OPTIONS",
+                          "GET"
+                        ],
+                        "headers": [
+                          "Content-Type",
+                          "X-Amz-Date",
+                          "Authorization",
+                          "X-Api-Key",
+                          "X-Amz-Security-Token",
+                          "X-Amz-User-Agent",
+                          "X-Amzn-Trace-Id"
+                        ],
+                        "allowCredentials": "<REDACTED>"
+                      },
+                      "integration": "AWS_PROXY"
+                    }
+                  }
+                ],
+                "iamRoleStatementsName": "listIrregularities-lambda-role",
+                "iamRoleStatements": [
+                  {
+                    "Effect": "Allow",
+                    "Action": [
+                      "dynamodb:DescribeTable",
+                      "dynamodb:Query",
+                      "dynamodb:Scan",
+                      "dynamodb:GetItem",
+                      "dynamodb:PutItem",
+                      "dynamodb:CreateTable"
+                    ],
+                    "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable*"
+                  }
+                ],
+                "name": "ecg-api-production-listECGIrregularities",
+                "environment": {
+                  "NODE_OPTIONS": "--enable-source-maps"
+                },
+                "package": {},
+                "memory": 512,
+                "timeout": 10,
+                "runtime": "nodejs20.x",
+                "vpc": {},
+                "versionLogicalId": "ListECGIrregularitiesLambdaVersionc0pXL8ctfPO14xwhfuJjfmrbK10B07hUHkOarqqk4"
               }
             },
             "resources": {
@@ -2154,6 +2832,12 @@
                 "LogGroupName": "/aws/lambda/ecg-api-production-listECGEntries"
               }
             },
+            "ListECGIrregularitiesLogGroup": {
+              "Type": "AWS::Logs::LogGroup",
+              "Properties": {
+                "LogGroupName": "/aws/lambda/ecg-api-production-listECGIrregularities"
+              }
+            },
             "IamRoleLambdaExecution": {
               "Type": "AWS::IAM::Role",
               "Properties": {
@@ -2239,7 +2923,7 @@
                   "S3Bucket": {
                     "Ref": "ServerlessDeploymentBucket"
                   },
-                  "S3Key": "serverless/ecg-api/production/1720466007957-2024-07-08T19:13:27.957Z/ecg-api.zip"
+                  "S3Key": "serverless/ecg-api/production/1720486772051-2024-07-09T00:59:32.051Z/ecg-api.zip"
                 },
                 "Handler": "infra/serverless/resources/lambda/handlers/createEntries/handler.main",
                 "Runtime": "nodejs20.x",
@@ -2271,7 +2955,7 @@
                   "S3Bucket": {
                     "Ref": "ServerlessDeploymentBucket"
                   },
-                  "S3Key": "serverless/ecg-api/production/1720466007957-2024-07-08T19:13:27.957Z/ecg-api.zip"
+                  "S3Key": "serverless/ecg-api/production/1720486772051-2024-07-09T00:59:32.051Z/ecg-api.zip"
                 },
                 "Handler": "infra/serverless/resources/lambda/handlers/listEntries/handler.main",
                 "Runtime": "nodejs20.x",
@@ -2296,24 +2980,66 @@
                 "ListECGEntriesLogGroup"
               ]
             },
-            "CreateECGEntriesLambdaVersionur8DduvzquVEJxbgF3l4pHsMtYEeQ1cIloGTQQguwOw": {
+            "ListECGIrregularitiesLambdaFunction": {
+              "Type": "AWS::Lambda::Function",
+              "Properties": {
+                "Code": {
+                  "S3Bucket": {
+                    "Ref": "ServerlessDeploymentBucket"
+                  },
+                  "S3Key": "serverless/ecg-api/production/1720486772051-2024-07-09T00:59:32.051Z/ecg-api.zip"
+                },
+                "Handler": "infra/serverless/resources/lambda/handlers/listIrregularities/handler.main",
+                "Runtime": "nodejs20.x",
+                "FunctionName": "ecg-api-production-listECGIrregularities",
+                "MemorySize": 512,
+                "Timeout": 10,
+                "Environment": {
+                  "Variables": {
+                    "TABLE_NAME": "ECGTable",
+                    "NODE_OPTIONS": "--enable-source-maps"
+                  }
+                },
+                "Role": {
+                  "Fn::GetAtt": [
+                    "ListECGIrregularitiesIamRoleLambdaExecution",
+                    "Arn"
+                  ]
+                }
+              },
+              "DependsOn": [
+                "ListECGIrregularitiesIamRoleLambdaExecution",
+                "ListECGIrregularitiesLogGroup"
+              ]
+            },
+            "CreateECGEntriesLambdaVersionuFrEWx2dQQz1izG8zhfFWcq6VCXtwSLSgqJpbRieQM": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "CreateECGEntriesLambdaFunction"
                 },
-                "CodeSha256": "XJ4iLgWpK20+zl5Cp5994DDN8u62t/w+72qpQR3KBhY="
+                "CodeSha256": "FJJiAHs8sNN5Z6lWW6o0fEfxRMDrwJs8AaApdaEjWAk="
               }
             },
-            "ListECGEntriesLambdaVersionNDLWBNk8z0deGeeurmHrcPT7MadNATM251sfoCPuN8": {
+            "ListECGEntriesLambdaVersionkWF8u9nyG5sUIE4HwuKQAkkooWrnyDGCLrfV1lQU": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "ListECGEntriesLambdaFunction"
                 },
-                "CodeSha256": "XJ4iLgWpK20+zl5Cp5994DDN8u62t/w+72qpQR3KBhY="
+                "CodeSha256": "FJJiAHs8sNN5Z6lWW6o0fEfxRMDrwJs8AaApdaEjWAk="
+              }
+            },
+            "ListECGIrregularitiesLambdaVersionc0pXL8ctfPO14xwhfuJjfmrbK10B07hUHkOarqqk4": {
+              "Type": "AWS::Lambda::Version",
+              "DeletionPolicy": "Retain",
+              "Properties": {
+                "FunctionName": {
+                  "Ref": "ListECGIrregularitiesLambdaFunction"
+                },
+                "CodeSha256": "FJJiAHs8sNN5Z6lWW6o0fEfxRMDrwJs8AaApdaEjWAk="
               }
             },
             "ApiGatewayRestApi": {
@@ -2338,6 +3064,18 @@
                   ]
                 },
                 "PathPart": "ecg",
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayResourceEcgIrregularities": {
+              "Type": "AWS::ApiGateway::Resource",
+              "Properties": {
+                "ParentId": {
+                  "Ref": "ApiGatewayResourceEcg"
+                },
+                "PathPart": "irregularities",
                 "RestApiId": {
                   "Ref": "ApiGatewayRestApi"
                 }
@@ -2382,6 +3120,51 @@
                 },
                 "ResourceId": {
                   "Ref": "ApiGatewayResourceEcg"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayMethodEcgIrregularitiesOptions": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "AuthorizationType": "NONE",
+                "HttpMethod": "OPTIONS",
+                "MethodResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": true,
+                      "method.response.header.Access-Control-Allow-Headers": true,
+                      "method.response.header.Access-Control-Allow-Methods": true
+                    },
+                    "ResponseModels": {}
+                  }
+                ],
+                "RequestParameters": {},
+                "Integration": {
+                  "Type": "MOCK",
+                  "RequestTemplates": {
+                    "application/json": "{statusCode:200}"
+                  },
+                  "ContentHandling": "CONVERT_TO_TEXT",
+                  "IntegrationResponses": [
+                    {
+                      "StatusCode": "200",
+                      "ResponseParameters": {
+                        "method.response.header.Access-Control-Allow-Origin": "'*'",
+                        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'"
+                      },
+                      "ResponseTemplates": {
+                        "application/json": ""
+                      }
+                    }
+                  ]
+                },
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceEcgIrregularities"
                 },
                 "RestApiId": {
                   "Ref": "ApiGatewayRestApi"
@@ -2480,7 +3263,53 @@
                 "ListECGEntriesLambdaPermissionApiGateway"
               ]
             },
-            "ApiGatewayDeployment1720466006133": {
+            "ApiGatewayMethodEcgIrregularitiesGet": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "HttpMethod": "GET",
+                "RequestParameters": {},
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceEcgIrregularities"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                },
+                "ApiKeyRequired": "<REDACTED>",
+                "AuthorizationType": "NONE",
+                "Integration": {
+                  "IntegrationHttpMethod": "POST",
+                  "Type": "AWS_PROXY",
+                  "Uri": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":apigateway:",
+                        {
+                          "Ref": "AWS::Region"
+                        },
+                        ":lambda:path/2015-03-31/functions/",
+                        {
+                          "Fn::GetAtt": [
+                            "ListECGIrregularitiesLambdaFunction",
+                            "Arn"
+                          ]
+                        },
+                        "/invocations"
+                      ]
+                    ]
+                  }
+                },
+                "MethodResponses": []
+              },
+              "DependsOn": [
+                "ListECGIrregularitiesLambdaPermissionApiGateway"
+              ]
+            },
+            "ApiGatewayDeployment1720486770655": {
               "Type": "AWS::ApiGateway::Deployment",
               "Properties": {
                 "RestApiId": {
@@ -2490,8 +3319,10 @@
               },
               "DependsOn": [
                 "ApiGatewayMethodEcgOptions",
+                "ApiGatewayMethodEcgIrregularitiesOptions",
                 "ApiGatewayMethodEcgPost",
-                "ApiGatewayMethodEcgGet"
+                "ApiGatewayMethodEcgGet",
+                "ApiGatewayMethodEcgIrregularitiesGet"
               ]
             },
             "CreateECGEntriesLambdaPermissionApiGateway": {
@@ -2537,6 +3368,43 @@
                 "FunctionName": {
                   "Fn::GetAtt": [
                     "ListECGEntriesLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":execute-api:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":",
+                      {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "/*/*"
+                    ]
+                  ]
+                }
+              }
+            },
+            "ListECGIrregularitiesLambdaPermissionApiGateway": {
+              "Type": "AWS::Lambda::Permission",
+              "Properties": {
+                "FunctionName": {
+                  "Fn::GetAtt": [
+                    "ListECGIrregularitiesLambdaFunction",
                     "Arn"
                   ]
                 },
@@ -2618,9 +3486,15 @@
                         {
                           "Effect": "Allow",
                           "Action": [
-                            "dynamodb:PutItem"
+                            "dynamodb:DescribeTable",
+                            "dynamodb:Query",
+                            "dynamodb:Scan",
+                            "dynamodb:GetItem",
+                            "dynamodb:PutItem",
+                            "dynamodb:UpdateItem",
+                            "dynamodb:CreateTable"
                           ],
-                          "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
+                          "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable*"
                         }
                       ]
                     }
@@ -2681,11 +3555,14 @@
                         {
                           "Effect": "Allow",
                           "Action": [
+                            "dynamodb:DescribeTable",
                             "dynamodb:Query",
                             "dynamodb:Scan",
-                            "dynamodb:GetItem"
+                            "dynamodb:GetItem",
+                            "dynamodb:PutItem",
+                            "dynamodb:CreateTable"
                           ],
-                          "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
+                          "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable*"
                         }
                       ]
                     }
@@ -2693,6 +3570,74 @@
                 ],
                 "Path": "/",
                 "RoleName": "listEntries-lambda-role",
+                "ManagedPolicyArns": []
+              }
+            },
+            "ListECGIrregularitiesIamRoleLambdaExecution": {
+              "Type": "AWS::IAM::Role",
+              "Properties": {
+                "AssumeRolePolicyDocument": {
+                  "Version": "2012-10-17",
+                  "Statement": [
+                    {
+                      "Effect": "Allow",
+                      "Principal": {
+                        "Service": [
+                          "lambda.amazonaws.com"
+                        ]
+                      },
+                      "Action": [
+                        "sts:AssumeRole"
+                      ]
+                    }
+                  ]
+                },
+                "Policies": [
+                  {
+                    "PolicyName": {
+                      "Fn::Join": [
+                        "-",
+                        [
+                          "ecg-api",
+                          "production",
+                          "lambda"
+                        ]
+                      ]
+                    },
+                    "PolicyDocument": {
+                      "Version": "2012-10-17",
+                      "Statement": [
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:CreateLogStream",
+                            "logs:CreateLogGroup",
+                            "logs:PutLogEvents"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/ecg-api-production-listECGIrregularities:*:*"
+                            }
+                          ]
+                        },
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "dynamodb:DescribeTable",
+                            "dynamodb:Query",
+                            "dynamodb:Scan",
+                            "dynamodb:GetItem",
+                            "dynamodb:PutItem",
+                            "dynamodb:CreateTable"
+                          ],
+                          "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable*"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "Path": "/",
+                "RoleName": "listIrregularities-lambda-role",
                 "ManagedPolicyArns": []
               }
             },
@@ -2761,7 +3706,7 @@
             "CreateECGEntriesLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "CreateECGEntriesLambdaVersionur8DduvzquVEJxbgF3l4pHsMtYEeQ1cIloGTQQguwOw"
+                "Ref": "CreateECGEntriesLambdaVersionuFrEWx2dQQz1izG8zhfFWcq6VCXtwSLSgqJpbRieQM"
               },
               "Export": {
                 "Name": "sls-ecg-api-production-CreateECGEntriesLambdaFunctionQualifiedArn"
@@ -2770,10 +3715,19 @@
             "ListECGEntriesLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "ListECGEntriesLambdaVersionNDLWBNk8z0deGeeurmHrcPT7MadNATM251sfoCPuN8"
+                "Ref": "ListECGEntriesLambdaVersionkWF8u9nyG5sUIE4HwuKQAkkooWrnyDGCLrfV1lQU"
               },
               "Export": {
                 "Name": "sls-ecg-api-production-ListECGEntriesLambdaFunctionQualifiedArn"
+              }
+            },
+            "ListECGIrregularitiesLambdaFunctionQualifiedArn": {
+              "Description": "Current Lambda function version",
+              "Value": {
+                "Ref": "ListECGIrregularitiesLambdaVersionc0pXL8ctfPO14xwhfuJjfmrbK10B07hUHkOarqqk4"
+              },
+              "Export": {
+                "Name": "sls-ecg-api-production-ListECGIrregularitiesLambdaFunctionQualifiedArn"
               }
             },
             "ServiceEndpoint": {
@@ -2932,9 +3886,15 @@
             {
               "Effect": "Allow",
               "Action": [
-                "dynamodb:PutItem"
+                "dynamodb:DescribeTable",
+                "dynamodb:Query",
+                "dynamodb:Scan",
+                "dynamodb:GetItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:CreateTable"
               ],
-              "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
+              "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable*"
             }
           ],
           "name": "ecg-api-production-createECGEntries",
@@ -2946,7 +3906,7 @@
           "timeout": 10,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "CreateECGEntriesLambdaVersionur8DduvzquVEJxbgF3l4pHsMtYEeQ1cIloGTQQguwOw"
+          "versionLogicalId": "CreateECGEntriesLambdaVersionuFrEWx2dQQz1izG8zhfFWcq6VCXtwSLSgqJpbRieQM"
         },
         "listECGEntries": {
           "handler": "infra/serverless/resources/lambda/handlers/listEntries/handler.main",
@@ -2981,11 +3941,14 @@
             {
               "Effect": "Allow",
               "Action": [
+                "dynamodb:DescribeTable",
                 "dynamodb:Query",
                 "dynamodb:Scan",
-                "dynamodb:GetItem"
+                "dynamodb:GetItem",
+                "dynamodb:PutItem",
+                "dynamodb:CreateTable"
               ],
-              "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable"
+              "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable*"
             }
           ],
           "name": "ecg-api-production-listECGEntries",
@@ -2997,7 +3960,61 @@
           "timeout": 10,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "ListECGEntriesLambdaVersionNDLWBNk8z0deGeeurmHrcPT7MadNATM251sfoCPuN8"
+          "versionLogicalId": "ListECGEntriesLambdaVersionkWF8u9nyG5sUIE4HwuKQAkkooWrnyDGCLrfV1lQU"
+        },
+        "listECGIrregularities": {
+          "handler": "infra/serverless/resources/lambda/handlers/listIrregularities/handler.main",
+          "events": [
+            {
+              "http": {
+                "path": "ecg/irregularities",
+                "method": "get",
+                "cors": {
+                  "origin": "*",
+                  "methods": [
+                    "OPTIONS",
+                    "GET"
+                  ],
+                  "headers": [
+                    "Content-Type",
+                    "X-Amz-Date",
+                    "Authorization",
+                    "X-Api-Key",
+                    "X-Amz-Security-Token",
+                    "X-Amz-User-Agent",
+                    "X-Amzn-Trace-Id"
+                  ],
+                  "allowCredentials": "<REDACTED>"
+                },
+                "integration": "AWS_PROXY"
+              }
+            }
+          ],
+          "iamRoleStatementsName": "listIrregularities-lambda-role",
+          "iamRoleStatements": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:DescribeTable",
+                "dynamodb:Query",
+                "dynamodb:Scan",
+                "dynamodb:GetItem",
+                "dynamodb:PutItem",
+                "dynamodb:CreateTable"
+              ],
+              "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable*"
+            }
+          ],
+          "name": "ecg-api-production-listECGIrregularities",
+          "environment": {
+            "NODE_OPTIONS": "--enable-source-maps"
+          },
+          "package": {},
+          "memory": 512,
+          "timeout": 10,
+          "runtime": "nodejs20.x",
+          "vpc": {},
+          "versionLogicalId": "ListECGIrregularitiesLambdaVersionc0pXL8ctfPO14xwhfuJjfmrbK10B07hUHkOarqqk4"
         }
       },
       "resources": {
@@ -3058,7 +4075,7 @@
         "Outputs": {}
       }
     },
-    "serviceRawFile": "app: ecg-api\r\nservice: ecg-api\r\n\r\nplugins:\r\n  - serverless-iam-roles-per-function\r\n\r\n\r\nprovider:\r\n  name: aws\r\n  runtime: nodejs20.x\r\n  region: us-east-1\r\n  stage: production\r\n  memorySize: 512 # optional, in MB, default is 1024\r\n  timeout: 10 # optional, in seconds, default is 6\r\n  environment:\r\n    TABLE_NAME: 'ECGTable'\r\n\r\ncustom:\r\n  esbuild:\r\n    bundle: true\r\n    minify: false\r\n    sourcemap: true\r\n    target: 'node20'\r\n    platform: 'node'\r\n    concurrency: 10\r\n\r\nfunctions:\r\n  createECGEntries: ${file(./infra/serverless/resources/lambda/handlers/createEntries/createEntries.yml)}\r\n  listECGEntries: ${file(./infra/serverless/resources/lambda/handlers/listEntries/listEntries.yml)}\r\n\r\nresources:\r\n  Resources:\r\n    ECGTable: ${file(./infra/serverless/resources/dynamodb/ecgTable.yml)}",
+    "serviceRawFile": "app: ecg-api\r\nservice: ecg-api\r\n\r\nplugins:\r\n  - serverless-iam-roles-per-function\r\n\r\n\r\nprovider:\r\n  name: aws\r\n  runtime: nodejs20.x\r\n  region: us-east-1\r\n  stage: production\r\n  memorySize: 512 # optional, in MB, default is 1024\r\n  timeout: 10 # optional, in seconds, default is 6\r\n  environment:\r\n    TABLE_NAME: 'ECGTable'\r\n\r\ncustom:\r\n  esbuild:\r\n    bundle: true\r\n    minify: false\r\n    sourcemap: true\r\n    target: 'node20'\r\n    platform: 'node'\r\n    concurrency: 10\r\n\r\nfunctions:\r\n  createECGEntries: ${file(./infra/serverless/resources/lambda/handlers/createEntries/createEntries.yml)}\r\n  listECGEntries: ${file(./infra/serverless/resources/lambda/handlers/listEntries/listEntries.yml)}\r\n  listECGIrregularities: ${file(./infra/serverless/resources/lambda/handlers/listIrregularities/listIrregularities.yml)}\r\n\r\nresources:\r\n  Resources:\r\n    ECGTable: ${file(./infra/serverless/resources/dynamodb/ecgTable.yml)}",
     "command": [
       "deploy"
     ],
@@ -3091,20 +4108,26 @@
     "serviceProviderAwsCfStackName": "ecg-api-production",
     "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:851725203148:stack/ecg-api-production/3322e1c0-3bb8-11ef-a99e-127ce02d7b79",
     "serviceProviderAwsCfStackCreated": "2024-07-06T16:52:59.054Z",
-    "serviceProviderAwsCfStackUpdated": "2024-07-08T19:13:34.411Z",
+    "serviceProviderAwsCfStackUpdated": "2024-07-09T00:59:38.380Z",
     "serviceProviderAwsCfStackStatus": "UPDATE_COMPLETE",
     "serviceProviderAwsCfStackOutputs": [
       {
         "OutputKey": "CreateECGEntriesLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:us-east-1:851725203148:function:ecg-api-production-createECGEntries:7",
+        "OutputValue": "arn:aws:lambda:us-east-1:851725203148:function:ecg-api-production-createECGEntries:11",
         "Description": "Current Lambda function version",
         "ExportName": "sls-ecg-api-production-CreateECGEntriesLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "ListECGEntriesLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:us-east-1:851725203148:function:ecg-api-production-listECGEntries:2",
+        "OutputValue": "arn:aws:lambda:us-east-1:851725203148:function:ecg-api-production-listECGEntries:6",
         "Description": "Current Lambda function version",
         "ExportName": "sls-ecg-api-production-ListECGEntriesLambdaFunctionQualifiedArn"
+      },
+      {
+        "OutputKey": "ListECGIrregularitiesLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-1:851725203148:function:ecg-api-production-listECGIrregularities:4",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-ecg-api-production-ListECGIrregularitiesLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "ServiceEndpoint",

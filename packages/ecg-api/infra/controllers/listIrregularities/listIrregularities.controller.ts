@@ -1,17 +1,11 @@
 import { ListIrregularitiesInputDTO } from "../../../application/dto/listIrregularities/listIrregularitiesInput.dto";
 import { ListIrregularitiesUseCase } from "../../../application/useCase/listIrregularities/listIrregularities.useCase";
-import { ECG } from "../../../domain/entities/ECG.entity";
 import { ECGRepository } from "../../../domain/repositories/ECGRepository.interface";
+import { HandlerResponse } from "../../../domain/valueObjects/response";
 
 type EventInput = {
     deviceId: string,
     interval: string;
-}
-
-export type ListIrregularitiesResponse = {
-    status: number,
-    data: ECG[],
-    message: string,
 }
 
 export class ListIrregularitiesController {
@@ -21,7 +15,7 @@ export class ListIrregularitiesController {
         this.listIrregularitiesUseCase = new ListIrregularitiesUseCase(this.ecgRepository);
     }
 
-    async handleListIrregularities(input: EventInput): Promise<ListIrregularitiesResponse> {
+    async handleListIrregularities(input: EventInput): Promise<HandlerResponse> {
         const {
             ecgIrregularitiesList,
         } = await this.listIrregularitiesUseCase.execute(
@@ -29,9 +23,14 @@ export class ListIrregularitiesController {
         );
 
         return {
-            status: 200,
-            data: ecgIrregularitiesList,
-            message: 'retrieved succesfully!',
-        }
+            statusCode: 200,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                data: ecgIrregularitiesList,
+                message: 'retrieved succesfully!',
+            }),
+        };
     }
 }

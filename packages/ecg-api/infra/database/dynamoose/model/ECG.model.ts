@@ -48,7 +48,7 @@ const schema = new dynamoose.Schema(
 );
 
 export const ECGModel = dynamoose.model(process.env.TABLE_NAME || '', schema, {
-    create: true,
+    create: false,
     throughput: {
         read: 5,
         write: 5,

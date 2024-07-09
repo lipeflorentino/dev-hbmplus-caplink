@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
-    "deploy": "serverless deploy -s prodution",
+    "deploy": "serverless deploy -s production",
     "createEntries": "serverless invoke local -f createECGEntries -s production -p infra/serverless/resources/lambda/handlers/createEntries/mock.json",
     "listEntries": "serverless invoke local -f listECGEntries -s production -p infra/serverless/resources/lambda/handlers/listEntries/mock.json",
     "lint": "eslint .",
