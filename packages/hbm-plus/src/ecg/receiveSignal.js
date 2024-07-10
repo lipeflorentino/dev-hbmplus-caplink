@@ -1,9 +1,11 @@
-function receiveSignal(req, res) {
+const logger = require('../logger/logger');
+
+function receiveSignal(req) {
     const { signal } = req.body;
-    console.log(('################## Signal received ######################'));
-    console.log(`Signal received: ${signal}`);
-    console.log(('################## Signal received ######################'));
-    res.status(200).send('################## Signal received ######################');
+    const message = `Signal received: ${signal}`;
+    logger.info((`################## ${message} ######################`));
+    logger.info((`################## ${message} ######################`));
+    return message;
 }
 
 module.exports = {

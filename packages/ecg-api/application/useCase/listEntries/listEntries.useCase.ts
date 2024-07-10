@@ -6,7 +6,7 @@ export class ListEntriesUseCase {
     constructor(private readonly ecgRepository: ECGRepository) {}
 
     async execute(input: ListEntriesInputDTO): Promise<ListEntriesOutputDTO> {
-        console.log(this.ecgRepository, input);
+        console.log(input);
         return new ListEntriesOutputDTO(
             await this.ecgRepository.listEntries(input.deviceId, input.interval)
         );

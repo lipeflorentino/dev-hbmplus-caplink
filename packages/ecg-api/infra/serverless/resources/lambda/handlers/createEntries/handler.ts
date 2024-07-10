@@ -19,7 +19,7 @@ export const main = async (event: any): Promise<HandlerResponse> => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                message: 'Erro ao tentar criar',
+                message: 'Failed to create!',
                 error,
             }),
         };

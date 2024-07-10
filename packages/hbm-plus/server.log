@@ -1,0 +1,30 @@
+2024-07-10T14:12:50.902Z [info]: Request: GET /
+2024-07-10T14:13:06.920Z [info]: Request: GET /logs
+2024-07-10T14:14:11.845Z [info]: Request: GET /logs
+2024-07-10T14:14:34.006Z [info]: Request: GET /logs
+2024-07-10T14:14:34.569Z [info]: Request: GET /favicon.ico
+2024-07-10T14:16:51.935Z [info]: Request: GET /logs
+2024-07-10T14:17:15.261Z [info]: Request: GET /logs
+2024-07-10T14:19:19.809Z [info]: Server running on http://localhost:3000
+2024-07-10T14:19:19.812Z [info]: Type "sendEcg <milivolts>" to send an ECG signal.
+2024-07-10T14:19:23.707Z [info]: Request: GET /logs
+2024-07-10T14:21:25.457Z [info]: Server running on http://localhost:3000
+2024-07-10T14:21:25.459Z [info]: Type "sendEcg <milivolts>" to send an ECG signal.
+2024-07-10T14:21:29.123Z [info]: Request: GET /logs
+2024-07-10T14:21:50.833Z [info]: [object Object]
+2024-07-10T14:21:50.833Z [info]: Sending ECG: 0.23 with interval 
+2024-07-10T14:21:51.820Z [info]: ECG sent successfully: created succesfully!
+2024-07-10T14:21:56.220Z [info]: Request: GET /logs
+2024-07-10T14:24:17.900Z [info]: Server running on http://localhost:3000
+2024-07-10T14:24:17.902Z [info]: Type "sendEcg <milivolts>" to send an ECG signal.
+2024-07-10T14:24:43.776Z [info]: [object Object]
+2024-07-10T14:24:43.776Z [info]: Sending ECG to device device-123: milivolts 0.2 with interval 30
+2024-07-10T14:24:44.111Z [info]: ECG sent successfully:
+2024-07-10T14:24:49.678Z [info]: Request: GET /logs
+2024-07-10T14:25:12.806Z [info]: Request: POST /receive-signal
+2024-07-10T14:25:12.806Z [info]: ################## Signal received: bip ######################
+2024-07-10T14:25:12.806Z [info]: ################## Signal received: bip ######################
+2024-07-10T14:25:19.992Z [info]: Request: GET /logs
+2024-07-10T14:26:50.834Z [info]: Request: POST /receive-signal
+2024-07-10T14:26:50.835Z [info]: ################## Signal received: bipbip ######################
+2024-07-10T14:26:50.835Z [info]: ################## Signal received: bipbip ######################

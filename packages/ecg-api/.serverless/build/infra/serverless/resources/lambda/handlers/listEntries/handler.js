@@ -5470,7 +5470,7 @@ var ListEntriesUseCase = class {
     this.ecgRepository = ecgRepository;
   }
   async execute(input) {
-    console.log(this.ecgRepository, input);
+    console.log(input);
     return new ListEntriesOutputDTO(
       await this.ecgRepository.listEntries(input.deviceId, input.interval)
     );
@@ -5652,8 +5652,8 @@ var DynamooseDBRepository = class {
   async save(ecg) {
     console.log("ECG_MODEL", { ecg });
     const newECG = new ECGModel(ecg);
-    console.log("dynamoose model created!", { newECG });
-    await newECG.save();
+    const savedItem = await newECG.save();
+    console.log("Item salvo na tabela!", { savedItem });
   }
   async update(keys, params) {
     console.log("updating...", { keys, params });
@@ -5676,7 +5676,7 @@ var DynamooseDBRepository = class {
     const formattedEndDate = endDate.toISOString() + " 23:59:59";
     console.log({ formattedStartDate, formattedEndDate, deviceId });
     const results = await ECGModel.query("deviceId").eq(deviceId).where("createdAt").between(formattedStartDate, formattedEndDate).using("DeviceIdIndex").exec();
-    console.log({ results });
+    console.log({ results: results.length });
     return results.toJSON().map((ecgData) => {
       return new ECG(
         ecgData.deviceId,

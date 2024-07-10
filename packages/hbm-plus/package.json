@@ -4,13 +4,17 @@
     "description": "<p align=\"center\">\r   <a href=\"http://nestjs.com/\" target=\"blank\"><img src=\"https://nestjs.com/img/logo-small.svg\" width=\"200\" alt=\"Nest Logo\" /></a>\r </p>",
     "main": "index.js",
     "scripts": {
-        "test": "npm run test",
+        "test": "jest",
         "start": "node index.js"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
         "axios": "^1.7.2",
-        "express": "^4.19.2"
+        "express": "^4.19.2",
+        "winston": "^3.13.0"
+    },
+    "devDependencies": {
+        "jest": "^29.7.0"
     }
 }

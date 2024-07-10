@@ -1,4 +1,5 @@
 const axios = require('axios');
+const logger = require('../logger/logger');
 
 async function sendEcg(deviceId, milivolts, interval) {
     try {
@@ -8,9 +9,11 @@ async function sendEcg(deviceId, milivolts, interval) {
                 ecgData: { deviceId, milivolts, interval }
             });
 
-        console.log('ECG sent successfully:', response.data);
+        logger.info('ECG sent successfully:', { data: response.data });
+        return response.data;
     } catch (error) {
-        console.error('Error sending ECG:', error);
+        logger.info('Error sending ECG:', { error });
+        throw new Error('Error sending ECG');
     }
 };
 

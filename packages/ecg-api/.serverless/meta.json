@@ -103,7 +103,10 @@
                     "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable*"
                   }
                 ],
-                "name": "ecg-api-production-listECGEntries"
+                "name": "ecg-api-production-listECGEntries",
+                "environment": {
+                  "NODE_OPTIONS": "--enable-source-maps"
+                }
               },
               "listECGIrregularities": {
                 "handler": "infra/serverless/resources/lambda/handlers/listIrregularities/handler.main",
@@ -131,10 +134,7 @@
                     "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable*"
                   }
                 ],
-                "name": "ecg-api-production-listECGIrregularities",
-                "environment": {
-                  "NODE_OPTIONS": "--enable-source-maps"
-                }
+                "name": "ecg-api-production-listECGIrregularities"
               }
             },
             "resources": {
@@ -199,9 +199,9 @@
             "type": "file"
           },
           "options": {
-            "function": "listECGIrregularities",
+            "function": "listECGEntries",
             "stage": "production",
-            "path": "infra\\serverless\\resources\\lambda\\handlers\\listIrregularities\\mock.json"
+            "path": "infra\\serverless\\resources\\lambda\\handlers\\listEntries\\mock.json"
           },
           "stage": "production",
           "dashboard": null
@@ -305,7 +305,10 @@
                     "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable*"
                   }
                 ],
-                "name": "ecg-api-production-listECGEntries"
+                "name": "ecg-api-production-listECGEntries",
+                "environment": {
+                  "NODE_OPTIONS": "--enable-source-maps"
+                }
               },
               "listECGIrregularities": {
                 "handler": "infra/serverless/resources/lambda/handlers/listIrregularities/handler.main",
@@ -333,10 +336,7 @@
                     "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable*"
                   }
                 ],
-                "name": "ecg-api-production-listECGIrregularities",
-                "environment": {
-                  "NODE_OPTIONS": "--enable-source-maps"
-                }
+                "name": "ecg-api-production-listECGIrregularities"
               }
             },
             "resources": {
@@ -401,9 +401,9 @@
             "type": "self"
           },
           "options": {
-            "function": "listECGIrregularities",
+            "function": "listECGEntries",
             "stage": "production",
-            "path": "infra\\serverless\\resources\\lambda\\handlers\\listIrregularities\\mock.json"
+            "path": "infra\\serverless\\resources\\lambda\\handlers\\listEntries\\mock.json"
           },
           "stage": "production",
           "dashboard": null
@@ -508,7 +508,10 @@
               "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable*"
             }
           ],
-          "name": "ecg-api-production-listECGEntries"
+          "name": "ecg-api-production-listECGEntries",
+          "environment": {
+            "NODE_OPTIONS": "--enable-source-maps"
+          }
         },
         "listECGIrregularities": {
           "handler": "infra/serverless/resources/lambda/handlers/listIrregularities/handler.main",
@@ -536,10 +539,7 @@
               "Resource": "arn:aws:dynamodb:us-east-1:*:table/ECGTable*"
             }
           ],
-          "name": "ecg-api-production-listECGIrregularities",
-          "environment": {
-            "NODE_OPTIONS": "--enable-source-maps"
-          }
+          "name": "ecg-api-production-listECGIrregularities"
         }
       },
       "resources": {
@@ -605,13 +605,13 @@
       "local"
     ],
     "options": {
-      "function": "listECGIrregularities",
+      "function": "listECGEntries",
       "stage": "production",
-      "path": "infra\\serverless\\resources\\lambda\\handlers\\listIrregularities\\mock.json"
+      "path": "infra\\serverless\\resources\\lambda\\handlers\\listEntries\\mock.json"
     },
     "error": null,
     "params": {},
-    "machineId": "4f355b78885dd795f4bfd964be242a0c",
+    "machineId": "e4efe4ffbba8c2ef1040822c9616bce8",
     "accessKeyV2": "<REDACTED>",
     "accessKeyV1": "<REDACTED>",
     "orgId": "d3YDgCZn3KZ1hJ6fFx",

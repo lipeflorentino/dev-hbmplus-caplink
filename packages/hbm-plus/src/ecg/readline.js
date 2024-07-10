@@ -1,5 +1,6 @@
 const readline = require('readline');
 const { sendEcg } = require('./sendEcg');
+const logger = require('../logger/logger');
 
 function readComands() {
     // Configurar readline para aceitar comandos do terminal
@@ -11,7 +12,7 @@ function readComands() {
     rl.on('line', (input) => {
         const [command, param1, param2, param3] = input.split(' ');
 
-        console.log({ command, param1, param2, param3 });
+        logger.info({ command, param1, param2, param3 });
 
         if (command === 'ecg') {
             const deviceId = param1;
@@ -19,13 +20,13 @@ function readComands() {
             const interval = parseInt(param3);
 
             if (!isNaN(milivolts)) {
-                console.log(`Sending ECG: ${milivolts} with interval `);
+                logger.info(`Sending ECG to device ${deviceId}: milivolts ${milivolts} with interval ${interval}`);
                 sendEcg(deviceId, milivolts, interval);
             } else {
-                console.log('Invalid milivolts value. Please provide a number.');
+                logger.info('Invalid milivolts value. Please provide a number.');
             }
         } else {
-            console.log('Unknown command. Available commands: sendEcg <milivolts>');
+            logger.info('Unknown command. Available commands: sendEcg <milivolts>');
         }
     });
 }

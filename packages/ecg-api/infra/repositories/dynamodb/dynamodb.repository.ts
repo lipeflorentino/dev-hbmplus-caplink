@@ -8,8 +8,8 @@ export class DynamooseDBRepository implements ECGRepository {
     async save(ecg: ECG): Promise<void> {
         console.log('ECG_MODEL', { ecg });
         const newECG = new ECGModel(ecg);
-        console.log('dynamoose model created!', { newECG });
-        await newECG.save();
+        const savedItem = await newECG.save();
+        console.log('Item salvo na tabela!', { savedItem });
     }
 
     async update(keys: { id: string, milivolts: number }, params: Partial<ECG>): Promise<void> {
@@ -42,7 +42,7 @@ export class DynamooseDBRepository implements ECGRepository {
             .using('DeviceIdIndex')
             .exec();
 
-        console.log({ results });
+        console.log({ results: results.length });
 
         return results.toJSON().map((ecgData) => {
             return new ECG(
