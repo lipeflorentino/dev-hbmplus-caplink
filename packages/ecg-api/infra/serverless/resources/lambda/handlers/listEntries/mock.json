@@ -1,6 +1,6 @@
 {
     "queryStringParameters": {
-        "deviceId": "5",
-        "interval": "20"
+        "deviceId": "device-123",
+        "interval": "30"
     }
 }

@@ -3,7 +3,7 @@ import { HandlerResponse } from "../../../../../../domain/valueObjects/types";
 import { ListIrregularitiesController } from "../../../../../controllers/listIrregularities/listIrregularities.controller";
 import { DynamooseDBRepository as ECGRepository } from "../../../../../repositories/dynamodb/dynamodb.repository";
 
-// serverless invoke local -f listIrregularities -s production -p infra\serverless\resources\lambda\handlers\listIrregularities\mock.json
+// serverless invoke local -f listECGIrregularities -s production -p infra\serverless\resources\lambda\handlers\listIrregularities\mock.json
 export const main = async (event: any): Promise<HandlerResponse> => {
     try {
         console.log('entry', { event });

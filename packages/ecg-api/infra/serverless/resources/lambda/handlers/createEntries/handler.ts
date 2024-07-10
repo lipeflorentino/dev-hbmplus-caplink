@@ -1,4 +1,5 @@
 import { HandlerResponse } from "../../../../../../domain/valueObjects/types";
+import { AxiosAdapter } from "../../../../../adapter/axios.adapter";
 import { CreateEntriesController } from "../../../../../controllers/createEntries/createEntries.controller";
 import { DynamooseDBRepository as ECGRepository } from "../../../../../repositories/dynamodb/dynamodb.repository";
 
@@ -8,7 +9,7 @@ export const main = async (event: any): Promise<HandlerResponse> => {
         console.log('entry', { event });
         const eventBody = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
         console.log(eventBody);
-        const controller = new CreateEntriesController(new ECGRepository());
+        const controller = new CreateEntriesController(new ECGRepository(), new AxiosAdapter());
 
         return controller.handleCreateEntries(eventBody.ecgData);
     } catch (error) {

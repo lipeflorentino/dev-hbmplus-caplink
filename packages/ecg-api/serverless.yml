@@ -15,6 +15,13 @@ provider:
   environment:
     TABLE_NAME: 'ECGTable'
 
+package:
+  exclude:
+    - node_modules/**
+    - .gitignore
+    - README.md
+    - .git/**
+
 custom:
   esbuild:
     bundle: true

@@ -26,9 +26,9 @@ export class DynamooseDBRepository implements ECGRepository {
         const endDate = new Date();
         const startDate = new Date();
         startDate.setDate(
-            endDate.getDate() - Number(interval) > limit
+            Number(interval) > limit
                 ? limit
-                : Number(interval)
+                : endDate.getDate() - Number(interval)
         );
         const formattedStartDate = startDate.toISOString() + ' 00:00:00';
         const formattedEndDate = endDate.toISOString() + ' 23:59:59';

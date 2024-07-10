@@ -5673,7 +5673,7 @@ var DynamooseDBRepository = class {
     const endDate = /* @__PURE__ */ new Date();
     const startDate = /* @__PURE__ */ new Date();
     startDate.setDate(
-      endDate.getDate() - Number(interval) > limit ? limit : Number(interval)
+      Number(interval) > limit ? limit : endDate.getDate() - Number(interval)
     );
     const formattedStartDate = startDate.toISOString() + " 00:00:00";
     const formattedEndDate = endDate.toISOString() + " 23:59:59";
