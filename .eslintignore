@@ -2,3 +2,4 @@ dist/
 node_modules/
 hbm-plus
 packages\hbm-plus\server.log
+packages\ecg-api\.serverless

@@ -2,7 +2,7 @@ const readline = require('readline');
 const { sendEcg } = require('./sendEcg');
 const logger = require('../logger/logger');
 
-function readComands() {
+function readComands(server) {
     // Configurar readline para aceitar comandos do terminal
     const rl = readline.createInterface({
         input: process.stdin,
@@ -11,8 +11,6 @@ function readComands() {
 
     rl.on('line', (input) => {
         const [command, param1, param2, param3] = input.split(' ');
-
-        logger.info({ command, param1, param2, param3 });
 
         if (command === 'ecg') {
             const deviceId = param1;
@@ -25,6 +23,11 @@ function readComands() {
             } else {
                 logger.info('Invalid milivolts value. Please provide a number.');
             }
+        } else if (command === 'quit') {
+            server.close(() => {
+                logger.info('Servidor encerrado externamente.');
+                process.exit(0);
+            });
         } else {
             logger.info('Unknown command. Available commands: sendEcg <milivolts>');
         }

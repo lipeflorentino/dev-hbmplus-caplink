@@ -27,7 +27,7 @@ export class CreateEntriesUseCase {
                     });
 
                     console.log('BIP!');
-                    await this.axios.post('http://localhost:3000/receive-signal', { signal: 'bip' });
+                    await this.axios.post('http://ec2-54-237-202-50.compute-1.amazonaws.com:3000/receive-signal', { signal: 'bip' });
                 }
             } else {
                 const bipWithoutUnbip = results.find(item => item.bippedAt && !item.unBippedAt);
@@ -41,7 +41,7 @@ export class CreateEntriesUseCase {
                     });
 
                     console.log('BIP BIP!');
-                    await this.axios.post('http://localhost:3000/receive-signal', { signal: 'bipbip' });
+                    await this.axios.post('http://ec2-54-237-202-50.compute-1.amazonaws.com:3000/receive-signal', { signal: 'bipbip' });
                 }
             }
         }

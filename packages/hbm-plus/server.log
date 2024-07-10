@@ -34,3 +34,21 @@
 2024-07-10T14:30:17.870Z [info]: ################## Signal received: bip ######################
 2024-07-10T14:30:17.871Z [info]: ################## Signal received: bipbip ######################
 2024-07-10T14:30:17.872Z [info]: ################## Signal received: bipbip ######################
+2024-07-10T16:16:03.824Z [info]: Server running on http://0.0.0.0:3000
+2024-07-10T16:16:03.826Z [info]: Type "sendEcg <milivolts>" to send an ECG signal.
+2024-07-10T16:16:09.576Z [info]: [object Object]
+2024-07-10T16:16:44.146Z [info]: [object Object]
+2024-07-10T16:17:31.349Z [info]: Server running on http://0.0.0.0:3000
+2024-07-10T16:17:31.352Z [info]: Type "sendEcg <milivolts>" to send an ECG signal.
+2024-07-10T16:17:36.291Z [info]: [object Object]
+2024-07-10T16:17:36.292Z [info]: Invalid milivolts value. Please provide a number.
+2024-07-10T16:18:52.655Z [info]: Server running on http://0.0.0.0:3000
+2024-07-10T16:18:52.657Z [info]: Type "sendEcg <milivolts>" to send an ECG signal.
+2024-07-10T16:18:57.450Z [info]: params
+2024-07-10T16:18:57.451Z [info]: Invalid milivolts value. Please provide a number.
+2024-07-10T16:19:05.423Z [info]: params
+2024-07-10T16:20:45.762Z [info]: Server running on http://0.0.0.0:3000
+2024-07-10T16:20:45.764Z [info]: Type "sendEcg <milivolts>" to send an ECG signal.
+2024-07-10T16:20:48.953Z [info]: params
+2024-07-10T16:49:04.465Z [info]: Server running on http://0.0.0.0:3000
+2024-07-10T16:49:04.467Z [info]: Type "sendEcg <milivolts>" to send an ECG signal.
