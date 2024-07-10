@@ -28,3 +28,9 @@
 2024-07-10T14:26:50.834Z [info]: Request: POST /receive-signal
 2024-07-10T14:26:50.835Z [info]: ################## Signal received: bipbip ######################
 2024-07-10T14:26:50.835Z [info]: ################## Signal received: bipbip ######################
+2024-07-10T14:30:17.850Z [info]: ECG sent successfully:
+2024-07-10T14:30:17.857Z [info]: Error sending ECG:
+2024-07-10T14:30:17.869Z [info]: ################## Signal received: bip ######################
+2024-07-10T14:30:17.870Z [info]: ################## Signal received: bip ######################
+2024-07-10T14:30:17.871Z [info]: ################## Signal received: bipbip ######################
+2024-07-10T14:30:17.872Z [info]: ################## Signal received: bipbip ######################
