@@ -1,4 +1,4 @@
 export interface AxiosAdapter {
-    post(url: string, data: { signal: string }): Promise<void>;
+    post(url: string, data: { signal: string }): Promise<any>;
 }
 

@@ -10,9 +10,11 @@ O projeto está organizado seguindo clean architecture
 
 ## Endpoints
 
+BaseUrl: https://a88r9td2x5.execute-api.us-east-1.amazonaws.com/production
+
 1. Create ECG Entries
 
-- Endpoint: /createECGEntries
+- Endpoint: /ecg
 - Método: POST
 - Descrição: Cria uma nova entrada de ECG no banco de dados.
 - Parâmetros de Requisição:
@@ -25,24 +27,24 @@ O projeto está organizado seguindo clean architecture
 
 2. List ECG Entries
 
-- Endpoint: /listECGEntries
+- Endpoint: /ecg
 - Método: GET
 - Descrição: Lista todas as entradas de ECG para um determinado dispositivo dentro de um intervalo de dias especificado.
 - Parâmetros de Query:
     - deviceId (string) - Identificação do dispositivo.
-    - days (number) - Intervalo de dias para buscar as entradas.
+    - interval (number) - Intervalo de dias para buscar as entradas (maximo 30).
 - Resposta:
     - Código 200 - Lista de entradas de ECG.
     - Código 400 - Erro na requisição.
 
 3. List ECG Irregularities
 
-- Endpoint: /listECGIrregularities
+- Endpoint: /ecg/rregularities
 - Método: GET
 - Descrição: Lista todas as irregularidades de ECG, incluindo a data de início e fim de cada irregularidade.
 - Parâmetros de Query:
     - deviceId (string) - Identificação do dispositivo.
-    - days (number) - Intervalo de dias para buscar as irregularidades.
+    - interval (number) - Intervalo de dias para buscar as irregularidades (maximo 30).
 - Resposta:
     - Código 200 - Lista de irregularidades de ECG.
     - Código 400 - Erro na requisição.
@@ -54,8 +56,8 @@ O projeto está organizado seguindo clean architecture
 1. Clone o repositório:
 
 ```sh
-git clone https://github.com/lipeflorentino/dev-hbmplus-caplink/tree/master/packages/hbm-plus
-cd hbm-plus
+git clone https://github.com/lipeflorentino/dev-hbmplus-caplink/tree/master/packages/ecg-api
+cd ecg-api
 ```
 
 2. Instale as dependências:
@@ -64,8 +66,6 @@ cd hbm-plus
 npm install
 ```
 
-3. Configure as variáveis de ambiente (AWS credentials, por exemplo).
-
 ### Testes
 
 ```sh
@@ -73,6 +73,8 @@ npm test
 ```
 
 ### Deploy
+
+1. Configure as variáveis de ambiente (AWS credentials, por exemplo).
 
 O deploy é gerenciado pelo Serverless Framework. Para fazer o deploy, execute:
 

@@ -1,54 +1,147 @@
 2024-07-10T14:12:50.902Z [info]: Request: GET /
 2024-07-10T14:13:06.920Z [info]: Request: GET /logs
-2024-07-10T14:14:11.845Z [info]: Request: GET /logs
-2024-07-10T14:14:34.006Z [info]: Request: GET /logs
-2024-07-10T14:14:34.569Z [info]: Request: GET /favicon.ico
-2024-07-10T14:16:51.935Z [info]: Request: GET /logs
-2024-07-10T14:17:15.261Z [info]: Request: GET /logs
-2024-07-10T14:19:19.809Z [info]: Server running on http://localhost:3000
-2024-07-10T14:19:19.812Z [info]: Type "sendEcg <milivolts>" to send an ECG signal.
-2024-07-10T14:19:23.707Z [info]: Request: GET /logs
-2024-07-10T14:21:25.457Z [info]: Server running on http://localhost:3000
-2024-07-10T14:21:25.459Z [info]: Type "sendEcg <milivolts>" to send an ECG signal.
-2024-07-10T14:21:29.123Z [info]: Request: GET /logs
-2024-07-10T14:21:50.833Z [info]: [object Object]
-2024-07-10T14:21:50.833Z [info]: Sending ECG: 0.23 with interval 
-2024-07-10T14:21:51.820Z [info]: ECG sent successfully: created succesfully!
-2024-07-10T14:21:56.220Z [info]: Request: GET /logs
-2024-07-10T14:24:17.900Z [info]: Server running on http://localhost:3000
-2024-07-10T14:24:17.902Z [info]: Type "sendEcg <milivolts>" to send an ECG signal.
-2024-07-10T14:24:43.776Z [info]: [object Object]
-2024-07-10T14:24:43.776Z [info]: Sending ECG to device device-123: milivolts 0.2 with interval 30
-2024-07-10T14:24:44.111Z [info]: ECG sent successfully:
-2024-07-10T14:24:49.678Z [info]: Request: GET /logs
-2024-07-10T14:25:12.806Z [info]: Request: POST /receive-signal
-2024-07-10T14:25:12.806Z [info]: ################## Signal received: bip ######################
-2024-07-10T14:25:12.806Z [info]: ################## Signal received: bip ######################
-2024-07-10T14:25:19.992Z [info]: Request: GET /logs
-2024-07-10T14:26:50.834Z [info]: Request: POST /receive-signal
-2024-07-10T14:26:50.835Z [info]: ################## Signal received: bipbip ######################
-2024-07-10T14:26:50.835Z [info]: ################## Signal received: bipbip ######################
-2024-07-10T14:30:17.850Z [info]: ECG sent successfully:
-2024-07-10T14:30:17.857Z [info]: Error sending ECG:
-2024-07-10T14:30:17.869Z [info]: ################## Signal received: bip ######################
-2024-07-10T14:30:17.870Z [info]: ################## Signal received: bip ######################
-2024-07-10T14:30:17.871Z [info]: ################## Signal received: bipbip ######################
-2024-07-10T14:30:17.872Z [info]: ################## Signal received: bipbip ######################
-2024-07-10T16:16:03.824Z [info]: Server running on http://0.0.0.0:3000
-2024-07-10T16:16:03.826Z [info]: Type "sendEcg <milivolts>" to send an ECG signal.
-2024-07-10T16:16:09.576Z [info]: [object Object]
-2024-07-10T16:16:44.146Z [info]: [object Object]
-2024-07-10T16:17:31.349Z [info]: Server running on http://0.0.0.0:3000
-2024-07-10T16:17:31.352Z [info]: Type "sendEcg <milivolts>" to send an ECG signal.
-2024-07-10T16:17:36.291Z [info]: [object Object]
-2024-07-10T16:17:36.292Z [info]: Invalid milivolts value. Please provide a number.
-2024-07-10T16:18:52.655Z [info]: Server running on http://0.0.0.0:3000
-2024-07-10T16:18:52.657Z [info]: Type "sendEcg <milivolts>" to send an ECG signal.
-2024-07-10T16:18:57.450Z [info]: params
-2024-07-10T16:18:57.451Z [info]: Invalid milivolts value. Please provide a number.
-2024-07-10T16:19:05.423Z [info]: params
-2024-07-10T16:20:45.762Z [info]: Server running on http://0.0.0.0:3000
-2024-07-10T16:20:45.764Z [info]: Type "sendEcg <milivolts>" to send an ECG signal.
-2024-07-10T16:20:48.953Z [info]: params
-2024-07-10T16:49:04.465Z [info]: Server running on http://0.0.0.0:3000
-2024-07-10T16:49:04.467Z [info]: Type "sendEcg <milivolts>" to send an ECG signal.
+
+2024-07-10T19:08:37.278Z [info]: Server running on http://0.0.0.0:3000
+2024-07-10T19:08:37.281Z [info]: Type "sendEcg <milivolts>" to send an ECG signal.
+2024-07-10T19:19:29.711Z [info]: Request: POST /receive-signal
+2024-07-10T19:19:29.717Z [info]: ################## Signal received: bip ######################
+2024-07-10T19:19:29.717Z [info]: ################## Signal received: bip ######################
+2024-07-10T19:32:41.550Z [info]: Request: POST /receive-signal
+2024-07-10T19:32:41.551Z [info]: ################## Signal received: bip ######################
+2024-07-10T19:32:41.551Z [info]: ################## Signal received: bip ######################
+2024-07-10T19:35:35.824Z [info]: Request: POST /receive-signal
+2024-07-10T19:35:35.825Z [info]: ################## Signal received: bip ######################
+2024-07-10T19:35:35.826Z [info]: ################## Signal received: bip ######################
+2024-07-10T19:42:13.942Z [info]: Server running on http://0.0.0.0:3000
+2024-07-10T19:42:13.944Z [info]: Type "sendEcg <milivolts>" to send an ECG signal.
+2024-07-10T19:43:02.678Z [info]: Request: POST /receive-signal
+2024-07-10T19:43:02.679Z [info]: ################## Signal received: bip ######################
+2024-07-10T19:43:02.680Z [info]: ################## Signal received: bip ######################
+2024-07-10T19:58:24.117Z [info]: Server running on http://0.0.0.0:3000
+2024-07-10T19:58:24.119Z [info]: Type "sendEcg <milivolts>" to send an ECG signal.
+2024-07-10T19:59:10.514Z [info]: Server running on http://0.0.0.0:3000
+2024-07-10T19:59:10.516Z [info]: Type "sendEcg <milivolts>" to send an ECG signal.
+2024-07-10T19:59:14.899Z [info]: Error sending ECG:
+2024-07-10T20:02:53.371Z [info]: Server running on http://0.0.0.0:3000
+2024-07-10T20:02:53.374Z [info]: Type "sendEcg <milivolts>" to send an ECG signal.
+2024-07-10T20:03:29.089Z [info]: ECG sent successfully:
+2024-07-10T20:03:38.334Z [info]: ECG sent successfully:
+2024-07-10T20:03:48.486Z [info]: ECG sent successfully:
+2024-07-10T20:03:58.572Z [info]: ECG sent successfully:
+2024-07-10T20:04:02.986Z [info]: server was shut down...
+2024-07-10T20:05:13.713Z [info]: Server running on http://0.0.0.0:3000
+2024-07-10T20:05:13.715Z [info]: Type "sendEcg <milivolts>" to send an ECG signal.
+2024-07-10T20:05:44.585Z [info]: ECG sent successfully:
+2024-07-10T20:05:53.561Z [info]: ECG sent successfully:
+2024-07-10T20:06:03.264Z [info]: ECG sent successfully:
+2024-07-10T20:06:09.787Z [info]: server was shut down...
+2024-07-10T20:06:22.027Z [info]: Server running on http://0.0.0.0:3000
+2024-07-10T20:06:22.029Z [info]: Type "sendEcg <milivolts>" to send an ECG signal.
+2024-07-10T20:07:34.994Z [info]: ECG sent successfully:
+2024-07-10T20:07:39.769Z [info]: ECG sent successfully:
+2024-07-10T20:07:44.666Z [info]: ECG sent successfully:
+2024-07-10T20:07:49.672Z [info]: ECG sent successfully:
+2024-07-10T20:07:54.122Z [info]: server was shut down...
+2024-07-10T20:08:27.581Z [info]: Server running on http://0.0.0.0:3000
+2024-07-10T20:08:27.583Z [info]: Type "sendEcg <milivolts>" to send an ECG signal.
+2024-07-10T20:08:47.120Z [info]: ECG sent successfully:
+2024-07-10T20:08:52.010Z [info]: ECG sent successfully:
+2024-07-10T20:08:56.996Z [info]: ECG sent successfully:
+2024-07-10T20:09:02.031Z [info]: ECG sent successfully:
+2024-07-10T20:09:06.856Z [info]: ECG sent successfully:
+2024-07-10T20:09:12.032Z [info]: ECG sent successfully:
+2024-07-10T20:09:17.173Z [info]: ECG sent successfully:
+2024-07-10T20:09:21.953Z [info]: ECG sent successfully:
+2024-07-10T20:09:26.912Z [info]: ECG sent successfully:
+2024-07-10T20:09:32.177Z [info]: ECG sent successfully:
+2024-07-10T20:09:37.154Z [info]: ECG sent successfully:
+2024-07-10T20:09:42.074Z [info]: ECG sent successfully:
+2024-07-10T20:09:47.177Z [info]: ECG sent successfully:
+2024-07-10T20:09:51.954Z [info]: ECG sent successfully:
+2024-07-10T20:09:57.135Z [info]: ECG sent successfully:
+2024-07-10T20:10:02.102Z [info]: ECG sent successfully:
+2024-07-10T20:10:07.259Z [info]: ECG sent successfully:
+2024-07-10T20:10:10.212Z [info]: Unknown command. Available commands: sendEcg <milivolts>
+2024-07-10T20:10:11.916Z [info]: ECG sent successfully:
+2024-07-10T20:10:14.091Z [info]: server was shut down...
+2024-07-10T20:10:39.939Z [info]: Server running on http://0.0.0.0:3000
+2024-07-10T20:10:39.941Z [info]: Type "sendEcg <milivolts>" to send an ECG signal.
+2024-07-10T20:10:48.681Z [info]: ECG sent successfully:
+2024-07-10T20:10:49.707Z [info]: ECG sent successfully:
+2024-07-10T20:10:50.735Z [info]: ECG sent successfully:
+2024-07-10T20:10:51.737Z [info]: ECG sent successfully:
+2024-07-10T20:10:53.055Z [info]: ECG sent successfully:
+2024-07-10T20:10:53.891Z [info]: ECG sent successfully:
+2024-07-10T20:10:54.737Z [info]: ECG sent successfully:
+2024-07-10T20:10:55.658Z [info]: ECG sent successfully:
+2024-07-10T20:10:56.637Z [info]: ECG sent successfully:
+2024-07-10T20:10:57.802Z [info]: ECG sent successfully:
+2024-07-10T20:10:58.777Z [info]: ECG sent successfully:
+2024-07-10T20:10:59.577Z [info]: ECG sent successfully:
+2024-07-10T20:11:00.784Z [info]: ECG sent successfully:
+2024-07-10T20:11:01.798Z [info]: ECG sent successfully:
+2024-07-10T20:11:02.597Z [info]: ECG sent successfully:
+2024-07-10T20:11:03.807Z [info]: ECG sent successfully:
+2024-07-10T20:11:04.878Z [info]: ECG sent successfully:
+2024-07-10T20:11:05.818Z [info]: ECG sent successfully:
+2024-07-10T20:11:06.938Z [info]: ECG sent successfully:
+2024-07-10T20:11:07.857Z [info]: ECG sent successfully:
+2024-07-10T20:11:09.098Z [info]: ECG sent successfully:
+2024-07-10T20:11:09.643Z [info]: ECG sent successfully:
+2024-07-10T20:11:11.097Z [info]: ECG sent successfully:
+2024-07-10T20:11:11.677Z [info]: ECG sent successfully:
+2024-07-10T20:11:12.777Z [info]: ECG sent successfully:
+2024-07-10T20:11:14.023Z [info]: ECG sent successfully:
+2024-07-10T20:11:14.999Z [info]: ECG sent successfully:
+2024-07-10T20:11:15.899Z [info]: ECG sent successfully:
+2024-07-10T20:11:16.718Z [info]: ECG sent successfully:
+2024-07-10T20:11:17.922Z [info]: ECG sent successfully:
+2024-07-10T20:11:18.719Z [info]: ECG sent successfully:
+2024-07-10T20:11:19.738Z [info]: ECG sent successfully:
+2024-07-10T20:11:20.939Z [info]: ECG sent successfully:
+2024-07-10T20:11:21.998Z [info]: ECG sent successfully:
+2024-07-10T20:11:22.760Z [info]: ECG sent successfully:
+2024-07-10T20:11:23.979Z [info]: ECG sent successfully:
+2024-07-10T20:11:24.999Z [info]: ECG sent successfully:
+2024-07-10T20:11:25.759Z [info]: ECG sent successfully:
+2024-07-10T20:11:26.906Z [info]: ECG sent successfully:
+2024-07-10T20:11:28.004Z [info]: ECG sent successfully:
+2024-07-10T20:11:28.800Z [info]: ECG sent successfully:
+2024-07-10T20:11:29.799Z [info]: ECG sent successfully:
+2024-07-10T20:11:30.803Z [info]: ECG sent successfully:
+2024-07-10T20:11:32.219Z [info]: ECG sent successfully:
+2024-07-10T20:11:32.823Z [info]: ECG sent successfully:
+2024-07-10T20:11:34.060Z [info]: ECG sent successfully:
+2024-07-10T20:11:34.839Z [info]: ECG sent successfully:
+2024-07-10T20:11:36.077Z [info]: ECG sent successfully:
+2024-07-10T20:11:37.082Z [info]: ECG sent successfully:
+2024-07-10T20:11:37.877Z [info]: ECG sent successfully:
+2024-07-10T20:11:39.064Z [info]: ECG sent successfully:
+2024-07-10T20:11:39.884Z [info]: ECG sent successfully:
+2024-07-10T20:11:40.940Z [info]: ECG sent successfully:
+2024-07-10T20:11:42.179Z [info]: ECG sent successfully:
+2024-07-10T20:11:43.219Z [info]: ECG sent successfully:
+2024-07-10T20:11:44.002Z [info]: ECG sent successfully:
+2024-07-10T20:11:44.938Z [info]: ECG sent successfully:
+2024-07-10T20:11:45.941Z [info]: ECG sent successfully:
+2024-07-10T20:11:47.165Z [info]: ECG sent successfully:
+2024-07-10T20:11:47.960Z [info]: ECG sent successfully:
+2024-07-10T20:11:49.180Z [info]: ECG sent successfully:
+2024-07-10T20:11:49.981Z [info]: ECG sent successfully:
+2024-07-10T20:11:51.250Z [info]: ECG sent successfully:
+2024-07-10T20:11:51.981Z [info]: ECG sent successfully:
+2024-07-10T20:11:53.004Z [info]: ECG sent successfully:
+2024-07-10T20:11:54.223Z [info]: ECG sent successfully:
+2024-07-10T20:11:55.380Z [info]: ECG sent successfully:
+2024-07-10T20:11:56.368Z [info]: ECG sent successfully:
+2024-07-10T20:11:57.381Z [info]: ECG sent successfully:
+2024-07-10T20:11:58.062Z [info]: ECG sent successfully:
+2024-07-10T20:11:59.041Z [info]: ECG sent successfully:
+2024-07-10T20:12:00.284Z [info]: ECG sent successfully:
+2024-07-10T20:12:01.320Z [info]: ECG sent successfully:
+2024-07-10T20:12:02.103Z [info]: ECG sent successfully:
+2024-07-10T20:12:02.212Z [info]: Unknown command. Available commands: sendEcg <milivolts>
+2024-07-10T20:12:03.343Z [info]: ECG sent successfully:
+2024-07-10T20:12:04.467Z [info]: ECG sent successfully:
+2024-07-10T20:12:05.122Z [info]: ECG sent successfully:
+2024-07-10T20:12:05.397Z [info]: server was shut down...

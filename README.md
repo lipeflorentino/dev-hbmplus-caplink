@@ -30,7 +30,7 @@ npm install
 3. Inicie o serviço:
 
 ```sh
-npm run start
+npm start
 ```
 
 ### ECG API

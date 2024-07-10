@@ -11,13 +11,16 @@ export class CreateEntriesUseCase {
         console.log('UseCase input', { input });
         const ecg = new ECG(input.deviceId, input.milivolts, input.interval);
         ecg.detectIrregularities();
+        const results = await this.ecgRepository.instabilityCheck(ecg.deviceId);
+        console.log('results', { results: results.length });
 
-        if (!ecg.isRegular) {
-            const results = await this.ecgRepository.instabilityCheck(ecg.deviceId);
-            const irregularMeasurements = results.filter(item => !item.isRegular);
+        if (results.length >= 60) {
+            const irregularMeasurements = results.filter(item => !(item.isRegular));
+            console.log('Analysing results...', { length: irregularMeasurements.length, irregularMeasurements });
 
             if (irregularMeasurements.length >= 5) {
                 const bipExists = results.some(item => item.bippedAt && !item.unBippedAt);
+
                 if (!bipExists) {
                     await this.ecgRepository.update({
                         id: results[0].id,
@@ -26,10 +29,11 @@ export class CreateEntriesUseCase {
                         bippedAt: new Date().toISOString(),
                     });
 
-                    console.log('BIP!');
-                    await this.axios.post('http://ec2-54-237-202-50.compute-1.amazonaws.com:3000/receive-signal', { signal: 'bip' });
+                    console.log('BIP!', { at: new Date().toISOString() });
+                    const res = await this.axios.post(ecg.localRoute, { signal: 'bip' });
+                    console.log({ res: res.data });
                 }
-            } else {
+            } else if (irregularMeasurements.length === 0) {
                 const bipWithoutUnbip = results.find(item => item.bippedAt && !item.unBippedAt);
 
                 if (bipWithoutUnbip) {
@@ -40,13 +44,14 @@ export class CreateEntriesUseCase {
                         unBippedAt: new Date().toISOString(),
                     });
 
-                    console.log('BIP BIP!');
-                    await this.axios.post('http://ec2-54-237-202-50.compute-1.amazonaws.com:3000/receive-signal', { signal: 'bipbip' });
+                    console.log('BIP BIP!', { at: new Date().toISOString() });
+                    const res = await this.axios.post(ecg.localRoute, { signal: 'bipbip' });
+                    console.log({ res: res.data });
                 }
             }
         }
 
-        this.ecgRepository.save(ecg);
+        await this.ecgRepository.save(ecg);
 
         return new CreateEntriesOutputDTO(ecg.id, ecg.deviceId, ecg.milivolts, ecg.interval, ecg.isRegular);
     }

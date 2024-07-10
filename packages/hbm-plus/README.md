@@ -12,7 +12,7 @@ Este é um projeto Node.js básico usando Express que possui dois endpoints: um 
 1. Clone o repositório:
 
 ```sh
-git clone https://github.com/seu-usuario/ecg-project.git
+git clone https://github.com/lipeflorentino/dev-hbmplus-caplink/tree/master/packages/hbm-plus
 cd ecg-project
 ```
 
@@ -32,10 +32,10 @@ Certifique-se de que você tem o endpoint externo configurado no arquivo index.j
 ## Execução
 
 ```sh
-npm run start
+npm start
 ```
 
-O servidor será executado em http://localhost:3000.
+O servidor será executado em http://localhost:3000
 
 ## Endpoints
 
@@ -74,7 +74,7 @@ ecg device-123 1.5 30
 ## Estrutura do Projeto
 
 ```plaintext
-ecg-project/
+hbm-plus/
 ├── node_modules/
 ├── index.js
 ├── package.json
@@ -82,6 +82,8 @@ ecg-project/
 ```
 
 ## Construir e Executar o Container
+
+*É necessário ter docker instalado
 
 1. Construir a imagem Docker:
 
@@ -94,7 +96,7 @@ docker build -t hbm-plus .
 2. Executar o container:
 
 ```sh
-docker run -p 8080:8080
+docker run -p 8080:3000 hbm-plus
 ```
 
 Isso irá iniciar o container e mapear a porta 8080 do host para a porta 8080 do container, permitindo que você acesse a aplicação em http://localhost:8080.
@@ -104,7 +106,7 @@ Isso irá iniciar o container e mapear a porta 8080 do host para a porta 8080 do
 Para utilizar os comandos de terminal interativos (ecg), você pode iniciar um container interativo:
 
 ```sh
-docker run -it -p 8080:8080 hbm-plus
+docker run -it -p 8080:3000 hbm-plus
 ```
 
 Isso permitirá que você execute comandos no terminal do container, enquanto a aplicação Node.js está rodando.

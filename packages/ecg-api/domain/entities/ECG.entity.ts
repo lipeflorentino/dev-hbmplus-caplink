@@ -9,6 +9,8 @@ export class ECG {
     bippedAt?: string;
     unBippedAt?: string;
     createdAt?: string;
+    localRoute: string;
+    externalRoute: string;
 
     constructor(deviceId: string, milivolts: number, interval: number, bippedAt?: string, unBippedAt?: string, createdAt?: string) {
         this.id = (new UUID).v4();
@@ -19,6 +21,8 @@ export class ECG {
         this.unBippedAt = unBippedAt;
         this.interval = interval;
         this.createdAt = createdAt;
+        this.localRoute = 'http://localhost:3000/receive-signal';
+        this.externalRoute = 'http://ec2-54-237-202-50.compute-1.amazonaws.com:3000/receive-signal';
     }
 
     detectIrregularities() {

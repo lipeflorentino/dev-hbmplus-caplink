@@ -6,7 +6,6 @@ import { ECGModel } from "../../database/dynamoose/model/ECG.model";
 
 export class DynamooseDBRepository implements ECGRepository {
     async save(ecg: ECG): Promise<void> {
-        console.log('ECG_MODEL', { ecg });
         const newECG = new ECGModel(ecg);
         const savedItem = await newECG.save();
         console.log('Item salvo na tabela!', { savedItem });

@@ -24,7 +24,7 @@ export const main = async (event: any): Promise<HandlerResponse> => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                message: 'Erro ao obter dados',
+                message: 'Error retrieving data',
                 error,
             }),
         };
