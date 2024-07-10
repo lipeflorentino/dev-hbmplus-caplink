@@ -145,3 +145,27 @@
 2024-07-10T20:12:04.467Z [info]: ECG sent successfully:
 2024-07-10T20:12:05.122Z [info]: ECG sent successfully:
 2024-07-10T20:12:05.397Z [info]: server was shut down...
+2024-07-10T20:37:44.394Z [info]: ECG sent successfully:
+2024-07-10T20:37:44.400Z [info]: Error sending ECG:
+2024-07-10T20:37:44.407Z [info]: ################## Signal received: bip ######################
+2024-07-10T20:37:44.407Z [info]: ################## Signal received: bip ######################
+2024-07-10T20:37:44.411Z [info]: ################## Signal received: bipbip ######################
+2024-07-10T20:37:44.412Z [info]: ################## Signal received: bipbip ######################
+2024-07-10T20:38:55.971Z [info]: ECG sent successfully:
+2024-07-10T20:38:55.976Z [info]: Error sending ECG:
+2024-07-10T20:38:55.983Z [info]: ################## Signal received: bip ######################
+2024-07-10T20:38:55.984Z [info]: ################## Signal received: bip ######################
+2024-07-10T20:38:55.990Z [info]: ################## Signal received: bipbip ######################
+2024-07-10T20:38:55.991Z [info]: ################## Signal received: bipbip ######################
+2024-07-10T20:39:22.951Z [info]: ECG sent successfully:
+2024-07-10T20:39:22.957Z [info]: Error sending ECG:
+2024-07-10T20:39:22.968Z [info]: ################## Signal received: bip ######################
+2024-07-10T20:39:22.968Z [info]: ################## Signal received: bip ######################
+2024-07-10T20:39:22.972Z [info]: ################## Signal received: bipbip ######################
+2024-07-10T20:39:22.972Z [info]: ################## Signal received: bipbip ######################
+2024-07-10T20:40:48.206Z [info]: ECG sent successfully:
+2024-07-10T20:40:48.212Z [info]: Error sending ECG:
+2024-07-10T20:40:48.220Z [info]: ################## Signal received: bip ######################
+2024-07-10T20:40:48.221Z [info]: ################## Signal received: bip ######################
+2024-07-10T20:40:48.222Z [info]: ################## Signal received: bipbip ######################
+2024-07-10T20:40:48.223Z [info]: ################## Signal received: bipbip ######################

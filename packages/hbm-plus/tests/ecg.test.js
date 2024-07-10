@@ -49,7 +49,7 @@ describe('receive signal', () => {
             {
                 status: (code) => {
                     return {
-                        send: () => "Success" + code,
+                        json: () => "Success" + code,
                     }
                 }
             }
@@ -62,7 +62,7 @@ describe('receive signal', () => {
             {
                 status: (code) => {
                     return {
-                        send: () => "Success" + code,
+                        json: () => "Success" + code,
                     }
                 }
             }

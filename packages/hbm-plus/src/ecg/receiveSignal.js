@@ -6,6 +6,7 @@ function receiveSignal(req, res) {
     logger.info((`################## ${message} ######################`));
     logger.info((`################## ${message} ######################`));
     res.status(200).json(message);
+    return message;
 }
 
 module.exports = {

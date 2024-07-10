@@ -71,6 +71,7 @@ jobs:
         run: |
           cd packages/ecg-api  
           npm install -g serverless
+          npm install serverless-iam-roles-per-function
 
       - name: Deploy with Serverless
         run: |
