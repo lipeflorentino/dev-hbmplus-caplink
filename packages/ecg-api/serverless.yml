@@ -1,8 +1,8 @@
 app: ecg-api
 service: ecg-api
 
-#plugins:
-#  - serverless-iam-roles-per-function
+plugins:
+  - serverless-iam-roles-per-function
 
 
 provider:
@@ -12,6 +12,15 @@ provider:
   stage: production
   memorySize: 512 # optional, in MB, default is 1024
   timeout: 10 # optional, in seconds, default is 6
+  environment:
+    TABLE_NAME: 'ECGTable'
+
+package:
+  exclude:
+    - node_modules/**
+    - .gitignore
+    - README.md
+    - .git/**
 
 custom:
   esbuild:
@@ -24,6 +33,8 @@ custom:
 
 functions:
   createECGEntries: ${file(./infra/serverless/resources/lambda/handlers/createEntries/createEntries.yml)}
+  listECGEntries: ${file(./infra/serverless/resources/lambda/handlers/listEntries/listEntries.yml)}
+  listECGIrregularities: ${file(./infra/serverless/resources/lambda/handlers/listIrregularities/listIrregularities.yml)}
 
 resources:
   Resources:

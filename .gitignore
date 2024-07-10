@@ -1,1 +1,6 @@
 node_modules/
+packages/ecg-api/.serverless/
+packages/ecg-api/node_modules
+packages/hbm-plus/node_modules
+ec2-keypair.pem
+.husky

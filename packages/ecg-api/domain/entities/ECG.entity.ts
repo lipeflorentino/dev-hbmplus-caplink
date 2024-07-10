@@ -1,20 +1,27 @@
+import { UUID } from "../../infra/adapter/uuid.adapter";
+
 export class ECG {
     id: string;
+    deviceId: string;
     milivolts: number;
     interval: number;
     isRegular: boolean;
-    marker: "on" | "off" | null;
+    bippedAt?: string;
+    unBippedAt?: string;
+    createdAt?: string;
 
-    constructor(id: string, milivolts: number, interval: number) {
-        this.id = id;
+    constructor(deviceId: string, milivolts: number, interval: number, bippedAt?: string, unBippedAt?: string, createdAt?: string) {
+        this.id = (new UUID).v4();
+        this.deviceId = deviceId;
         this.milivolts = milivolts;
         this.isRegular = false;
-        this.marker = null;
+        this.bippedAt = bippedAt;
+        this.unBippedAt = unBippedAt;
         this.interval = interval;
+        this.createdAt = createdAt;
     }
 
     detectIrregularities() {
-        console.log("Analysing ECG measure...");
         const x = this.interval;
         const y = -0.06366
             + 0.12613 * Math.cos(Math.PI * x / 500)
@@ -22,22 +29,29 @@ export class ECG {
             + 0.01593 * Math.sin(Math.PI * x / 500)
             + 0.03147 * Math.sin(Math.PI * x / 250);
 
+        console.log("Analysing ECG measure...", { y, x });
+
         const lowerBound = y * 0.8;
         const upperBound = y * 1.2;
 
-        if (this.milivolts >= lowerBound && this.milivolts <= upperBound) {
-            console.log("This measure is irregular.");
-            this.setIsRegular(false);
-        } else {
-            this.setIsRegular(true);
-        }
+        console.log("Calculating...", { lowerBound, upperBound, milivolts: this.milivolts, y });
+
+        this.setIsRegular(!(this.milivolts >= upperBound) && !(this.milivolts <= lowerBound));
+
+        console.log(
+            `This measure is ${this.isRegular ? 'regular' : 'irregular'}`,
+        );
     }
 
     setIsRegular(value: boolean) {
         this.isRegular = value;
     }
 
-    setMarker(value: "on" | "off" | null) {
-        this.marker = value;
+    setBippedAt(value: string) {
+        this.bippedAt = value;
+    }
+
+    setUnBippedAt(value: string) {
+        this.unBippedAt = value;
     }
 }

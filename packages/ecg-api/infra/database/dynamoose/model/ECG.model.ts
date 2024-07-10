@@ -5,22 +5,54 @@ const schema = new dynamoose.Schema(
         id: {
             type: String,
             hashKey: true,
+            required: true,
         },
-        milivolts: String,
-        isRegular: Boolean,
-        marker: {
+        deviceId: {
             type: String,
-            validate: (value) => value === "on" || value === "off" || value === null
-        }
+            index: {
+                name: "DeviceIdIndex",
+                type: "global",
+            }
+        },
+        milivolts: {
+            type: Number,
+            rangeKey: true,
+            required: true,
+        },
+        interval: Number,
+        isRegular: Boolean,
+        bippedAt: String,
+        unBippedAt: String,
     },
     {
-        timestamps: true,
+        timestamps: {
+            "createdAt": {
+                "createdAt": {
+                    "type": {
+                        "value": Date,
+                        "settings": {
+                            "storage": "iso"
+                        }
+                    }
+                }
+            },
+            "updatedAt": {
+                "updatedAt": {
+                    "type": {
+                        "value": Date,
+                        "settings": {
+                            "storage": "iso"
+                        }
+                    }
+                }
+            }
+        },
         saveUnknown: false,
     }
 );
 
-export const ECGModel = dynamoose.model('ecg_table', schema, {
-    create: true,
+export const ECGModel = dynamoose.model(process.env.TABLE_NAME || '', schema, {
+    create: false,
     throughput: {
         read: 5,
         write: 5,

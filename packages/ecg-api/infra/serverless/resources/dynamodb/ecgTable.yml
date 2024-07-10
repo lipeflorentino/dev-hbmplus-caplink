@@ -1,6 +1,6 @@
 Type: 'AWS::DynamoDB::Table'
 Properties:
-  TableName: 'ECGTable'
+  TableName: ${self:provider.environment.TABLE_NAME}
   AttributeDefinitions:
     - AttributeName: 'id'
       AttributeType: 'S'

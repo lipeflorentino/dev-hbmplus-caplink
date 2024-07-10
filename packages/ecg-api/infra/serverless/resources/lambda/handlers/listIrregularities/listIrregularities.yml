@@ -1,10 +1,10 @@
-handler: infra/serverless/resources/lambda/handlers/createEntries/handler.main
+handler: infra/serverless/resources/lambda/handlers/listIrregularities/handler.main
 events:
   - http:
-      path: ecg
-      method: post
+      path: ecg/irregularities
+      method: get
       cors: true
-iamRoleStatementsName: createEntries-lambda-role
+iamRoleStatementsName: listIrregularities-lambda-role
 iamRoleStatements:
   - Effect: Allow
     Action:
@@ -13,6 +13,5 @@ iamRoleStatements:
       - dynamodb:Scan
       - dynamodb:GetItem
       - dynamodb:PutItem
-      - dynamodb:UpdateItem
       - dynamodb:CreateTable
     Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/ECGTable*"
