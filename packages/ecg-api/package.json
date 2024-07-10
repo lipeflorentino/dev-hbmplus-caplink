@@ -19,6 +19,12 @@
     "serverless": "^4.1.11",
     "serverless-iam-roles-per-function": "^3.2.0"
   },
+  "dependencies": {
+    "dynamoose": "^4.0.1",
+    "serverless-esbuild": "^1.52.1",
+    "uuid": "^10.0.0",
+    "date-fns": "^3.6.0"
+  },
   "jest": {
     "moduleFileExtensions": [
       "js",
@@ -35,8 +41,5 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  },
-  "dependencies": {
-    "date-fns": "^3.6.0"
   }
 }

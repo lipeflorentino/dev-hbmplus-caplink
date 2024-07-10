@@ -6,7 +6,7 @@ const axios = require('axios');
 jest.mock('axios');
 const mockedAxios = axios;
 
-describe('sendEcg', () => {
+describe('test sendEcg', () => {
     it('should send ECG and return response data', async () => {
         const responseData = { success: true };
         mockedAxios.post.mockResolvedValue({ data: responseData });
