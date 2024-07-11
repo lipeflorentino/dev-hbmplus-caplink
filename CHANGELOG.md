@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/lipeflorentino/dev-hbmplus-caplink/compare/v1.1.0...v1.2.0) (2024-07-11)
+
+
+### Features
+
+* updates on server and other stuff ([6f45513](https://github.com/lipeflorentino/dev-hbmplus-caplink/commit/6f455139d2cc384f9c161e0ec5018d584fba5cd1))
+
 # [1.1.0](https://github.com/lipeflorentino/dev-hbmplus-caplink/compare/v1.0.0...v1.1.0) (2024-07-10)
 
 
