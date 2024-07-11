@@ -22,7 +22,7 @@ export class ECG {
         this.interval = interval;
         this.createdAt = createdAt;
         this.localRoute = 'http://localhost:3000/receive-signal';
-        this.externalRoute = 'http://ec2-54-237-202-50.compute-1.amazonaws.com:3000/receive-signal';
+        this.externalRoute = 'http://ec2-107-23-137-180.compute-1.amazonaws.com:3000/receive-signal';
     }
 
     detectIrregularities() {

@@ -31,7 +31,7 @@ function readComands(server) {
             console.log('running simulator');
             setInterval(() => {
                 sendEcg(deviceId, milivolts, interval);
-            }, 30000);
+            }, 2000);
         } else {
             logger.info('Unknown command. Available commands: sendEcg <milivolts>');
         }

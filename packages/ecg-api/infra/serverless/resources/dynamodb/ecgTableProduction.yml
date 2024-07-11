@@ -1,0 +1,32 @@
+Type: 'AWS::DynamoDB::Table'
+Properties:
+  TableName: ${self:provider.environment.TABLE_NAME_PROD}
+  AttributeDefinitions:
+    - AttributeName: 'id'
+      AttributeType: 'S'
+    - AttributeName: 'deviceId'
+      AttributeType: 'S'
+    - AttributeName: 'createdAt'
+      AttributeType: 'S'
+  KeySchema:
+    - AttributeName: 'id'
+      KeyType: 'HASH'
+    - AttributeName: 'createdAt'
+      KeyType: 'RANGE'
+  ProvisionedThroughput: 
+        ReadCapacityUnits: "5"
+        WriteCapacityUnits: "5"
+  GlobalSecondaryIndexes:
+    - IndexName: 'DeviceIdIndex'
+      KeySchema: 
+        - AttributeName: 'deviceId'
+          KeyType: "HASH"
+        - AttributeName: 'createdAt'
+          KeyType: 'RANGE'
+      Projection:
+        ProjectionType: 'ALL'
+  #StreamSpecification:
+  #  StreamViewType: 'NEW_IMAGE'
+      ProvisionedThroughput:
+            ReadCapacityUnits: 5
+            WriteCapacityUnits: 5

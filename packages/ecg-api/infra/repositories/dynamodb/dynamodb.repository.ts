@@ -11,11 +11,11 @@ export class DynamooseDBRepository implements ECGRepository {
         console.log('Item salvo na tabela!', { savedItem });
     }
 
-    async update(keys: { id: string, milivolts: number }, params: Partial<ECG>): Promise<void> {
+    async update(keys: { id: string, createdAt: string }, params: Partial<ECG>): Promise<void> {
         console.log('updating...', { keys, params });
         await ECGModel.update({
-            id: keys.id, // o valor correto do ID
-            milivolts: keys.milivolts // o valor correto de milivolts
+            id: keys.id,
+            createdAt: new Date(keys.createdAt).toISOString(),
         }, params);
     }
 

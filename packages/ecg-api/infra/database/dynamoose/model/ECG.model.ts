@@ -16,8 +16,6 @@ const schema = new dynamoose.Schema(
         },
         milivolts: {
             type: Number,
-            rangeKey: true,
-            required: true,
         },
         interval: Number,
         isRegular: Boolean,
@@ -32,8 +30,9 @@ const schema = new dynamoose.Schema(
                         "value": Date,
                         "settings": {
                             "storage": "iso"
-                        }
-                    }
+                        },
+                    },
+                    "rangeKey": true
                 }
             },
             "updatedAt": {
@@ -51,7 +50,7 @@ const schema = new dynamoose.Schema(
     }
 );
 
-export const ECGModel = dynamoose.model(process.env.TABLE_NAME || '', schema, {
+export const ECGModel = dynamoose.model(process.env.TABLE_NAME_PROD || '', schema, {
     create: false,
     throughput: {
         read: 5,

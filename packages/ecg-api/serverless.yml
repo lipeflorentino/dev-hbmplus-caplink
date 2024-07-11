@@ -14,6 +14,7 @@ provider:
   timeout: 10 # optional, in seconds, default is 6
   environment:
     TABLE_NAME: 'ECGTable'
+    TABLE_NAME_PROD: 'ECGTableProduction'
 
 package:
   exclude:
@@ -39,3 +40,4 @@ functions:
 resources:
   Resources:
     ECGTable: ${file(./infra/serverless/resources/dynamodb/ecgTable.yml)}
+    ECGTableProduction: ${file(./infra/serverless/resources/dynamodb/ecgTableProduction.yml)}

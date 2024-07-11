@@ -16,37 +16,36 @@ export class CreateEntriesUseCase {
 
         if (results.length >= 60) {
             const irregularMeasurements = results.filter(item => !(item.isRegular));
-            console.log('Analysing results...', { length: irregularMeasurements.length, irregularMeasurements });
+            console.log('Analysing results...', { length: irregularMeasurements.length });
 
             if (irregularMeasurements.length >= 5) {
                 const bipExists = results.some(item => item.bippedAt && !item.unBippedAt);
 
                 if (!bipExists) {
                     await this.ecgRepository.update({
-                        id: results[0].id,
-                        milivolts: results[0].milivolts,
+                        id: irregularMeasurements[0].id,
+                        createdAt: irregularMeasurements[0].createdAt,
                     }, {
                         bippedAt: new Date().toISOString(),
                     });
 
                     console.log('BIP!', { at: new Date().toISOString() });
-                    const res = await this.axios.post(ecg.localRoute, { signal: 'bip' });
-                    console.log({ res: res.data });
+                    await this.axios.post(ecg.externalRoute, { signal: 'bip' });
                 }
-            } else if (irregularMeasurements.length === 0) {
+            } else if (irregularMeasurements.length === 1) {
+                console.log('Normalized ecg!');
                 const bipWithoutUnbip = results.find(item => item.bippedAt && !item.unBippedAt);
 
                 if (bipWithoutUnbip) {
                     await this.ecgRepository.update({
                         id: bipWithoutUnbip.id,
-                        milivolts: bipWithoutUnbip.milivolts,
+                        createdAt: bipWithoutUnbip.createdAt,
                     }, {
                         unBippedAt: new Date().toISOString(),
                     });
 
                     console.log('BIP BIP!', { at: new Date().toISOString() });
-                    const res = await this.axios.post(ecg.localRoute, { signal: 'bipbip' });
-                    console.log({ res: res.data });
+                    await this.axios.post(ecg.externalRoute, { signal: 'bipbip' });
                 }
             }
         }
