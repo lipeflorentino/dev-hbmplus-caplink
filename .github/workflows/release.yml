@@ -83,6 +83,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
   build-hbm-plus:
+    needs: filter-changes
     runs-on: ubuntu-latest
 
     steps:
