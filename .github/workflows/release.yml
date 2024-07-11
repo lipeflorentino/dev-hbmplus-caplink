@@ -84,6 +84,7 @@ jobs:
 
   build-hbm-plus:
     needs: filter-changes
+    if: needs.filter-changes.outputs.hbm-plus == 'true'
     runs-on: ubuntu-latest
 
     steps:
