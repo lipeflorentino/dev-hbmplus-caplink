@@ -10,7 +10,7 @@ Este monorepo contém os serviços necessários para o projeto HBM+ (Heart-beat 
 
 Este serviço simula o funcionamento de um dispositivo wearable que monitora os batimentos cardíacos e envia os dados para o backend.
 
-- Tecnologia: Node.js, NestJS
+- Tecnologia: Node.js, Docker, AWS EC2
 - Localização: packages/hbm-plus
 
 Como Iniciar o Serviço HBM+
@@ -57,8 +57,18 @@ npm install
 3. Inicie o serviço:
 
 ```sh
-serverless offline
+serverless invoke local -f FUNCTION_NAME -s production
 ```
+
+endpoints:
+  POST - https://a88r9td2x5.execute-api.us-east-1.amazonaws.com/production/ecg
+  GET - https://a88r9td2x5.execute-api.us-east-1.amazonaws.com/production/ecg
+  GET - https://a88r9td2x5.execute-api.us-east-1.amazonaws.com/production/ecg/irregularities
+
+functions:
+  createECGEntries
+  listECGEntries
+  listECGIrregularities
 
 ### Comandos Úteis
 

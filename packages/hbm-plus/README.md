@@ -1,4 +1,4 @@
-# ECG Project
+# HBM Plus
 
 Este é um projeto Node.js básico usando Express que possui dois endpoints: um para receber um sinal e outro para enviar um sinal ECG usando comandos de terminal.
 
@@ -62,6 +62,7 @@ Signal received
 
 Você pode enviar um sinal ECG usando comandos de terminal. Certifique-se de que o servidor está em execução e digite o comando no terminal onde o servidor está rodando.
 
+### sendEcg
 ```sh
 ecg <deviceId> <milivolts> <interval>
 ```
@@ -71,6 +72,19 @@ Exemplo:
 ```sh
 ecg device-123 1.5 30
 ```
+
+### start simulator
+
+```sh
+simulator <deviceId> <milivolts> <interval>
+```
+
+### quit server
+
+```sh
+quit
+```
+
 ## Estrutura do Projeto
 
 ```plaintext
