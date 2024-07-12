@@ -6,7 +6,7 @@ Este monorepo contém os serviços necessários para o projeto HBM+ (Heart-beat 
 
 ## Arquitetura
 
-![Arquitetura da Aplicação](HBM-Plus Arch.jpg)
+![alt text](<HBM-Plus Arch.jpg>)
 
 ## Serviços
 
