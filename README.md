@@ -4,6 +4,10 @@
 
 Este monorepo contém os serviços necessários para o projeto HBM+ (Heart-beat monitor - Plus). O projeto está estruturado para simular o funcionamento de um dispositivo wearable que monitora batimentos cardíacos e envia os dados para um backend na nuvem. O backend analisa os dados para detectar irregularidades e alertar o usuário em tempo real.
 
+## Arquitetura
+
+![Arquitetura da Aplicação](HBM-Plus Arch.jpg)
+
 ## Serviços
 
 ### HBM+ (Heart-beat monitor Plus)
